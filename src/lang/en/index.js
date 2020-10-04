@@ -598,6 +598,8 @@ export default {
   facePhoto: "Face Photo",
   allowPeriods: "Allow Periods",
   editBtn: 'Update',
+  upload: 'Upload',
+  uploadExcelFile: 'Upload Excel File',
 
   fracialRecogination: 'Fracial Recogination',
   detectionLogs: 'Detection Logs',

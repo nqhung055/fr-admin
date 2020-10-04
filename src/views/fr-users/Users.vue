@@ -9,10 +9,16 @@
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
           <v-row class="col-xl-8">
-            <v-col cols="12">
-              <v-btn color="success " @click="showNewUserDialogMethod()"
+            <v-col cols="2">
+              <v-btn color="success" @click="showNewUserDialogMethod()"
                 >Create User</v-btn
               >
+            </v-col>
+            <v-col cols="2">
+              <v-btn color="success" @click="isShowPopupUploadUsers = true">Upload Users</v-btn>
+            </v-col>    
+            <v-col cols="2">
+              <v-btn color="success">Pictures</v-btn>
             </v-col>
           </v-row>
           <v-card>
@@ -441,16 +447,22 @@
       @updateSuccess="changeSelectedDevice()"
       @closePopup="closePopupEditUser()"
     ></edit-user>
+    <upload-users
+      :isShowPopup="isShowPopupUploadUsers"
+      @closePopup="closePopupUploadExcel()"
+    ></upload-users>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import editUser from "./Edit";
+import uploadUsers from "./UploadUsers";
 
 export default {
   components: {
     editUser,
+    uploadUsers,
   },
   data() {
     return {
@@ -538,6 +550,8 @@ export default {
       editedUser: {},
       editUserEffectFromStringMinute: "",
       editUserExpiredAtStringMinute: "",
+      exelFile: {},
+      isShowPopupUploadUsers: false,
     };
   },
   mounted() {
@@ -723,6 +737,9 @@ export default {
     closePopupEditUser() {
       this.showEditUserDialog = false;
     },
+    closePopupUploadExcel() {
+      this.isShowPopupUploadUsers = false;
+    }
   },
 };
 </script>
