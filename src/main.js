@@ -79,7 +79,8 @@ router.afterEach(() => {
 })
 
 const axiosInstance = axios.create({
-	baseURL: 'http://13.229.132.84:5566'
+//   baseURL: 'http://13.229.132.84:5566'
+  baseURL: 'http://localhost:5566'
 })
 
 axiosInstance.interceptors.request.use(function (config) {

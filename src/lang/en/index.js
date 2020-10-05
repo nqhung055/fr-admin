@@ -600,6 +600,7 @@ export default {
   editBtn: 'Update',
   upload: 'Upload',
   uploadExcelFile: 'Upload Excel File',
+  uploadImages: 'Upload Images',
 
   fracialRecogination: 'Fracial Recogination',
   detectionLogs: 'Detection Logs',

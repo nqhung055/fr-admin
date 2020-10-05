@@ -12,21 +12,21 @@
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form>
+            <v-form ref="uploadData" v-model="isUploadDataValid">
               <v-row>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-file-input
-                    :label="$t('message.upload')"
+                    :label="$t('message.uploadExcelFile')"
                     :rules="uploadRules"
                     filled
-                    v-model="excelFile"
+                    v-model="uploadExcelFile"
                     prepend-icon="mdi-camera"
-                    @change="uploadExcelFile"
+                    @change="uploadExcelFiles"
                   ></v-file-input>
                 </v-col>
-                <v-col cols="12" align="center">
+                <v-col cols="6" align="center">
                   <v-file-input
-                    :label="$t('message.upload')"
+                    :label="$t('message.uploadImages')"
                     :rules="uploadImageRules"
                     filled
                     v-model="uploadImages"
@@ -34,6 +34,14 @@
                     @change="uploadImage"
                     multiple
                   ></v-file-input>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    v-model="selectedDevices"
+                    :items="connectedDevices"
+                    label="Upload To Devices"
+                    multiple
+                  ></v-select>
                 </v-col>
               </v-row>
               <v-data-table :headers="tableHeaders" :items="uploadUsers">
@@ -52,13 +60,16 @@
                   </div>
                 </template>
               </v-data-table>
-              <v-row>
+              <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
-                <v-btn color="success" @click="createUsers()">
+                <v-btn class="px-4" color="success" @click="createUsers()">
                   Create Users
                 </v-btn>
+                <v-btn class="px-4" color="error" @click="clearUploadedData()">
+                  Clear Uploaded Data
+                </v-btn>
                 <v-spacer></v-spacer>
-              </v-row>
+              </v-card-actions>
             </v-form>
           </v-container>
         </v-card-text>
@@ -68,22 +79,24 @@
 </template>
 
 <script>
+import Vue from "vue";
 import XLSX from "xlsx";
-// import { sheet_to_json } from 'xlsx';
 
 export default {
-  props: ["isShowPopup"],
+  props: ["isShowPopup", "connectedDevices"],
   data() {
     return {
       uploadImageRules: [
-        (file) =>
-          !file.name ||
-          file.name.includes(".png") ||
-          file.name.includes(".jpg") ||
-          file.name.includes(".jpeg") ||
-          "Should be a Png or Jpeg File!",
+        (files) => !!files.length || "Images file should not be empty",
+        (files) =>
+          !files.name ||
+          files.name.includes(".png") ||
+          files.name.includes(".jpg") ||
+          files.name.includes(".jpeg") ||
+          "Images should be a Png or Jpeg file!",
       ],
       uploadRules: [
+        (files) => !!files.size || "Excel file should not be empty",
         (file) =>
           !file ||
           file.size < 1000000 ||
@@ -95,7 +108,7 @@ export default {
           file.name.includes(".xlsx") ||
           "Should be a Excel File!",
       ],
-      excelFile: {},
+      uploadExcelFile: {},
       tableHeaders: [
         {
           text: "ID",
@@ -124,13 +137,15 @@ export default {
       ],
       uploadUsers: [],
       uploadImages: [],
+      isUploadDataValid: true,
+      selectedDevices: [],
     };
   },
   mounted() {},
   computed: {},
   methods: {
-    uploadExcelFile() {
-      if (!this.excelFile) return;
+    uploadExcelFiles() {
+      if (!this.uploadExcelFile) return;
       const reader = new FileReader();
       const rABS = !!reader.readAsBinaryString;
       reader.addEventListener(
@@ -139,22 +154,11 @@ export default {
           let data = reader.result;
           if (!rABS) data = new Uint8Array(data);
           const workbook = XLSX.read(data, { type: rABS ? "binary" : "array" });
-          const rawUploadUsers = workbook.SheetNames.reduce(
-            (uploadUsers, sheetName) => {
-              const sheetUsers = XLSX.utils.sheet_to_json(
-                workbook.Sheets[sheetName]
-              );
-              
-              const sheetUsersWithDevice = sheetUsers.map((user) => {
-                return {
-                  ...user,
-                  devices: [sheetName],
-                };
-              });            
-              return uploadUsers = [...uploadUsers, ...sheetUsersWithDevice];
-            },
-            []
+          const rawUploadUsers = XLSX.utils.sheet_to_json(
+            workbook.Sheets[workbook.SheetNames[0]]
           );
+          this.selectedDevices = [workbook.SheetNames[0]];
+
           this.uploadUsers = rawUploadUsers.map((rawUser) => {
             return {
               devices: rawUser["devices"],
@@ -172,8 +176,8 @@ export default {
       );
 
       if (rABS) {
-        reader.readAsBinaryString(this.excelFile);
-      } else reader.readAsArrayBuffer(this.excelFile);
+        reader.readAsBinaryString(this.uploadExcelFile);
+      } else reader.readAsArrayBuffer(this.uploadExcelFile);
     },
     async uploadImage() {
       this.uploadImages.map((image) => {
@@ -195,16 +199,62 @@ export default {
       });
     },
     closePopup() {
+      this.clearUploadedData();
       this.$emit("closePopup", true);
     },
-    createUsers() {
-      this.uploadUsers.map((user) => {
-        this.$axios.post("/upload/user", user);
-      });
+    async createUsers() {
+      if (!this.$refs.uploadData.validate()) return;
+      try {
+        await this.deleteUserFromDevice();
+
+        await Promise.all(
+          this.uploadUsers.map((user) => {
+            const userWithDevies = { ...user, devices: this.selectedDevices };
+            return this.$axios.post("/upload/user", userWithDevies);
+          })
+        );
+
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Create users success!",
+        });
+
+      } catch (error) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Error when creates users!",
+        });
+      }
+    },
+    clearUploadedData() {
+      this.uploadUsers = [];
+      this.uploadExcelFile = {};
+      this.uploadImages = [];
+    },
+    async deleteUserFromDevice() {
+      try {
+        return Promise.all(
+          this.selectedDevices.map((device) => {
+            return this.$axios.delete(`batch/delete/users`, {
+              body: {
+                deviceId: device,
+                userIds: this.uploadUsers.map((user) => user.id),
+              },
+            });
+          })
+        );
+      } catch (error) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Error when delete users from devices!",
+        });
+      }
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

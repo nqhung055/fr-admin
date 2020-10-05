@@ -18,7 +18,7 @@
               <v-btn color="success" @click="isShowPopupUploadUsers = true">Upload Users</v-btn>
             </v-col>    
             <v-col cols="2">
-              <v-btn color="success">Pictures</v-btn>
+              <v-btn color="success" @click="syncUsers">Sync Users</v-btn>
             </v-col>
           </v-row>
           <v-card>
@@ -448,6 +448,7 @@
       @closePopup="closePopupEditUser()"
     ></edit-user>
     <upload-users
+      :connectedDevices="devices"
       :isShowPopup="isShowPopupUploadUsers"
       @closePopup="closePopupUploadExcel()"
     ></upload-users>
@@ -739,6 +740,9 @@ export default {
     },
     closePopupUploadExcel() {
       this.isShowPopupUploadUsers = false;
+    },
+    syncUsers() {
+
     }
   },
 };
