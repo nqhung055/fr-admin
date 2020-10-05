@@ -14,7 +14,7 @@
           <v-container class="grid-list-md pa-0">
             <v-form ref="uploadData" v-model="isUploadDataValid">
               <v-row>
-                <v-col cols="6">
+                <v-col cols="12" sm="12" md="12" lg="6" xl="6">
                   <v-file-input
                     :label="$t('message.uploadExcelFile')"
                     :rules="uploadRules"
@@ -24,7 +24,7 @@
                     @change="uploadExcelFiles"
                   ></v-file-input>
                 </v-col>
-                <v-col cols="6" align="center">
+                <v-col cols="12" sm="12" md="12" lg="6" xl="6">
                   <v-file-input
                     :label="$t('message.uploadImages')"
                     :rules="uploadImageRules"
@@ -66,7 +66,7 @@
                   Create Users
                 </v-btn>
                 <v-btn class="px-4" color="error" @click="clearUploadedData()">
-                  Clear Uploaded Data
+                  Clear Data
                 </v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
@@ -233,7 +233,6 @@ export default {
       this.uploadImages = [];
     },
     async deleteUserFromDevice() {
-      console.log(236, this.uploadUsers);
       try {
         return Promise.all(
           this.selectedDevices.map((device) => {

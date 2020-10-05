@@ -9,17 +9,21 @@
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
           <v-row class="col-xl-8">
-            <v-col cols="2">
+          <!-- <v-card-actions class="pa-4"> -->
+            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
               <v-btn color="success" @click="showNewUserDialogMethod()"
                 >Create User</v-btn
               >
             </v-col>
-            <v-col cols="2">
-              <v-btn color="success" @click="isShowPopupUploadUsers = true">Upload Users</v-btn>
-            </v-col>    
-            <v-col cols="2">
+            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
+              <v-btn color="success" @click="isShowPopupUploadUsers = true"
+                >Upload Users</v-btn
+              >
+            </v-col>
+            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
               <v-btn color="success" @click="syncUsers">Sync Users</v-btn>
             </v-col>
+          <!-- </v-card-actions> -->
           </v-row>
           <v-card>
             <v-card-title>
@@ -741,9 +745,7 @@ export default {
     closePopupUploadExcel() {
       this.isShowPopupUploadUsers = false;
     },
-    syncUsers() {
-
-    }
+    syncUsers() {},
   },
 };
 </script>
