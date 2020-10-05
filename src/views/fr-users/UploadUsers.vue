@@ -233,12 +233,15 @@ export default {
       this.uploadImages = [];
     },
     async deleteUserFromDevice() {
+      console.log(236, this.uploadUsers);
       try {
         return Promise.all(
           this.selectedDevices.map((device) => {
             return this.$axios.delete(`batch/delete/users`, {
-              deviceId: device,
-              userIds: this.uploadUsers.map((user) => user.id),
+              data: {
+                deviceId: device,
+                userIds: this.uploadUsers.map((user) => user.userId),
+              },
             });
           })
         );
