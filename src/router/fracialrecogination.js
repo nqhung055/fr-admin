@@ -20,8 +20,8 @@ const Visitors_Statistics = () => import('Views/dashboard/Visitor-Statistics');
 const Users_List = () => import('Views/fr-users/Users');
 
 //Modules
-// const DetectionLogs = () => import('Views/fr-detection-logs/Detection-Logs');
-const DetectionLogs = () => import('Views/fr-detection-logs/DetectionLogs');
+const DetectionLogs_V0 = () => import('Views/fr-detection-logs/DetectionLogs');
+const DetectionLogs = () => import('Views/fr-detection-logs/DetectionLogs-V1');
 
 // Views/fr-detection-logs/Detection-Logs
 
@@ -290,6 +290,22 @@ export default {
       }
     },
     //Detection Logs
+    {
+      path: '/default/users/detection-logs-v0.html',
+      component: DetectionLogs_V0,
+      meta: {
+        requiresAuth: true,
+        title: 'message.detectionLogs',
+        breadcrumb: [
+          {
+            breadcrumbInactive: 'Detection Logs /'
+          },
+          {
+            breadcrumbActive: 'Logs'
+          }
+        ]
+      }
+    },
     {
       path: '/default/users/detection-logs.html',
       component: DetectionLogs,
