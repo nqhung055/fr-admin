@@ -219,7 +219,6 @@ export default {
           type: "success",
           text: "Create users success!",
         });
-
       } catch (error) {
         Vue.notify({
           group: "loggedIn",
@@ -238,10 +237,8 @@ export default {
         return Promise.all(
           this.selectedDevices.map((device) => {
             return this.$axios.delete(`batch/delete/users`, {
-              body: {
-                deviceId: device,
-                userIds: this.uploadUsers.map((user) => user.id),
-              },
+              deviceId: device,
+              userIds: this.uploadUsers.map((user) => user.id),
             });
           })
         );
