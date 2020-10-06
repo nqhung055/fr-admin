@@ -14,7 +14,7 @@
               </v-btn>
             </v-col>
             <v-col cols="12" sm="3" md="2" lg="2" xl="1">
-              <v-btn color="success" @click="isShowPopupSyncUsers=true">
+              <v-btn color="success" @click="isShowPopupSyncUsers = true">
                 Sync User From A Device
               </v-btn>
             </v-col>
@@ -463,6 +463,7 @@
       :connectedDevices="devices"
       :isShowPopup="isShowPopupUploadUsers"
       @closePopup="closePopupUploadExcel()"
+      @uploadSuccess="changeSelectedDevice()"
     ></upload-users>
     <sync-users
       :connectedDevices="devices"
@@ -613,7 +614,6 @@ export default {
         `/get/user/list/of/${this.selectedDevice}`
       )
       if (usersResponse.status === 200) {
-        console.log('Users: ' + usersResponse.data.length)
         this.users = usersResponse.data
       } else {
         Vue.notify({

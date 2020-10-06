@@ -32,7 +32,7 @@
                     :rules="uploadImageRules"
                     filled
                     v-model="uploadImages"
-                    prepend-icon="mdi-folder-zip"
+                    prepend-icon="mdi-camera"
                     @change="uploadImage"
                     multiple
                     :disabled="!uploadExcelFile || !uploadExcelFile.size"
@@ -251,7 +251,8 @@ export default {
           })
         )
 
-        this.closePopup()
+        this.clearUploadedData()
+        this.$emit('uploadSuccess', true)
         Vue.notify({
           group: 'loggedIn',
           type: 'success',
