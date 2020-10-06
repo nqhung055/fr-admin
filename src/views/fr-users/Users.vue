@@ -526,7 +526,7 @@ export default {
         },
       ],
       devices: [],
-      users: [{ userId: 1 }, { userId: 2 }],
+      users: [],
       selectedUsersToDelete: [],
       selectedDevice: "",
       showNewUserDialog: false,
