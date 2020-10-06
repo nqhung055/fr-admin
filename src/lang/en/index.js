@@ -601,6 +601,9 @@ export default {
   upload: 'Upload',
   uploadExcelFile: 'Upload Excel File',
   uploadImages: 'Upload Images',
+  uploadExcelFilePlaceHolder: 'Only xls and xlsx files',
+  uploadImagesPlaceHolder: 'Only png and jpeg files',
+  syncUser: 'Sync Users',
 
   fracialRecogination: 'Fracial Recogination',
   detectionLogs: 'Detection Logs',

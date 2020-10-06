@@ -3,27 +3,27 @@
     <page-title-bar></page-title-bar>
     <v-container fluid class="grid-list-xl py-0 mt-n3">
       <v-row>
-        <!-- :heading="$t('message.usersTitle')" -->
         <app-card
           :fullBlock="true"
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
-          <v-row class="col-xl-8">
-          <!-- <v-card-actions class="pa-4"> -->
-            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
-              <v-btn color="success" @click="showNewUserDialogMethod()"
-                >Create User</v-btn
-              >
+          <v-row>
+            <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+              <v-btn color="success" @click="showNewUserDialogMethod()">
+                Create User
+              </v-btn>
             </v-col>
-            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
-              <v-btn color="success" @click="isShowPopupUploadUsers = true"
-                >Upload Users</v-btn
-              >
+            <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+              <v-btn color="success" @click="isShowPopupSyncUsers=true">
+                Sync User From A Device
+              </v-btn>
             </v-col>
-            <v-col cols="6" sm="3" md="2" lg="2" xl="2">
-              <v-btn color="success" @click="syncUsers">Sync Users</v-btn>
+            <v-spacer></v-spacer>
+            <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+              <v-btn color="success" @click="isShowPopupUploadUsers = true">
+                Upload Users
+              </v-btn>
             </v-col>
-          <!-- </v-card-actions> -->
           </v-row>
           <v-card>
             <v-card-title>
@@ -84,7 +84,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t("message.addNewUser") }}</span>
+          <span class="headline">{{ $t('message.addNewUser') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
@@ -402,20 +402,27 @@
                             :items="newUser.allowPeriods"
                             :label="$t('message.allowPeriods')"
                             :item-text="
-                              (period) =>
-                                period.startTime + '-' + period.endTime
+                              period => period.startTime + '-' + period.endTime
                             "
                             attach
                             chips
                             multiple
                             :cache-items="true"
                           >
-                            <template slot="item" slot-scope="props">{{
-                              props.item.startTime + " - " + props.item.endTime
-                            }}</template>
-                            <template slot="prepend" slot-scope="props">{{
-                              props.item.startTime + " - " + props.item.endTime
-                            }}</template>
+                            <template slot="item" slot-scope="props">
+                              {{
+                                props.item.startTime +
+                                  ' - ' +
+                                  props.item.endTime
+                              }}
+                            </template>
+                            <template slot="prepend" slot-scope="props">
+                              {{
+                                props.item.startTime +
+                                  ' - ' +
+                                  props.item.endTime
+                              }}
+                            </template>
                           </v-select>
                         </v-col>
                       </v-row>
@@ -428,15 +435,16 @@
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-spacer></v-spacer>
-          <v-btn class="px-4" color="success" v-on:click="addNewUser">{{
-            $t("message.add")
-          }}</v-btn>
+          <v-btn class="px-4" color="success" v-on:click="addNewUser">
+            {{ $t('message.add') }}
+          </v-btn>
           <v-btn
             class="px-4"
             color="error"
             @click.native="showNewUserDialog = false"
-            >{{ $t("message.close") }}</v-btn
           >
+            {{ $t('message.close') }}
+          </v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -456,155 +464,163 @@
       :isShowPopup="isShowPopupUploadUsers"
       @closePopup="closePopupUploadExcel()"
     ></upload-users>
+    <sync-users
+      :connectedDevices="devices"
+      :isShowPopup="isShowPopupSyncUsers"
+      @closePopup="closePopupSyncUsers()"
+    ></sync-users>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import editUser from "./Edit";
-import uploadUsers from "./UploadUsers";
+import Vue from 'vue'
+import editUser from './Edit'
+import uploadUsers from './UploadUsers'
+import syncUsers from './SyncUsers'
 
 export default {
   components: {
     editUser,
     uploadUsers,
+    syncUsers
   },
   data() {
     return {
       loader: true,
-      searchUserKey: "",
+      searchUserKey: '',
       headers: [
         {
-          text: "ID",
-          align: "left",
+          text: 'ID',
+          align: 'left',
           sortable: false,
-          value: "userId",
-          width: "10%",
+          value: 'userId',
+          width: '10%'
         },
         {
-          text: "Username",
-          align: "left",
+          text: 'Username',
+          align: 'left',
           sortable: false,
-          value: "name",
+          value: 'name'
         },
-        { text: "Action", align: "center", value: "action", width: "10%" },
+        { text: 'Action', align: 'center', value: 'action', width: '10%' }
       ],
       userTypes: [
         {
-          text: "Face only",
-          value: 0,
+          text: 'Face only',
+          value: 0
         },
         {
-          text: "Face and Card",
-          value: 1,
-        },
+          text: 'Face and Card',
+          value: 1
+        }
       ],
       devices: [],
       users: [],
-      selectedDevice: "",
+      selectedDevice: '',
       showNewUserDialog: false,
       showEditUserDialog: false,
       newUser: {
         devices: [],
         confidenceLevel: 80,
         userType: 0,
-        allowPeriods: [],
+        allowPeriods: []
       },
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
       isShowExpiredAtMinutePanel: false,
-      effectFromStringMinute: "",
-      expiredAtStringMinute: "",
+      effectFromStringMinute: '',
+      expiredAtStringMinute: '',
 
       isShowEndTime: false,
       isShowStartTime: false,
-      endTime: "",
-      startTime: "",
+      endTime: '',
+      startTime: '',
 
       facePhoto: {},
-      srcFacePhoto: "",
+      srcFacePhoto: '',
       uploadRules: [
-        (file) =>
+        file =>
           !file ||
           file.size < 1000000 ||
-          "FacePhoto size should be less than 1 MB!",
+          'FacePhoto size should be less than 1 MB!'
       ],
       isNewUserValid: true,
       newUserRules: {
-        devices: [(devices) => !!devices.length || "Devices should not empty"],
+        devices: [devices => !!devices.length || 'Devices should not empty'],
         name: [
-          (name) => !!name || "Name is required",
-          (name) =>
+          name => !!name || 'Name is required',
+          name =>
             (name && name.length <= 10) ||
-            "Name must be less than 10 characters",
+            'Name must be less than 10 characters'
         ],
         id: [
-          (id) => !!id || "ID is required",
-          (id) => !isNaN(id) || "ID must be a number",
+          id => !!id || 'ID is required',
+          id => !isNaN(id) || 'ID must be a number'
         ],
-        ic: [(ic) => !!ic || "IC Card is required"],
+        ic: [ic => !!ic || 'IC Card is required'],
         confidenceLevel: [
-          (confidenceLevel) =>
-            !isNaN(confidenceLevel) || "ConfidenceLevel must be a number",
-          (confidenceLevel) =>
+          confidenceLevel =>
+            !isNaN(confidenceLevel) || 'ConfidenceLevel must be a number',
+          confidenceLevel =>
             (confidenceLevel > 0 && confidenceLevel < 100) ||
-            "ConfidenceLevel must between 0 and 100",
-        ],
+            'ConfidenceLevel must between 0 and 100'
+        ]
       },
       editedUser: {},
-      editUserEffectFromStringMinute: "",
-      editUserExpiredAtStringMinute: "",
+      editUserEffectFromStringMinute: '',
+      editUserExpiredAtStringMinute: '',
       exelFile: {},
       isShowPopupUploadUsers: false,
-    };
+      isShowPopupSyncUsers: false
+    }
   },
   mounted() {
-    this.getDevices();
+    this.getDevices()
   },
   computed: {
     cSelectAllDevices() {
-      return this.newUser.devices.length === this.devices.length;
+      return this.newUser.devices.length === this.devices.length
     },
     cSelectSomeDevices() {
-      return this.newUser.devices.length > 0 && !this.cSelectAllDevices;
+      return this.newUser.devices.length > 0 && !this.cSelectAllDevices
     },
     icon() {
-      if (this.cSelectAllDevices) return "mdi-close-box";
-      if (this.cSelectSomeDevices) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
-    },
+      if (this.cSelectAllDevices) return 'mdi-close-box'
+      if (this.cSelectSomeDevices) return 'mdi-minus-box'
+      return 'mdi-checkbox-blank-outline'
+    }
   },
   methods: {
     async uploadFile() {
       if (this.facePhoto) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.addEventListener(
-          "load",
+          'load',
           () => {
-            this.srcFacePhoto = reader.result;
+            this.srcFacePhoto = reader.result
           },
           false
-        );
+        )
 
-        reader.readAsDataURL(this.facePhoto);
+        reader.readAsDataURL(this.facePhoto)
       } else {
-        this.srcFacePhoto = "";
+        this.srcFacePhoto = ''
       }
     },
     async changeSelectedDevice() {
       const usersResponse = await this.$axios.get(
         `/get/user/list/of/${this.selectedDevice}`
-      );
+      )
       if (usersResponse.status === 200) {
-        console.log("Users: " + usersResponse.data.length);
-        this.users = usersResponse.data;
+        console.log('Users: ' + usersResponse.data.length)
+        this.users = usersResponse.data
       } else {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Can not get User list. Please try again later!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Can not get User list. Please try again later!'
+        })
       }
     },
     renewUser() {
@@ -612,103 +628,103 @@ export default {
         devices: [],
         confidenceLevel: 80,
         userType: 0,
-        name: "",
-        userId: "",
-        expiredAt: "",
-        effectFrom: "",
-        facePhoto: "",
-        allowPeriods: [],
-      };
-      this.effectFromStringMinute = "";
-      this.expiredAtStringMinute = "";
-      this.srcFacePhoto = "";
-      this.facePhoto = {};
+        name: '',
+        userId: '',
+        expiredAt: '',
+        effectFrom: '',
+        facePhoto: '',
+        allowPeriods: []
+      }
+      this.effectFromStringMinute = ''
+      this.expiredAtStringMinute = ''
+      this.srcFacePhoto = ''
+      this.facePhoto = {}
     },
     async addNewUser() {
-      if (!this.$refs.newUser.validate()) return;
+      if (!this.$refs.newUser.validate()) return
       this.newUser = {
         ...this.newUser,
         expiredAt: this.newUser.expiredAt
-          ? this.newUser.expiredAt + " " + this.expiredAtStringMinute
+          ? this.newUser.expiredAt + ' ' + this.expiredAtStringMinute
           : undefined,
         effectFrom: this.newUser.effectFrom
-          ? this.newUser.effectFrom + " " + this.effectFromStringMinute
+          ? this.newUser.effectFrom + ' ' + this.effectFromStringMinute
           : undefined,
-        facePhoto: this.srcFacePhoto,
-      };
+        facePhoto: this.srcFacePhoto
+      }
 
-      const addResponse = await this.$axios.post("/upload/user", this.newUser);
+      const addResponse = await this.$axios.post('/upload/user', this.newUser)
       if (addResponse.status === 200) {
-        this.renewUser();
-        this.showNewUserDialog = false;
+        this.renewUser()
+        this.showNewUserDialog = false
         if (this.selectedDevice) {
-          this.changeSelectedDevice();
+          this.changeSelectedDevice()
         }
         Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "Create User successful!",
-        });
+          group: 'loggedIn',
+          type: 'success',
+          text: 'Create User successful!'
+        })
       } else {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Create user fail. Please try again later!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Create user fail. Please try again later!'
+        })
       }
     },
     async removeUser(user) {
       const deleteResponse = await this.$axios.delete(`/delete/user`, {
-        params: { userId: user.userId, deviceId: this.selectedDevice },
-      });
+        params: { userId: user.userId, deviceId: this.selectedDevice }
+      })
       if (deleteResponse.status === 200) {
         this.users = this.users.filter(
-          (holdUser) => holdUser.userId !== user.userId
-        );
-        this.showNewUserDialog = false;
+          holdUser => holdUser.userId !== user.userId
+        )
+        this.showNewUserDialog = false
         Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "Remove user successful!",
-        });
+          group: 'loggedIn',
+          type: 'success',
+          text: 'Remove user successful!'
+        })
       } else {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Remove user fail. Please try again later!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Remove user fail. Please try again later!'
+        })
       }
     },
     async getDevices() {
-      const deviceResponse = await this.$axios.get("/registered/device/list");
+      const deviceResponse = await this.$axios.get('/registered/device/list')
       if (deviceResponse.status === 200) {
-        this.devices = deviceResponse.data;
+        this.devices = deviceResponse.data
       } else {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Can not get Devive list. Please reload page!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Can not get Devive list. Please reload page!'
+        })
       }
     },
     selectAllDevices() {
       this.$nextTick(() => {
         if (this.cSelectAllDevices) {
-          this.newUser.devices = [];
+          this.newUser.devices = []
         } else {
-          this.newUser.devices = this.devices.slice();
+          this.newUser.devices = this.devices.slice()
         }
-      });
+      })
     },
     showNewUserDialogMethod() {
-      this.showNewUserDialog = true;
+      this.showNewUserDialog = true
       if (this.$refs.newUser) {
         // When init ref this.$refs.newUser is undefined
-        this.$refs.newUser.resetValidation();
+        this.$refs.newUser.resetValidation()
       }
     },
     editUser(user) {
-      this.showEditUserDialog = true;
+      this.showEditUserDialog = true
 
       const editUser = {
         devices: [user.sn],
@@ -721,33 +737,35 @@ export default {
         facePhoto: user.infoPhoto,
         allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
         expiredAt:
-          user.validUntil && user.validUntil !== "forever"
+          user.validUntil && user.validUntil !== 'forever'
             ? user.validUntil.substring(0, 10)
-            : undefined,
-      };
+            : undefined
+      }
       this.editUserExpiredAtStringMinute =
-        user.validUntil && user.validUntil !== "forever"
+        user.validUntil && user.validUntil !== 'forever'
           ? user.validUntil.substring(11, 5)
-          : "";
-      this.editedUser = editUser;
+          : ''
+      this.editedUser = editUser
     },
     addPeriod() {
       this.newUser.allowPeriods = [
         ...this.newUser.allowPeriods,
-        { startTime: this.startTime, endTime: this.endTime },
-      ];
-      this.startTime = "";
-      this.endTime = "";
+        { startTime: this.startTime, endTime: this.endTime }
+      ]
+      this.startTime = ''
+      this.endTime = ''
     },
     closePopupEditUser() {
-      this.showEditUserDialog = false;
+      this.showEditUserDialog = false
     },
     closePopupUploadExcel() {
-      this.isShowPopupUploadUsers = false;
+      this.isShowPopupUploadUsers = false
     },
-    syncUsers() {},
-  },
-};
+    closePopupSyncUsers() {
+      this.isShowPopupSyncUsers = false
+    }
+  }
+}
 </script>
 
 <style>

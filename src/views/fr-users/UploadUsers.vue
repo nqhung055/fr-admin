@@ -8,7 +8,7 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t("message.uploadExcelFile") }}</span>
+          <span class="headline">{{ $t('message.uploadExcelFile') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
@@ -20,8 +20,10 @@
                     :rules="uploadRules"
                     filled
                     v-model="uploadExcelFile"
-                    prepend-icon="mdi-camera"
+                    prepend-icon="mdi-file-excel"
                     @change="uploadExcelFiles"
+                    @click:clear="clearUploadExcelFile"
+                    :placeholder="$t('message.uploadExcelFilePlaceHolder')"
                   ></v-file-input>
                 </v-col>
                 <v-col cols="12" sm="12" md="12" lg="6" xl="6">
@@ -30,9 +32,12 @@
                     :rules="uploadImageRules"
                     filled
                     v-model="uploadImages"
-                    prepend-icon="mdi-camera"
+                    prepend-icon="mdi-folder-zip"
                     @change="uploadImage"
                     multiple
+                    :disabled="!uploadExcelFile || !uploadExcelFile.size"
+                    @click:clear="clearUploadImages"
+                    :placeholder="$t('message.uploadImagesPlaceHolder')"
                   ></v-file-input>
                 </v-col>
                 <v-col cols="12">
@@ -62,11 +67,15 @@
               </v-data-table>
               <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
-                <v-btn class="px-4" color="success" @click="createUsers()">
+                <v-btn
+                  class="px-4"
+                  color="success"
+                  @click="openConfirmDialog()"
+                >
                   Create Users
                 </v-btn>
-                <v-btn class="px-4" color="error" @click="clearUploadedData()">
-                  Clear Data
+                <v-btn class="px-4" color="error" @click="closePopup()">
+                  Close
                 </v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
@@ -75,185 +84,223 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="showConfirmDialog"
+      max-width="400"
+      @click:outside="showConfirmDialog = false"
+    >
+      <v-card>
+        <v-card-title> Clear current user data? </v-card-title>
+        <v-card-text>
+          Do you want clear all current user data in device and upload this user
+          data?
+        </v-card-text>
+        <v-card-actions class="pa-4">
+          <v-spacer></v-spacer>
+          <v-btn class="px-4" color="success" @click="createUsers(true)">
+            Yes
+          </v-btn>
+          <v-btn class="px-4" color="error" @click="createUsers(false)">
+            No
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import XLSX from "xlsx";
+import Vue from 'vue'
+import XLSX from 'xlsx'
 
 export default {
-  props: ["isShowPopup", "connectedDevices"],
+  props: ['isShowPopup', 'connectedDevices'],
   data() {
     return {
       uploadImageRules: [
-        (files) => !!files.length || "Images file should not be empty",
-        (files) =>
-          !files.name ||
-          files.name.includes(".png") ||
-          files.name.includes(".jpg") ||
-          files.name.includes(".jpeg") ||
-          "Images should be a Png or Jpeg file!",
+        files => !!files.length || 'Images file should not be empty',
+        files =>
+          files.every(
+            file =>
+              file.name.includes('.png') ||
+              file.name.includes('.jpg') ||
+              file.name.includes('.jpeg')
+          ) || 'Images should be a Png or Jpeg file!'
       ],
       uploadRules: [
-        (files) => !!files.size || "Excel file should not be empty",
-        (file) =>
+        files => !files || !!files.size || 'Excel file should not be empty',
+        file =>
           !file ||
           file.size < 1000000 ||
-          "File Excel size should be less than 1 MB!",
-        (file) =>
+          'File Excel size should be less than 1 MB!',
+        file =>
           !file ||
           !file.name ||
-          file.name.includes(".xls") ||
-          file.name.includes(".xlsx") ||
-          "Should be a Excel File!",
+          file.name.includes('.xls') ||
+          file.name.includes('.xlsx') ||
+          'Should be a Excel File!'
       ],
       uploadExcelFile: {},
       tableHeaders: [
         {
-          text: "ID",
-          align: "left",
-          value: "userId",
-          width: "2%",
+          text: 'ID',
+          align: 'left',
+          value: 'userId',
+          width: '2%'
         },
         {
-          text: "Username",
-          align: "left",
-          value: "name",
-          width: "10%",
+          text: 'Username',
+          align: 'left',
+          value: 'name',
+          width: '10%'
         },
         {
-          text: "Personal confidence",
-          align: "center",
-          value: "confidenceLevel",
-          width: "10%",
+          text: 'Personal confidence',
+          align: 'center',
+          value: 'confidenceLevel',
+          width: '10%'
         },
         {
-          text: "FacePhoto",
-          align: "center",
-          value: "image",
-          width: "10%",
-        },
+          text: 'FacePhoto',
+          align: 'center',
+          value: 'image',
+          width: '10%'
+        }
       ],
       uploadUsers: [],
       uploadImages: [],
       isUploadDataValid: true,
       selectedDevices: [],
-    };
+      showConfirmDialog: false
+    }
   },
   mounted() {},
   computed: {},
   methods: {
     uploadExcelFiles() {
-      if (!this.uploadExcelFile) return;
-      const reader = new FileReader();
-      const rABS = !!reader.readAsBinaryString;
+      if (!this.uploadExcelFile) return
+      const reader = new FileReader()
+      const rABS = !!reader.readAsBinaryString
       reader.addEventListener(
-        "load",
+        'load',
         () => {
-          let data = reader.result;
-          if (!rABS) data = new Uint8Array(data);
-          const workbook = XLSX.read(data, { type: rABS ? "binary" : "array" });
+          let data = reader.result
+          if (!rABS) data = new Uint8Array(data)
+          const workbook = XLSX.read(data, { type: rABS ? 'binary' : 'array' })
           const rawUploadUsers = XLSX.utils.sheet_to_json(
             workbook.Sheets[workbook.SheetNames[0]]
-          );
-          this.selectedDevices = [workbook.SheetNames[0]];
+          )
+          this.selectedDevices = [workbook.SheetNames[0]]
 
-          this.uploadUsers = rawUploadUsers.map((rawUser) => {
+          this.uploadUsers = rawUploadUsers.map(rawUser => {
             return {
-              devices: rawUser["devices"],
-              confidenceLevel: rawUser["Personal confidence"],
-              userType: rawUser["User type"],
-              name: rawUser["Name"],
-              userId: parseInt(rawUser["Number"]),
-              facePhoto: "",
-              phone: rawUser["Cellphone number"],
-              effectFrom: rawUser["Validity period"],
-            };
-          });
+              devices: rawUser['devices'],
+              confidenceLevel: rawUser['Personal confidence'],
+              userType: rawUser['User type'],
+              name: rawUser['Name'],
+              userId: parseInt(rawUser['Number']),
+              facePhoto: '',
+              phone: rawUser['Cellphone number'],
+              effectFrom: rawUser['Validity period']
+            }
+          })
         },
         false
-      );
+      )
 
       if (rABS) {
-        reader.readAsBinaryString(this.uploadExcelFile);
-      } else reader.readAsArrayBuffer(this.uploadExcelFile);
+        reader.readAsBinaryString(this.uploadExcelFile)
+      } else reader.readAsArrayBuffer(this.uploadExcelFile)
     },
     async uploadImage() {
-      this.uploadImages.map((image) => {
-        const userId = image.name.split(".")[0];
-        const reader = new FileReader();
+      this.uploadImages.map(image => {
+        const userId = image.name.split('.')[0]
+        const reader = new FileReader()
         reader.addEventListener(
-          "load",
+          'load',
           () => {
             const users = this.uploadUsers.filter(
-              (user) => user.userId === parseInt(userId)
-            );
-            users.forEach((user) => {
-              user.facePhoto = reader.result;
-            });
+              user => user.userId === parseInt(userId)
+            )
+            users.forEach(user => {
+              user.facePhoto = reader.result
+            })
           },
           false
-        );
-        reader.readAsDataURL(image);
-      });
+        )
+        reader.readAsDataURL(image)
+      })
     },
     closePopup() {
-      this.clearUploadedData();
-      this.$emit("closePopup", true);
+      this.clearUploadedData()
+      this.$emit('closePopup', true)
     },
-    async createUsers() {
-      if (!this.$refs.uploadData.validate()) return;
+    openConfirmDialog() {
+      if (!this.$refs.uploadData.validate()) return
+      this.showConfirmDialog = true
+    },
+    async createUsers(isClearUserData = true) {
       try {
-        await this.deleteUserFromDevice();
+        if (isClearUserData) await this.deleteUserFromDevice()
 
         await Promise.all(
-          this.uploadUsers.map((user) => {
-            const userWithDevies = { ...user, devices: this.selectedDevices };
-            return this.$axios.post("/upload/user", userWithDevies);
+          this.uploadUsers.map(user => {
+            const userWithDevies = { ...user, devices: this.selectedDevices }
+            return this.$axios.post('/upload/user', userWithDevies)
           })
-        );
+        )
 
+        this.closePopup()
         Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "Create users success!",
-        });
+          group: 'loggedIn',
+          type: 'success',
+          text: 'Create users success!'
+        })
       } catch (error) {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Error when creates users!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Error when creates users!'
+        })
       }
     },
     clearUploadedData() {
-      this.uploadUsers = [];
-      this.uploadExcelFile = {};
-      this.uploadImages = [];
+      this.uploadUsers = []
+      this.uploadExcelFile = {}
+      this.uploadImages = []
     },
     async deleteUserFromDevice() {
       try {
         return Promise.all(
-          this.selectedDevices.map((device) => {
+          this.selectedDevices.map(device => {
             return this.$axios.delete(`batch/delete/users`, {
               data: {
                 deviceId: device,
-                userIds: this.uploadUsers.map((user) => user.userId),
-              },
-            });
+                userIds: this.uploadUsers.map(user => user.userId)
+              }
+            })
           })
-        );
+        )
       } catch (error) {
         Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Error when delete users from devices!",
-        });
+          group: 'loggedIn',
+          type: 'error',
+          text: 'Error when delete users from devices!'
+        })
       }
     },
-  },
-};
+    clearUploadExcelFile() {
+      this.uploadImages = []
+      this.uploadUsers = []
+    },
+    clearUploadImages() {
+      this.uploadUsers.forEach(user => {
+        user.facePhoto = ''
+      })
+    }
+  }
+}
 </script>
 
 <style></style>
