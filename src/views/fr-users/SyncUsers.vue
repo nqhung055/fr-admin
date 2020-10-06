@@ -17,7 +17,7 @@
                 <v-col cols="12">
                   <v-select
                     v-model="selectedDevices"
-                    :items="['SK-111']"
+                    :items="connectedDevices"
                     label="Sync To Devices"
                     multiple
                   ></v-select>
