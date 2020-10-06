@@ -252,6 +252,7 @@ export default {
         )
 
         this.clearUploadedData()
+        this.showConfirmDialog = false
         this.$emit('uploadSuccess', true)
         Vue.notify({
           group: 'loggedIn',
