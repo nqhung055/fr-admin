@@ -43,6 +43,7 @@
                 <v-col cols="12">
                   <v-select
                     v-model="selectedDevices"
+                    :rules="devicesRules"
                     :items="connectedDevices"
                     label="Upload To Devices"
                     multiple
@@ -87,7 +88,7 @@
     <v-dialog
       v-model="showConfirmDialog"
       max-width="400"
-      @click:outside="showConfirmDialog = false"
+      @click:outside="showConfirmDialog=false"
     >
       <v-card>
         <v-card-title> Clear current user data? </v-card-title>
@@ -141,6 +142,9 @@ export default {
           file.name.includes('.xlsx') ||
           'Should be a Excel File!'
       ],
+      devicesRules: [
+        devices => !devices || !!devices.length || "Atlease one device is required!"
+      ],
       uploadExcelFile: {},
       tableHeaders: [
         {
@@ -191,7 +195,6 @@ export default {
           const rawUploadUsers = XLSX.utils.sheet_to_json(
             workbook.Sheets[workbook.SheetNames[0]]
           )
-          this.selectedDevices = [workbook.SheetNames[0]]
 
           this.uploadUsers = rawUploadUsers.map(rawUser => {
             return {

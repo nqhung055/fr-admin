@@ -463,7 +463,7 @@
       :connectedDevices="devices"
       :isShowPopup="isShowPopupUploadUsers"
       @closePopup="closePopupUploadExcel()"
-      @uploadSuccess="changeSelectedDevice()"
+      @uploadSuccess="uploadUsersSuccess()"
     ></upload-users>
     <sync-users
       :connectedDevices="devices"
@@ -614,7 +614,7 @@ export default {
         `/get/user/list/of/${this.selectedDevice}`
       )
       if (usersResponse.status === 200) {
-        this.users = usersResponse.data
+        this.users = usersResponse.data || []
       } else {
         Vue.notify({
           group: 'loggedIn',
@@ -763,6 +763,10 @@ export default {
     },
     closePopupSyncUsers() {
       this.isShowPopupSyncUsers = false
+    },
+    uploadUsersSuccess() {
+      this.isShowPopupUploadUsers = false
+      this.changeSelectedDevice()
     }
   }
 }
