@@ -25,25 +25,50 @@
                         @click="changeBtn('STRANGER')"
                         :class="{ primary: isStr }"
                         >{{ $t("message.stranger") }}</v-btn
-                      >
-                      <div>
-                        <v-col cols="4">
-                          <v-select
-                            v-model="selectedDevice"
-                            :items="devices"
-                            label="Select Device"
-                            @change="changeSelectedDevice()"
-                            single-line
-                          ></v-select>
-                        </v-col>
-                      </div>
+                      >                      
                     </div>                    
                     <div v-if="errored">
                       <p>{{ $t("message.getLogsError") }}</p>
                     </div>
                     <div v-else>
                       <div v-if="loading">{{ $t("message.loading") }}</div>
-                      <div v-else>
+                        <div v-else>
+                          <div>
+                          <v-col cols="4">
+                            <v-select
+                              v-model="selectedDevice"
+                              :items="devices"
+                              label="Select Device"
+                              @change="changeSelectedDevice()"
+                              single-line
+                            ></v-select>
+                          </v-col>
+                        </div>
+                        <div>
+                          <v-col cols="6">
+                            <date-range-picker
+                              ref="picker"
+                              :opens="opens"
+                              :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY HH:mm:ss' }"
+                              :minDate="minDate" :maxDate="maxDate"
+                              :singleDatePicker="singleDatePicker"
+                              :timePicker="timePicker"
+                              :timePicker24Hour="timePicker24Hour"
+                              :showWeekNumbers="showWeekNumbers"
+                              :showDropdowns="showDropdowns"
+                              :autoApply="autoApply"
+                              v-model="dateRange"
+                              @update="updateValues"
+                              @toggle="checkOpen"
+                              :linkedCalendars="linkedCalendars"
+                              :dateFormat="dateFormat"
+                            >
+                            <template v-slot:input="picker" style="min-width: 350px;">
+                                {{ picker.startDate | date }} - {{ picker.endDate | date }}
+                            </template>
+                            </date-range-picker>
+                          </v-col>
+                        </div>
                         <v-data-table :headers="headers" :items="selectedLogs">
                           <template v-slot:item="{ item }">
                             <tr>
@@ -108,6 +133,10 @@
 
 import { ChartConfig } from "Constants/chart-config";
 import { groupByKey } from "Helpers/helpers";
+
+import DateRangePicker from 'vue2-daterange-picker'
+//you need to import the CSS manually (in case you want to override it)
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
 export default {
   data() {
@@ -231,14 +260,8 @@ export default {
       // console.log("this.selectedCoin="+this.selectedCoin)
     },
     changeSelectedDevice() {
-      // console.log(" - selectedDevice: " + this.selectedDevice);
-      // Object.values(groupByKey(this.selectedLogs, "fromDevice").forEach
-      // Object.values(this.selectedLogs).forEach(val => {
-      //       console.log("Logs: " + val.fromDevice);
-      //     });
       this.selectedLogs = this.logsList[this.selectedBtn];
       this.selectedLogs = groupByKey(this.selectedLogs, "fromDevice")[this.selectedDevice];
-      console.log(Object.values(groupByKey(this.selectedLogs, "fromDevice")[this.selectedDevice]).length);
     },
     deleteLog(log) {
       this.$refs.deleteConfirmationDialog.openDialog();
@@ -258,5 +281,6 @@ export default {
       return groupByKey(this.logsList, "type");
     },
   },
+  components: { DateRangePicker },
 };
 </script>
