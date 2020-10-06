@@ -260,13 +260,13 @@ export default {
         Vue.notify({
           group: 'loggedIn',
           type: 'success',
-          text: 'Create users success!'
+          text: 'User uploaded!'
         })
       } catch (error) {
         Vue.notify({
           group: 'loggedIn',
           type: 'error',
-          text: 'Error when creates users!'
+          text: `Upload failed! Reason: ${error.message}`
         })
       }
     },
