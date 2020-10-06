@@ -26,8 +26,8 @@
                         :class="{ primary: isStr }"
                         >{{ $t("message.stranger") }}</v-btn
                       >
-                      <v-row>
-                        <v-col cols="3">
+                      <div>
+                        <v-col cols="4">
                           <v-select
                             v-model="selectedDevice"
                             :items="devices"
@@ -36,7 +36,7 @@
                             single-line
                           ></v-select>
                         </v-col>
-                      </v-row>
+                      </div>
                     </div>                    
                     <div v-if="errored">
                       <p>{{ $t("message.getLogsError") }}</p>
