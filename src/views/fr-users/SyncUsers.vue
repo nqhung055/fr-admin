@@ -18,7 +18,7 @@
                   <v-select
                     v-model="selectedDevices"
                     :items="connectedDevices"
-                    label="Sync To Devices"
+                    label="Sync From Devices"
                     multiple
                   ></v-select>
                 </v-col>
@@ -26,7 +26,7 @@
               <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
                 <v-btn class="px-4" color="success" @click="syncUsers()">
-                  Create Users
+                  Sync Users
                 </v-btn>
                 <v-btn class="px-4" color="error" @click="closePopup()">
                   Close
