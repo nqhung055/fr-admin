@@ -48,7 +48,7 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <v-btn color="error" @click="deleteUsers">
+                  <v-btn color="error" @click="showDeleteUsersDialog()">
                     Delete Users
                   </v-btn>
                 </v-col>
@@ -480,6 +480,30 @@
       :isShowPopup="isShowPopupSyncUsers"
       @closePopup="closePopupSyncUsers()"
     ></sync-users>
+    <v-dialog
+      v-model="showConfirmDeleteUsersDialog"
+      max-width="400"
+      @click:outside="showConfirmDeleteUsersDialog = false"
+    >
+      <v-card>
+        <v-card-title> Delete Users? </v-card-title>
+        <v-card-text> Do you want to delete all selected users? </v-card-text>
+        <v-card-actions class="pa-4">
+          <v-spacer></v-spacer>
+          <v-btn class="px-4" color="success" @click="deleteUsers()">
+            Yes
+          </v-btn>
+          <v-btn
+            class="px-4"
+            color="error"
+            @click="showConfirmDeleteUsersDialog = false"
+          >
+            No
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -585,6 +609,7 @@ export default {
       exelFile: {},
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
+      showConfirmDeleteUsersDialog: false,
     };
   },
   mounted() {
@@ -779,6 +804,17 @@ export default {
       this.isShowPopupUploadUsers = false;
       this.changeSelectedDevice();
     },
+    showDeleteUsersDialog() {
+      if (!this.selectedUsersToDelete.length) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "There is no users to delete!",
+        });
+        return
+      }
+      this.showConfirmDeleteUsersDialog = true;
+    },
     async deleteUsers() {
       const deleteUsersResponse = await this.$axios.delete(
         `batch/delete/users`,
@@ -791,6 +827,7 @@ export default {
       );
 
       if (deleteUsersResponse.status === 200) {
+        this.showConfirmDeleteUsersDialog = false;
         this.changeSelectedDevice();
 
         Vue.notify({
