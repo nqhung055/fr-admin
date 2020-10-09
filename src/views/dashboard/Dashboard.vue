@@ -2,10 +2,41 @@
   <div>
     <v-container fluid class="pt-0 grid-list-xl">
       <section-tooltip
-        :title="$t('message.generalDashboard')"
+        :title="$t('message.dashboard')"
         :tooltip="$t('message.dashboardOverview')"
       ></section-tooltip>
       <indexes-block />
+      <v-row>
+        <v-col cols="12" class="user-devices">
+          <v-select
+            v-model="newUser.devices"
+            :items="devices"
+            label="Select devices"
+            multiple
+          >
+            <template v-slot:prepend-item>
+              <v-list-item ripple @click="selectAllDevices">
+                <v-list-item-action>
+                  <v-icon
+                    :color="
+                      newUser.devices.length > 0
+                        ? 'indigo darken-4'
+                        : ''
+                    "
+                    >{{ icon }}</v-icon
+                  >
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title
+                    >Select All</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider class="mt-2"></v-divider>
+            </template>
+          </v-select>
+        </v-col>
+      </v-row>
       <v-row>
         <app-card
           :heading="$t('message.visitorCollection')"
@@ -98,7 +129,7 @@ import { mapGetters } from "vuex";
 import { ChartConfig } from "Constants/chart-config";
 import { groupByKey } from "Helpers/helpers"
 
-import IndexesBlock from "../commons/fr-indexes-block";
+import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/GeneralVisitorsCollectionV1";
 import VisitorStat from "../fr-detection-logs/VisitorStat";
 import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
@@ -107,6 +138,11 @@ import IndexStatistics from "../commons/fr-statistics";
 export default {
   data() {
     return {
+      devices: [],
+      selectedDevice: "",
+      newUser: {
+        devices: []
+      },
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
@@ -120,6 +156,7 @@ export default {
     IndexStatistics,
   },
   mounted() {
+    this.getDevices();
     this.totalLogs = this.objDLOffline.rows.length;
     Object.keys(this.groupByType).forEach((key) => {
       this.visitorTypes.push(key);
@@ -127,6 +164,17 @@ export default {
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
+    cSelectAllDevices() {
+      return this.newUser.devices.length === this.devices.length;
+    },
+    cSelectSomeDevices() {
+      return this.newUser.devices.length > 0 && !this.cSelectAllDevices;
+    },
+    icon() {
+      if (this.cSelectAllDevices) return "mdi-close-box";
+      if (this.cSelectSomeDevices) return "mdi-minus-box";
+      return "mdi-checkbox-blank-outline";
+    },
     objDLO: {
       get: function () {
         return this.fDLO;
@@ -161,6 +209,27 @@ export default {
     },
     
   },
-  methods: {},
+  methods: {
+    async getDevices() {
+      await this.$axios
+        .get("/registered/device/list")
+        .then((response) => {          
+          return this.devices = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally();
+    },
+    selectAllDevices() {
+      this.$nextTick(() => {
+        if (this.cSelectAllDevices) {
+          this.newUser.devices = [];
+        } else {
+          this.newUser.devices = this.devices.slice();
+        }
+      });
+    },
+  },
 };
 </script>

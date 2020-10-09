@@ -654,4 +654,8 @@ export default {
   getLogsError: "We're sorry, we're not able to retrieve this information at the moment, please try back later",
   loading: 'Loading ...',
   selectDevice: 'Select Device',
+  totalResident: 'Total resident registered',
+  currentTotalPeople: 'Current total of present people',
+  currentTotalResidents: 'Current total of present residents',
+  currentTotalGuests: 'Current total of present guests',
 }
