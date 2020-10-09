@@ -9,10 +9,12 @@
       <v-row>
         <v-col md="7">
           <v-select
-            v-model="dashboard.devices"
+            v-model="selectedDevices"
             :items="devices"
             label="Select Devices"
+            return-object
             multiple
+            @input="getVistorData(selectedDevices)"
           >
             <template v-slot:prepend-item>
               <v-list-item ripple @click="selectAllDevices">
@@ -139,10 +141,11 @@ export default {
   data() {
     return {
       devices: [],
-      selectedDevice: "",
+      selectedDevices: [],
       dashboard: {
         devices: []
       },
+      objSelectedDevice: [],
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
@@ -165,10 +168,10 @@ export default {
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
     cSelectAllDevices() {
-      return this.dashboard.devices.length === this.devices.length;
+      return this.selectedDevices.length === this.devices.length;
     },
     cSelectSomeDevices() {
-      return this.dashboard.devices.length > 0 && !this.cSelectAllDevices;
+      return this.selectedDevices.length > 0 && !this.cSelectAllDevices;
     },
     icon() {
       if (this.cSelectAllDevices) return "mdi-close-box";
@@ -222,14 +225,33 @@ export default {
         .finally();
     },
     selectAllDevices() {
+
       this.$nextTick(() => {
         if (this.cSelectAllDevices) {
-          this.dashboard.devices = [];
+          this.selectedDevices = [];
         } else {
-          this.dashboard.devices = this.devices.slice();
+          this.selectedDevices = this.devices.slice();
         }
+        this.objSelectedDevice = this.selectedDevices;
+        this.getSumPeoples(this.selectedDevices);
+        console.log('Selected all Devices: ' + this.selectedDevices);
       });
     },
+    getVistorData(device) {
+      this.objSelectedDevice = device;
+      this.getSumPeoples(device);
+      // console.log('Device: ' + device);
+    },
+    async getSumPeoples(dts) {
+      let strDevices = "";
+      Object.values(dts).forEach(dt => {
+        strDevices += dt + ",";
+        console.log('device: ' + dt);
+      });
+      await this.$axios
+        .get('http://localhost:8080/users-summary?deviceIds=' + strDevices)
+        .then(response => (console.log("Response: " + response)));
+      }
   },
 };
 </script>

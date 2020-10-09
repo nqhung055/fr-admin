@@ -40,7 +40,7 @@
             v-model="numDataPoint"
             :items="dataPoint"
             label="Data Point"
-            single
+            single-line
           >
         </v-select>
       </v-col>
