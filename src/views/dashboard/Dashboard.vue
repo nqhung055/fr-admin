@@ -5,7 +5,11 @@
         :title="$t('message.dashboard')"
         :tooltip="$t('message.dashboardOverview')"
       ></section-tooltip>
-      <indexes-block :data="this.objSelectedDevice" />
+      <indexes-block 
+        :b1="nTotalResidents"
+        :b2="nPresentPeoples"
+        :b3="nPresentResidents"
+        :b4="nPresentGuests" />
       <v-row>
         <v-col md="7">
           <v-select
@@ -146,6 +150,10 @@ export default {
         devices: []
       },
       objSelectedDevice: {},
+      nTotalResidents: Number,
+      nPresentPeoples: Number,
+      nPresentResidents: Number,
+      nPresentGuests: Number,
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
@@ -250,8 +258,12 @@ export default {
           // Object.keys(response.data.forEach((key) => {
           //   console.log("key: " + key)
           // }))
-          this.objSelectedDevice = response.data,
-          console.log("key: " + response.data["totalResidents"])
+          // this.objSelectedDevice = response.data,
+          this.nTotalResidents = response.data["totalResidents"],
+          this.nPresentPeoples = response.data["presentPeoples"],
+          this.nPresentResidents = response.data["totalResidents"],
+          this.nPresentGuests = response.data["presentPeoples"],
+          console.log("nTotalResidentskey: " + this.nTotalResidents + "nPresentPeoples: " + this.nPresentPeoples + "nPresentResidents: " + this.nPresentResidents + "nPresentGuests: " + this.nPresentGuests)
         ));
         // "totalResidents": 2,
         // "presentPeoples": 2,

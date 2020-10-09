@@ -32,10 +32,10 @@ import DashboardIndexStats from "./DashboardIndexStats";
 import {groupByTime, reStructuredObject, groupByKey, sortDateASC } from "Helpers/helpers"
 export default {
   props: {
-    data: {
-      type: Object,
-      default: () => {}
-    },
+    b1: Number,
+    b2: Number,
+    b3: Number,
+    b4: Number 
   },
   components: {
     DashboardIndexStats,
@@ -47,7 +47,7 @@ export default {
     this.getSumByToday();
     this.totalEmpYtd = this.totalEmp - this.usersPerDay;
     this.totalGuestYtd = this.totalGuest - this.guestsPerDay;
-    console.log("data: " + this.data["totalResidents"]);
+    console.log("data: " + this.b1);
   },
   data() {
     return {
