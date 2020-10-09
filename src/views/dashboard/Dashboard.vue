@@ -250,8 +250,13 @@ export default {
           // Object.keys(response.data.forEach((key) => {
           //   console.log("key: " + key)
           // }))
-          this.objSelectedDevice = response.data
+          this.objSelectedDevice = response.data,
+          console.log("key: " + response.data["totalResidents"])
         ));
+        // "totalResidents": 2,
+        // "presentPeoples": 2,
+        // "presentResidents": 1,
+        // "presentGuests": 1
     }
   },
 };

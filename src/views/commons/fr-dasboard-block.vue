@@ -47,7 +47,7 @@ export default {
     this.getSumByToday();
     this.totalEmpYtd = this.totalEmp - this.usersPerDay;
     this.totalGuestYtd = this.totalGuest - this.guestsPerDay;
-    console.log("data: " + this.data);
+    console.log("data: " + this.data["totalResidents"]);
   },
   data() {
     return {
