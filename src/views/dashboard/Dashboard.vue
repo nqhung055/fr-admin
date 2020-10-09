@@ -234,19 +234,16 @@ export default {
         }
         this.objSelectedDevice = this.selectedDevices;
         this.getSumPeoples(this.selectedDevices);
-        console.log('Selected all Devices: ' + this.selectedDevices);
       });
     },
     getVistorData(device) {
       this.objSelectedDevice = device;
       this.getSumPeoples(device);
-      // console.log('Device: ' + device);
     },
     async getSumPeoples(dts) {
       let strDevices = "";
       Object.values(dts).forEach(dt => {
         strDevices += dt + ",";
-        console.log('device: ' + dt);
       });
       await this.$axios
         .get('http://localhost:8080/users-summary?deviceIds=' + strDevices)
