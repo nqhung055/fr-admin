@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 //routes
 // import defaultRoutes from './default';
-import defaultRoutes from './fracialrecogination';
+import defaultRoutes from './fracialrecogination_v1';
 import horizontalRoutes from './horizontal';
 import boxedRoutes from './boxed';
 import mini from './mini';

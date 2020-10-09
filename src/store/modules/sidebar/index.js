@@ -2,7 +2,7 @@
  * Sidebar Module
  */
 
-import { menus } from './fr-data.js';
+import { menus } from './fr-menu.js';
 
 const state = {
     menus

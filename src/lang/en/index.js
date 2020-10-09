@@ -618,6 +618,8 @@ export default {
   percentageOfVisitors: 'Visitor Stats',
   visitorSeparations: 'Failed screening ratio',
   generalDashboard: 'General Dashboard',
+  report: 'Reports',
+  deviceManagement: 'Device Management',
   temperaturesReport: 'Temperatures',
   visitorCollection: 'Entry registered user vs guest visitors statistics.',
   visitorsummaries: 'Visitor Summaries',
