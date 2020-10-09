@@ -32,7 +32,10 @@ import DashboardIndexStats from "./DashboardIndexStats";
 import {groupByTime, reStructuredObject, groupByKey, sortDateASC } from "Helpers/helpers"
 export default {
   props: {
-    data: Object,
+    data: {
+      type: Object,
+      default: () => {}
+    },
   },
   components: {
     DashboardIndexStats,
