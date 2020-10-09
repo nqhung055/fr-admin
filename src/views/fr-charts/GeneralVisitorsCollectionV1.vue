@@ -1,9 +1,42 @@
 <template>
   <div>
     <div class="mb-5">
-      <v-btn class="error mr-3" @click="showDay()">Day</v-btn>
-      <v-btn class="success mr-3" @click="showMonth()">Month</v-btn>
-      <v-btn class="primary" @click="showYear()">Year</v-btn>
+      <v-row>
+        <v-col>
+          <v-btn class="error mr-3" @click="showDay()">Day</v-btn>
+          <v-btn class="success mr-3" @click="showMonth()">Month</v-btn>
+          <v-btn class="primary" @click="showYear()">Year</v-btn>
+        </v-col>
+      <!-- <v-row justify="center">
+        <v-date-picker v-model="picker"></v-date-picker>
+      </v-row> -->
+      <v-col>
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="Select date"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="date"
+            @input="menu2 = false"
+          ></v-date-picker>
+        </v-menu>
+      </v-col>
+      <!-- <v-spacer></v-spacer> -->
+      </v-row>
     </div>
     <div>
       <visitors-line-chart
@@ -154,6 +187,10 @@ export default {
       yearTotalVisitors: 0,
       yearSumRUs: 0,
       yearSumGuests: 0,
+      // picker: new Date().toISOString().substr(0, 10),
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
     };
   },
   methods: {

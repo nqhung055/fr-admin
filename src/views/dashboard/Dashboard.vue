@@ -7,9 +7,9 @@
       ></section-tooltip>
       <indexes-block />
       <v-row>
-        <v-col cols="12" class="user-devices">
+        <v-col>
           <v-select
-            v-model="newUser.devices"
+            v-model="dashboard.devices"
             :items="devices"
             label="Select devices"
             multiple
@@ -19,7 +19,7 @@
                 <v-list-item-action>
                   <v-icon
                     :color="
-                      newUser.devices.length > 0
+                      dashboard.devices.length > 0
                         ? 'indigo darken-4'
                         : ''
                     "
@@ -66,7 +66,7 @@
       <v-row>
         <app-card
           :heading="$t('message.temperatureScreening')"
-          colClasses="col-xl-8 col-lg-7 col-md-7 col-sm-6 col-12 flex"
+          colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 flex"
           customClasses="mb-0 sales-widget"
         >
           <general-column-chart />
@@ -113,13 +113,13 @@
             </v-col>
           </v-row>
         </app-card>
-        <app-card
+        <!-- <app-card
           :heading="$t('message.statisticsByDay')"
           colClasses="col-xl-4 col-lg-5 col-md-5 col-sm-6 col-12"
           customClasses="mb-0 sales-widget"
         >
           <index-statistics />
-        </app-card>
+        </app-card> -->
       </v-row>
     </v-container>
   </div>
@@ -133,14 +133,14 @@ import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/GeneralVisitorsCollectionV1";
 import VisitorStat from "../fr-detection-logs/VisitorStat";
 import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
-import IndexStatistics from "../commons/fr-statistics";
+// import IndexStatistics from "../commons/fr-statistics";
 
 export default {
   data() {
     return {
       devices: [],
       selectedDevice: "",
-      newUser: {
+      dashboard: {
         devices: []
       },
       totalLogs: Number,
@@ -153,7 +153,7 @@ export default {
     VisitorsCollection,
     VisitorStat,
     GeneralColumnChart,
-    IndexStatistics,
+    // IndexStatistics,
   },
   mounted() {
     this.getDevices();
@@ -165,10 +165,10 @@ export default {
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
     cSelectAllDevices() {
-      return this.newUser.devices.length === this.devices.length;
+      return this.dashboard.devices.length === this.devices.length;
     },
     cSelectSomeDevices() {
-      return this.newUser.devices.length > 0 && !this.cSelectAllDevices;
+      return this.dashboard.devices.length > 0 && !this.cSelectAllDevices;
     },
     icon() {
       if (this.cSelectAllDevices) return "mdi-close-box";
@@ -224,9 +224,9 @@ export default {
     selectAllDevices() {
       this.$nextTick(() => {
         if (this.cSelectAllDevices) {
-          this.newUser.devices = [];
+          this.dashboard.devices = [];
         } else {
-          this.newUser.devices = this.devices.slice();
+          this.dashboard.devices = this.devices.slice();
         }
       });
     },
