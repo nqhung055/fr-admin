@@ -7,7 +7,7 @@
       ></section-tooltip>
       <indexes-block />
       <v-row>
-        <v-col md="3">
+        <v-col md="7">
           <v-select
             v-model="dashboard.devices"
             :items="devices"
