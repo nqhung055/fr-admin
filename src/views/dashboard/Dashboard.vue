@@ -5,7 +5,7 @@
         :title="$t('message.dashboard')"
         :tooltip="$t('message.dashboardOverview')"
       ></section-tooltip>
-      <indexes-block />
+      <indexes-block :data="this.objSelectedDevice" />
       <v-row>
         <v-col md="7">
           <v-select
@@ -145,7 +145,7 @@ export default {
       dashboard: {
         devices: []
       },
-      objSelectedDevice: [],
+      objSelectedDevice: {},
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
@@ -232,12 +232,10 @@ export default {
         } else {
           this.selectedDevices = this.devices.slice();
         }
-        this.objSelectedDevice = this.selectedDevices;
         this.getSumPeoples(this.selectedDevices);
       });
     },
     getVistorData(device) {
-      this.objSelectedDevice = device;
       this.getSumPeoples(device);
     },
     async getSumPeoples(dts) {
@@ -246,9 +244,15 @@ export default {
         strDevices += dt + ",";
       });
       await this.$axios
-        .get('http://localhost:8080/users-summary?deviceIds=' + strDevices)
-        .then(response => (console.log("Response: " + response)));
-      }
+        .get('http://localhost:8081/users-summary?deviceIds=' + strDevices)
+        .then(response => (
+          // console.log("dt: " + JSON.parse(JSON.stringify([response.data])))
+          // Object.keys(response.data.forEach((key) => {
+          //   console.log("key: " + key)
+          // }))
+          this.objSelectedDevice = response.data
+        ));
+    }
   },
 };
 </script>
