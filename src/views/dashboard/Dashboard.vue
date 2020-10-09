@@ -7,11 +7,11 @@
       ></section-tooltip>
       <indexes-block />
       <v-row>
-        <v-col>
+        <v-col md="3">
           <v-select
             v-model="dashboard.devices"
             :items="devices"
-            label="Select devices"
+            label="Select Devices"
             multiple
           >
             <template v-slot:prepend-item>
@@ -70,8 +70,8 @@
           customClasses="mb-0 sales-widget"
         >
           <general-column-chart />
-          <v-row class="cart-wrap hidden-only pl-6">
-            <v-col cols="2" class="d-custom-flex">
+          <v-row class="cart-wrap hidden-only pl-6" justify="center">
+            <v-col cols="4" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-invert-colors primary--text"></i>
               </span>
@@ -80,7 +80,7 @@
                 <span class="d-block fs-12 grey--text fw-normal">{{$t('message.pass')}}</span>
               </p>
             </v-col>
-            <v-col cols="2" class="d-custom-flex">
+            <v-col cols="4" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-invert-colors-off error--text"></i>
               </span>
@@ -89,7 +89,7 @@
                 <span class="d-block fs-12 grey--text fw-normal">{{$t('message.failed')}}</span>
               </p>
             </v-col>
-            <v-col cols="4" class="d-custom-flex">
+            <v-col cols="2" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-male-female success--text"></i>
               </span>
@@ -97,10 +97,10 @@
                 <span class="d-block fs-14 fw-bold">101</span>
                 <span
                   class="d-block fs-12 grey--text fw-normal"
-                >{{$t('message.totalScreeningPassed')}}</span>
+                >{{$t('message.guestPass')}}</span>
               </p>
             </v-col>
-            <v-col cols="4" class="d-custom-flex">
+            <v-col cols="2" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-nature-people error--text"></i>
               </span>
@@ -108,7 +108,7 @@
                 <span class="d-block fs-14 fw-bold">101</span>
                 <span
                   class="d-block fs-12 grey--text fw-normal"
-                >{{$t('message.totalScreeningFailed')}}</span>
+                >{{$t('message.guestFailed')}}</span>
               </p>
             </v-col>
           </v-row>

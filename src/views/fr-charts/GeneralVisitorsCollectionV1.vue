@@ -4,13 +4,13 @@
       <v-row>
         <v-col>
           <v-btn class="error mr-3" @click="showDay()">Day</v-btn>
-          <v-btn class="success mr-3" @click="showMonth()">Month</v-btn>
-          <v-btn class="primary" @click="showYear()">Year</v-btn>
+          <v-btn class="success mr-3" @click="showMonth()">Week</v-btn>
+          <v-btn class="primary" @click="showYear()">Month</v-btn>
         </v-col>
       <!-- <v-row justify="center">
         <v-date-picker v-model="picker"></v-date-picker>
       </v-row> -->
-      <v-col>
+      <v-col md="3">
         <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -34,6 +34,15 @@
             @input="menu2 = false"
           ></v-date-picker>
         </v-menu>
+      </v-col>
+      <v-col md="3">
+        <v-select
+            v-model="numDataPoint"
+            :items="dataPoint"
+            label="Data Point"
+            single
+          >
+        </v-select>
       </v-col>
       <!-- <v-spacer></v-spacer> -->
       </v-row>
@@ -191,6 +200,8 @@ export default {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       menu2: false,
+      dataPoint: [5, 10, 15, 20, 25, 30],
+      numDataPoint:'',
     };
   },
   methods: {
