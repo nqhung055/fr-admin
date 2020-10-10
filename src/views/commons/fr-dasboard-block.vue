@@ -31,12 +31,7 @@ import { mapGetters } from "vuex";
 import DashboardIndexStats from "./DashboardIndexStats";
 import {groupByTime, reStructuredObject, groupByKey, sortDateASC } from "Helpers/helpers"
 export default {
-  props: {
-    b1: Number,
-    b2: Number,
-    b3: Number,
-    b4: Number 
-  },
+  props: ["b1","b2","b3","b4"],
   components: {
     DashboardIndexStats,
   },
@@ -47,7 +42,7 @@ export default {
     this.getSumByToday();
     this.totalEmpYtd = this.totalEmp - this.usersPerDay;
     this.totalGuestYtd = this.totalGuest - this.guestsPerDay;
-    console.log("data: " + this.b1);
+    console.log("ba1: " + this.b1);
   },
   data() {
     return {
