@@ -14,7 +14,7 @@
           <indexes-block :b1="0" :b2="0" :b3="0" :b4="0" />
           </div>
         <div  v-else>
-          <indexes-block :b1="this.nTotalResidents" :b2="this.nPresentPeoples" :b3="this.nPresentResidents" :b4="this.nPresentGuests" />
+          <indexes-block :b1="nTotalResidents" :b2="nPresentPeoples" :b3="nPresentResidents" :b4="nPresentGuests" />
         </div>
       </div>
       <v-row>
@@ -176,6 +176,7 @@ export default {
     // IndexStatistics,
   },
   mounted() {
+     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
     this.totalLogs = this.objDLOffline.rows.length;
     Object.keys(this.groupByType).forEach((key) => {
@@ -244,6 +245,7 @@ export default {
     selectAllDevices() {
 
       this.$nextTick(() => {
+        this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
         if (this.cSelectAllDevices) {
           this.selectedDevices = [];
         } else {
@@ -256,7 +258,7 @@ export default {
       this.getSumPeoples(device);
     },
     async getSumPeoples(dts) {
-      let strDevices = ""; this.nTotalResidents = ""; this.nPresentPeoples = "";  this.nPresentResidents = ""; this.nPresentGuests = "";
+      let strDevices = ""; this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
       Object.values(dts).forEach(dt => {
         strDevices += dt + ",";
       });
