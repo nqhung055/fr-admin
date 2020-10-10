@@ -2,16 +2,16 @@
   <v-row>
     <v-col xl="3" lg="3" md="6" sm="12" cols="6" class="stats-widget-v3">
       <!--  +5% from yesterday -->
-      <dashboard-index-stats :title="$t('message.totalResident')" :value="this.usersPerDay" :body="this.usersYtd" :status="this.usersPerDay >= this.usersYtd ? 1 : 0"></dashboard-index-stats>
+      <dashboard-index-stats :title="$t('message.totalResident')" :value="this.b1" :body="this.usersYtd" :status="this.usersPerDay >= this.usersYtd ? 1 : 0"></dashboard-index-stats>
     </v-col>
     <v-col xl="3" lg="3" md="6" sm="12" cols="6" class="stats-widget-v3">
-      <dashboard-index-stats :title="$t('message.currentTotalPeople')" :value="this.guestsPerDay" :body="this.guestsYtd" :status="this.guestsPerDay >= this.guestsYtd ? 1 : 0"></dashboard-index-stats>
+      <dashboard-index-stats :title="$t('message.currentTotalPeople')" :value="this.b2" :body="this.guestsYtd" :status="this.guestsPerDay >= this.guestsYtd ? 1 : 0"></dashboard-index-stats>
     </v-col>
     <v-col xl="3" lg="3" md="6" sm="12" cols="6" class="stats-widget-v3">
       <!-- -2% from yesterday -->
       <dashboard-index-stats
         :title="$t('message.currentTotalResidents')"
-        :value="this.totalEmp"
+        :value="this.b3"
         :body="String(this.totalEmpYtd)"
         :status="this.totalEmp >= this.totalEmpYtd ? 1 : 0"
       ></dashboard-index-stats>
@@ -19,7 +19,7 @@
     <v-col xl="3" lg="3" md="6" sm="12" cols="6" class="stats-widget-v3">
       <dashboard-index-stats
         :title="$t('message.currentTotalGuests')"
-        :value="this.totalGuest"
+        :value="this.b4"
         :body="this.totalGuestYtd"
         :status="this.totalGuest >= this.totalGuestYtd ? 1 : 0"
       ></dashboard-index-stats>
@@ -42,7 +42,7 @@ export default {
     this.getSumByToday();
     this.totalEmpYtd = this.totalEmp - this.usersPerDay;
     this.totalGuestYtd = this.totalGuest - this.guestsPerDay;
-    console.log("ba1: " + this.b1);
+    console.log("b1: " + this.b1 + " - b2: " + this.b2 + " - b3: " + this.b3 + " - b4: " + this.b4);
   },
   data() {
     return {

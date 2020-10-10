@@ -5,11 +5,18 @@
         :title="$t('message.dashboard')"
         :tooltip="$t('message.dashboardOverview')"
       ></section-tooltip>
-      <indexes-block 
-        :b1="this.nTotalResidents"
-        :b2="this.nPresentPeoples"
-        :b3="this.nPresentResidents"
-        :b4="this.nPresentGuests" />
+      <div v-if="errored">
+        <p>{{ $t('message.getLogsError') }}</p>
+      </div>
+      <div v-else>
+        <div v-if="loading" class="pr-4">
+          <!-- {{ $t('message.loading') }} -->
+          <indexes-block :b1="0" :b2="0" :b3="0" :b4="0" />
+          </div>
+        <div  v-else>
+          <indexes-block :b1="this.nTotalResidents" :b2="this.nPresentPeoples" :b3="this.nPresentResidents" :b4="this.nPresentGuests" />
+        </div>
+      </div>
       <v-row>
         <v-col md="7">
           <v-select
@@ -144,6 +151,8 @@ import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
 export default {
   data() {
     return {
+      loading: true,
+      errored: false,
       devices: [],
       selectedDevices: [],
       dashboard: {
@@ -253,7 +262,7 @@ export default {
       });
       await this.$axios
         .get('http://localhost:8081/users-summary?deviceIds=' + strDevices)
-        .then(response => (
+        .then(response => {
           // console.log("dt: " + JSON.parse(JSON.stringify([response.data])))
           // Object.keys(response.data.forEach((key) => {
           //   console.log("key: " + key)
@@ -264,7 +273,12 @@ export default {
           this.nPresentResidents = response.data["totalResidents"],
           this.nPresentGuests = response.data["presentPeoples"],
           console.log("nTotalResidentskey: " + this.nTotalResidents + " - nPresentPeoples: " + this.nPresentPeoples + " - nPresentResidents: " + this.nPresentResidents + " - nPresentGuests: " + this.nPresentGuests)
-        ));
+        })
+        .catch((error) => {
+          this.errored = true;
+          console.log(error);
+        })
+        .finally(() => this.loading = false);
         // "totalResidents": 2,
         // "presentPeoples": 2,
         // "presentResidents": 1,
