@@ -5,14 +5,27 @@
         :title="$t('message.dashboard')"
         :tooltip="$t('message.dashboardOverview')"
       ></section-tooltip>
-      <indexes-block />
+      <div v-if="errored">
+        <p>{{ $t('message.getLogsError') }}</p>
+      </div>
+      <div v-else>
+        <div v-if="loading" class="pr-4">
+          <!-- {{ $t('message.loading') }} -->
+          <indexes-block :b1="0" :b2="0" :b3="0" :b4="0" />
+          </div>
+        <div  v-else>
+          <indexes-block :b1="nTotalResidents" :b2="nPresentPeoples" :b3="nPresentResidents" :b4="nPresentGuests" />
+        </div>
+      </div>
       <v-row>
-        <v-col>
+        <v-col md="7">
           <v-select
-            v-model="dashboard.devices"
+            v-model="selectedDevices"
             :items="devices"
-            label="Select devices"
+            label="Select Devices"
+            return-object
             multiple
+            @input="getVistorData(selectedDevices)"
           >
             <template v-slot:prepend-item>
               <v-list-item ripple @click="selectAllDevices">
@@ -70,8 +83,8 @@
           customClasses="mb-0 sales-widget"
         >
           <general-column-chart />
-          <v-row class="cart-wrap hidden-only pl-6">
-            <v-col cols="2" class="d-custom-flex">
+          <v-row class="cart-wrap hidden-only pl-6" justify="center">
+            <v-col cols="4" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-invert-colors primary--text"></i>
               </span>
@@ -80,7 +93,7 @@
                 <span class="d-block fs-12 grey--text fw-normal">{{$t('message.pass')}}</span>
               </p>
             </v-col>
-            <v-col cols="2" class="d-custom-flex">
+            <v-col cols="4" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-invert-colors-off error--text"></i>
               </span>
@@ -89,7 +102,7 @@
                 <span class="d-block fs-12 grey--text fw-normal">{{$t('message.failed')}}</span>
               </p>
             </v-col>
-            <v-col cols="4" class="d-custom-flex">
+            <v-col cols="2" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-male-female success--text"></i>
               </span>
@@ -97,10 +110,10 @@
                 <span class="d-block fs-14 fw-bold">101</span>
                 <span
                   class="d-block fs-12 grey--text fw-normal"
-                >{{$t('message.totalScreeningPassed')}}</span>
+                >{{$t('message.guestPass')}}</span>
               </p>
             </v-col>
-            <v-col cols="4" class="d-custom-flex">
+            <v-col cols="2" class="d-custom-flex">
               <span class="mr-2">
                 <i class="zmdi zmdi-nature-people error--text"></i>
               </span>
@@ -108,7 +121,7 @@
                 <span class="d-block fs-14 fw-bold">101</span>
                 <span
                   class="d-block fs-12 grey--text fw-normal"
-                >{{$t('message.totalScreeningFailed')}}</span>
+                >{{$t('message.guestFailed')}}</span>
               </p>
             </v-col>
           </v-row>
@@ -138,11 +151,18 @@ import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
 export default {
   data() {
     return {
+      loading: true,
+      errored: false,
       devices: [],
-      selectedDevice: "",
+      selectedDevices: [],
       dashboard: {
         devices: []
       },
+      objSelectedDevice: {},
+      nTotalResidents: '',
+      nPresentPeoples: '',
+      nPresentResidents: '',
+      nPresentGuests: '',
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
@@ -156,6 +176,7 @@ export default {
     // IndexStatistics,
   },
   mounted() {
+     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
     this.totalLogs = this.objDLOffline.rows.length;
     Object.keys(this.groupByType).forEach((key) => {
@@ -165,10 +186,10 @@ export default {
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
     cSelectAllDevices() {
-      return this.dashboard.devices.length === this.devices.length;
+      return this.selectedDevices.length === this.devices.length;
     },
     cSelectSomeDevices() {
-      return this.dashboard.devices.length > 0 && !this.cSelectAllDevices;
+      return this.selectedDevices.length > 0 && !this.cSelectAllDevices;
     },
     icon() {
       if (this.cSelectAllDevices) return "mdi-close-box";
@@ -222,14 +243,44 @@ export default {
         .finally();
     },
     selectAllDevices() {
+
       this.$nextTick(() => {
+        this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
         if (this.cSelectAllDevices) {
-          this.dashboard.devices = [];
+          this.selectedDevices = [];
         } else {
-          this.dashboard.devices = this.devices.slice();
+          this.selectedDevices = this.devices.slice();
         }
+        this.getSumPeoples(this.selectedDevices);
       });
     },
+    getVistorData(device) {
+      this.getSumPeoples(device);
+    },
+    async getSumPeoples(dts) {
+      let strDevices = ""; this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
+      Object.values(dts).forEach(dt => {
+        strDevices += dt + ",";
+      });
+      await this.$axios
+        .get('http://localhost:8081/users-summary?deviceIds=' + strDevices)
+        .then(response => {
+          this.nTotalResidents = response.data["totalResidents"],
+          this.nPresentPeoples = response.data["presentPeoples"],
+          this.nPresentResidents = response.data["totalResidents"],
+          this.nPresentGuests = response.data["presentPeoples"],
+          console.log("nTotalResidentskey: " + this.nTotalResidents + " - nPresentPeoples: " + this.nPresentPeoples + " - nPresentResidents: " + this.nPresentResidents + " - nPresentGuests: " + this.nPresentGuests)
+        })
+        .catch((error) => {
+          this.errored = true;
+          console.log(error);
+        })
+        .finally(() => this.loading = false);
+        // "totalResidents": 2,
+        // "presentPeoples": 2,
+        // "presentResidents": 1,
+        // "presentGuests": 1
+    }
   },
 };
 </script>

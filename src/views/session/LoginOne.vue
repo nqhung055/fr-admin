@@ -72,7 +72,7 @@ export default {
         this.$axios.defaults.headers.common["Authorization"] = "Bearer " + data;
         // this.$router.push("/default/dashboard/detection-logs.html");
         // this.$router.push("/default/dashboard/visitors-report.html");
-        this.$router.push("/default/dashboard/general-dashboard.html");
+        this.$router.push("/default/dashboard/dashboard.html");
         // this.$router.push("/default/dashboard/ecommerce");
 
         Vue.notify({
