@@ -256,18 +256,13 @@ export default {
       this.getSumPeoples(device);
     },
     async getSumPeoples(dts) {
-      let strDevices = "";
+      let strDevices = ""; this.nTotalResidents = ""; this.nPresentPeoples = "";  this.nPresentResidents = ""; this.nPresentGuests = "";
       Object.values(dts).forEach(dt => {
         strDevices += dt + ",";
       });
       await this.$axios
         .get('http://localhost:8081/users-summary?deviceIds=' + strDevices)
         .then(response => {
-          // console.log("dt: " + JSON.parse(JSON.stringify([response.data])))
-          // Object.keys(response.data.forEach((key) => {
-          //   console.log("key: " + key)
-          // }))
-          // this.objSelectedDevice = response.data,
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
           this.nPresentResidents = response.data["totalResidents"],
