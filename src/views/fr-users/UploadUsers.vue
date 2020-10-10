@@ -301,7 +301,7 @@ export default {
             return this.$axios.delete(`batch/delete/users`, {
               data: {
                 deviceId: device,
-                userIds: this.uploadUsers.map(user => user.userId)
+                userIds: this.uploadUsers.map(user => user.userId + "")
               }
             })
           })
