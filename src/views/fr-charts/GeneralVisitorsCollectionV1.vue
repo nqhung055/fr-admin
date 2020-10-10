@@ -271,7 +271,7 @@ export default {
       await this.$axios
         .get(url)
         .then(response => {
-          console.log(Object.entries(response.data).length);
+          console.log('data: ' + Object.entries(response.data).length);
         })
         .catch((error) => {
           this.errored = true;
