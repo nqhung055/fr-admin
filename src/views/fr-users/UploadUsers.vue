@@ -40,11 +40,11 @@
                     :placeholder="$t('message.uploadImagesPlaceHolder')"
                   ></v-file-input>
                 </v-col>
-                <v-col cols="12"> <!-- :items="connectedDevices" -->
+                <v-col cols="12">
                   <v-select
                     v-model="selectedDevices"
                     :rules="devicesRules"
-                    :items="['111']"
+                    :items="connectedDevices"
                     label="Upload To Devices"
                     multiple
                   ></v-select>
