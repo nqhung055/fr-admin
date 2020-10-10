@@ -51,7 +51,7 @@
       <visitors-line-chart
         :xLabel="this.xLabel[0]"
         :yLabel="this.yLabel"
-        :dataSets="this.sortingListLogs()"
+        :dataSets="this.lstVisitors"
         style="width: 100%; height: 330px;"
         v-show="selectedBtn == 'daily'"
       />
@@ -229,7 +229,8 @@ export default {
       dayTotalVisitors: 0,
       daySumRUs: 0,
       daySumGuests: 0,
-      TotalVisitors: 0,
+      lstVisitors: [],
+      totalVisitors: 0,
       SumRUs: 0,
       SumGuests: 0,
       monthTotalVisitors: 0,
@@ -271,7 +272,17 @@ export default {
       await this.$axios
         .get(url)
         .then(response => {
-          console.log('data: ' + Object.entries(response.data).length);
+          let listLogs = [];
+          // console.log('data: ' + Object.entries(response.data).length);
+          for (let [key, item] of Object.entries(response.data)) {
+            listLogs.push(item);
+            console.log('key: ' + key + ' - item: ' + item.label);
+              // Object.values(item).forEach((elm) => {
+              //   console.log('elm : ' + elm);
+              // })
+          }
+          this.lstVisitors = listLogs;
+          // console.log('ll: ' + listLogs.length);
         })
         .catch((error) => {
           this.errored = true;
