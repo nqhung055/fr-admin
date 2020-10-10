@@ -4,47 +4,47 @@
       <v-row>
         <v-col>
           <v-btn class="error mr-3" @click="showDay()">Day</v-btn>
-          <v-btn class="success mr-3" @click="showMonth()">Week</v-btn>
-          <v-btn class="primary" @click="showYear()">Month</v-btn>
+          <v-btn class="success mr-3" @click="showWeek()">Week</v-btn>
+          <v-btn class="primary" @click="showMonth()">Month</v-btn>
         </v-col>
-      <!-- <v-row justify="center">
+        <!-- <v-row justify="center">
         <v-date-picker v-model="picker"></v-date-picker>
       </v-row> -->
-      <v-col md="3">
-        <v-menu
-          v-model="menu2"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
+        <v-col md="3">
+          <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="date"
+                label="Select date"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
               v-model="date"
-              label="Select date"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="date"
-            @input="menu2 = false"
-          ></v-date-picker>
-        </v-menu>
-      </v-col>
-      <v-col md="3">
-        <v-select
+              @input="menu2 = false"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+        <v-col md="3">
+          <v-select
             v-model="numDataPoint"
             :items="dataPoint"
             label="Data Point"
             single-line
           >
-        </v-select>
-      </v-col>
-      <!-- <v-spacer></v-spacer> -->
+          </v-select>
+        </v-col>
+        <!-- <v-spacer></v-spacer> -->
       </v-row>
     </div>
     <div>
@@ -53,116 +53,149 @@
         :yLabel="this.yLabel"
         :dataSets="this.sortingListLogs()"
         style="width: 100%; height: 330px;"
-        v-show="selectedBtn == 'day'"
+        v-show="selectedBtn == 'daily'"
       />
-      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'day'">
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account primary--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.daySumRUs }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.employee')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account-o success--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.daySumGuests }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.stranger')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-accounts-add error--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.dayTotalVisitors }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.totalVisitors')}}</span>
-        </p>
-      </v-col>
-    </v-row>
-      <visitors-line-chart
-        style="width: 100%; height: 330px;"
-        :xLabel="this.xLabel[1]"
-        :yLabel="this.yLabel"
-        :dataSets="sortingListLogsByMonth()"
-        v-show="selectedBtn == 'month'"
-      />
-      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'month'">
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account primary--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.monthSumRUs }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.employee')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account-o success--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.monthSumGuests }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.stranger')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-accounts-add error--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.monthTotalVisitors }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.totalVisitors')}}</span>
-        </p>
-      </v-col>
-    </v-row>
+      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'daily'">
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account primary--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.daySumRUs }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.employee")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account-o success--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.daySumGuests }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.stranger")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-accounts-add error--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{
+              this.dayTotalVisitors
+            }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.totalVisitors")
+            }}</span>
+          </p>
+        </v-col>
+      </v-row>
       <visitors-line-chart
         style="width: 100%; height: 330px;"
         :xLabel="this.xLabel[2]"
         :yLabel="this.yLabel"
         :dataSets="this.sortingListLogsByYear()"
-        v-show="selectedBtn == 'year'"
+        v-show="selectedBtn == 'weekly'"
       />
+      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'weekly'">
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account primary--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.yearSumRUs }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.employee")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account-o success--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.yearSumGuests }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.stranger")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-accounts-add error--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{
+              this.yearTotalVisitors
+            }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.totalVisitors")
+            }}</span>
+          </p>
+        </v-col>
+      </v-row>
+      <visitors-line-chart
+        style="width: 100%; height: 330px;"
+        :xLabel="this.xLabel[1]"
+        :yLabel="this.yLabel"
+        :dataSets="sortingListLogsByMonth()"
+        v-show="selectedBtn == 'monthly'"
+      />
+      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'monthly'">
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account primary--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.monthSumRUs }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.employee")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-account-o success--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{ this.monthSumGuests }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.stranger")
+            }}</span>
+          </p>
+        </v-col>
+        <v-col cols="4" class="d-custom-flex">
+          <span class="mr-2">
+            <i class="zmdi zmdi-accounts-add error--text"></i>
+          </span>
+          <p class="mb-0">
+            <span class="d-block fs-14 fw-bold">{{
+              this.monthTotalVisitors
+            }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{
+              $t("message.totalVisitors")
+            }}</span>
+          </p>
+        </v-col>
+      </v-row>      
     </div>
-    <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'year'">
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account primary--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.yearSumRUs }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.employee')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-account-o success--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.yearSumGuests }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.stranger')}}</span>
-        </p>
-      </v-col>
-      <v-col cols="4" class="d-custom-flex">
-        <span class="mr-2">
-          <i class="zmdi zmdi-accounts-add error--text"></i>
-        </span>
-        <p class="mb-0">
-          <span class="d-block fs-14 fw-bold">{{ this.yearTotalVisitors }}</span>
-          <span class="d-block fs-12 grey--text fw-normal">{{$t('message.totalVisitors')}}</span>
-        </p>
-      </v-col>
-    </v-row>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import VisitorsLineChart from "./GeneralVisitorsLineChartV1";
-import { getCurrentAppLayout, groupByTime, groupByKey, reStructuredObject, sortDateASC, sortMonthASC, groupByYears, sortYearASC } from "Helpers/helpers";
+import {
+  getCurrentAppLayout,
+  groupByTime,
+  groupByKey,
+  reStructuredObject,
+  sortDateASC,
+  sortMonthASC,
+  groupByYears,
+  sortYearASC,
+} from "Helpers/helpers";
 
 export default {
   props: {
@@ -174,14 +207,20 @@ export default {
       type: String,
       default: () => "y-Axes",
     },
+    url: {
+      type: String,
+      default: () => "",
+    },
   },
   components: {
     VisitorsLineChart,
   },
   data() {
     return {
+      loading: true,
+      errored: false,
       panel: 0,
-      selectedBtn: "day",
+      selectedBtn: "daily",
       disabled: false,
       readonly: false,
       day: [10, 65, 40, 150, 40, 85, 30],
@@ -190,18 +229,22 @@ export default {
       dayTotalVisitors: 0,
       daySumRUs: 0,
       daySumGuests: 0,
+      TotalVisitors: 0,
+      SumRUs: 0,
+      SumGuests: 0,
       monthTotalVisitors: 0,
       monthSumRUs: 0,
       monthSumGuests: 0,
       yearTotalVisitors: 0,
       yearSumRUs: 0,
       yearSumGuests: 0,
-      // picker: new Date().toISOString().substr(0, 10),
       date: new Date().toISOString().substr(0, 10),
       menu: false,
       menu2: false,
       dataPoint: [5, 10, 15, 20, 25, 30],
-      numDataPoint:'',
+      numDataPoint: "",
+      strFullURL: "",
+      
     };
   },
   methods: {
@@ -209,13 +252,32 @@ export default {
       return getCurrentAppLayout(this.$router);
     },
     showDay() {
-      this.selectedBtn = "day";
+      this.selectedBtn = "daily";
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      console.log("url: " + this.strFullURL);
+      this.getVisitorSummary(this.strFullURL);
+    },
+    showWeek() {
+      this.selectedBtn = "weekly";
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      console.log("url: " + this.strFullURL);
     },
     showMonth() {
-      this.selectedBtn = "month";
+      this.selectedBtn = "monthly";
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      console.log("url: " + this.strFullURL);
     },
-    showYear() {
-      this.selectedBtn = "year";
+    async getVisitorSummary(url) {
+      await this.$axios
+        .get(url)
+        .then(response => {
+          console.log(Object.entries(response.data).length);
+        })
+        .catch((error) => {
+          this.errored = true;
+          console.log(error);
+        })
+        .finally(() => this.loading = false);
     },
     groupByType() {
       return groupByKey(
@@ -226,29 +288,51 @@ export default {
     groupedByDays() {
       return groupByTime(
         reStructuredObject(
-          JSON.parse(JSON.stringify([ this.objDLOYTD.rows, this.objDLO.rows, this.objDLORT.rows ]))
+          JSON.parse(
+            JSON.stringify([
+              this.objDLOYTD.rows,
+              this.objDLO.rows,
+              this.objDLORT.rows,
+            ])
+          )
         ),
         (day) =>
           day.date.getDate() +
           "-" +
           day.date.toLocaleString("en-us", { month: "short" }) +
           "-" +
-          day.date.getFullYear().toString().substring(2)
+          day.date
+            .getFullYear()
+            .toString()
+            .substring(2)
       );
     },
     groupedByDays1() {
       return groupByTime(
-        reStructuredObject(JSON.parse(JSON.stringify([this.objDLOYTD.rows, this.objDLO.rows, this.objDLORT.rows]))),
+        reStructuredObject(
+          JSON.parse(
+            JSON.stringify([
+              this.objDLOYTD.rows,
+              this.objDLO.rows,
+              this.objDLORT.rows,
+            ])
+          )
+        ),
         (day) =>
           day.date.getDate() +
           "-" +
           day.date.toLocaleString("en-us", { month: "short" }) +
           "-" +
-          day.date.getFullYear().toString().substring(2)
-      );      
+          day.date
+            .getFullYear()
+            .toString()
+            .substring(2)
+      );
     },
     sortingListLogs() {
-      let listLogs = []; let sumEmp = 0; let sumGuest = 0;
+      let listLogs = [];
+      let sumEmp = 0;
+      let sumGuest = 0;
 
       for (let [key, item] of Object.entries(this.groupedByDays1())) {
         listLogs.push({
@@ -257,12 +341,12 @@ export default {
         });
         Object.keys(groupByKey(item, "type")).forEach((key1) => {
           if (key1.toLowerCase() === "employee")
-            sumEmp +=  Object.values(groupByKey(item, "type")[key1]).length;
-          else
-            sumGuest +=  Object.values(groupByKey(item, "type")[key1]).length;
+            sumEmp += Object.values(groupByKey(item, "type")[key1]).length;
+          else sumGuest += Object.values(groupByKey(item, "type")[key1]).length;
         });
       }
-      this.daySumRUs = sumEmp; this.daySumGuests = sumGuest;
+      this.daySumRUs = sumEmp;
+      this.daySumGuests = sumGuest;
       this.dayTotalVisitors = sumEmp + sumGuest;
       // console.log("Emp: " + sumEmp + " - Guest: " + sumGuest);
       return sortDateASC(listLogs);
@@ -271,9 +355,13 @@ export default {
       Object.values(this.sortingListLogs()).forEach((elm) => {
         Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
           if (String(key).toLowerCase() === "employee")
-            this.sumRUs += Object.values(groupByKey(elm.data, "type")[key]).length;
+            this.sumRUs += Object.values(
+              groupByKey(elm.data, "type")[key]
+            ).length;
           else
-            this.sumGuests += Object.values(groupByKey(elm.data, "type")[key]).length;
+            this.sumGuests += Object.values(
+              groupByKey(elm.data, "type")[key]
+            ).length;
         });
       });
       // this.totalVisitors = this.sumRUs + this.sumGuests;
@@ -281,13 +369,28 @@ export default {
     },
     groupedByMonth() {
       return groupByTime(
-        reStructuredObject(JSON.parse(JSON.stringify([ this.objDLOYTD.rows, this.objDLO.rows, this.objDLORT.rows, this.objDLOJan.rows, this.objDLOFM.rows, this.objDLOMAM.rows]))),
-        (day) => day.date.toLocaleString("en-us", { month: "long" }) + "-" +
+        reStructuredObject(
+          JSON.parse(
+            JSON.stringify([
+              this.objDLOYTD.rows,
+              this.objDLO.rows,
+              this.objDLORT.rows,
+              this.objDLOJan.rows,
+              this.objDLOFM.rows,
+              this.objDLOMAM.rows,
+            ])
+          )
+        ),
+        (day) =>
+          day.date.toLocaleString("en-us", { month: "long" }) +
+          "-" +
           day.date.getFullYear().toString()
       );
     },
     sortingListLogsByMonth() {
-      let listLogs = []; let tEmp = 0; let tG = 0;
+      let listLogs = [];
+      let tEmp = 0;
+      let tG = 0;
       for (let [key, item] of Object.entries(this.groupedByMonth())) {
         listLogs.push({
           month: String(key),
@@ -295,37 +398,53 @@ export default {
         });
         Object.keys(groupByKey(item, "type")).forEach((key1) => {
           if (key1.toLowerCase() === "employee")
-            tEmp +=  Object.values(groupByKey(item, "type")[key1]).length;
-          else
-            tG +=  Object.values(groupByKey(item, "type")[key1]).length;
+            tEmp += Object.values(groupByKey(item, "type")[key1]).length;
+          else tG += Object.values(groupByKey(item, "type")[key1]).length;
         });
       }
-      this.monthSumRUs = tEmp; this.monthSumGuests = tG;
+      this.monthSumRUs = tEmp;
+      this.monthSumGuests = tG;
       this.monthTotalVisitors = tEmp + tG;
       // console.log("Emp: " + tEmp + " - Guest: " + tG);
       return sortMonthASC(listLogs);
     },
     groupedByYear() {
       return groupByYears(
-        reStructuredObject(JSON.parse(JSON.stringify([ this.objDLORT.rows, this.objDLOYTD.rows, this.objDLO.rows, this.objDLOJan.rows, this.objDLOFM.rows, this.objDLOMAM.rows, this.objDLOJan2018.rows, this.objDLOFM2019.rows, this.objDLOMAM2016.rows ]))),
+        reStructuredObject(
+          JSON.parse(
+            JSON.stringify([
+              this.objDLORT.rows,
+              this.objDLOYTD.rows,
+              this.objDLO.rows,
+              this.objDLOJan.rows,
+              this.objDLOFM.rows,
+              this.objDLOMAM.rows,
+              this.objDLOJan2018.rows,
+              this.objDLOFM2019.rows,
+              this.objDLOMAM2016.rows,
+            ])
+          )
+        ),
         (day) => day.date.getFullYear().toString()
       );
     },
     sortingListLogsByYear() {
-      let listLogs = []; let tEmp = 0; let tG = 0;
+      let listLogs = [];
+      let tEmp = 0;
+      let tG = 0;
       for (let [key, item] of Object.entries(this.groupedByYear())) {
         listLogs.push({
           y: String(key),
           data: item,
         });
-      Object.keys(groupByKey(item, "type")).forEach((key1) => {
+        Object.keys(groupByKey(item, "type")).forEach((key1) => {
           if (key1.toLowerCase() === "employee")
-            tEmp +=  Object.values(groupByKey(item, "type")[key1]).length;
-          else
-            tG +=  Object.values(groupByKey(item, "type")[key1]).length;
+            tEmp += Object.values(groupByKey(item, "type")[key1]).length;
+          else tG += Object.values(groupByKey(item, "type")[key1]).length;
         });
       }
-      this.yearSumRUs = tEmp; this.yearSumGuests = tG;
+      this.yearSumRUs = tEmp;
+      this.yearSumGuests = tG;
       this.yearTotalVisitors = tEmp + tG;
       return sortYearASC(listLogs);
     },
@@ -333,91 +452,105 @@ export default {
   mounted() {
     // this.sumVisitorsPerDay();
     // console.log(Object.keys(this.yearData).length);
+    this.numDataPoint = 5;
+    this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+    this.getVisitorSummary(this.strFullURL);
   },
   computed: {
-    ...mapGetters(["fDLOMAM", "fDLOMAM2016", "fDLOFM", "fDLOFM2019", "fDLOJan", "fDLOJan2018", "fDLOYTD", "fDLORT", "fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline" ]),
+    ...mapGetters([
+      "fDLOMAM",
+      "fDLOMAM2016",
+      "fDLOFM",
+      "fDLOFM2019",
+      "fDLOJan",
+      "fDLOJan2018",
+      "fDLOYTD",
+      "fDLORT",
+      "fDLO",
+      "fDetectionLogsOnline1",
+      "fDetectionLogsOffline",
+    ]),
     objDLOMAM: {
-      get: function () {
+      get: function() {
         return this.fDLOMAM;
       },
-      set: function () {
+      set: function() {
         return this.fDLOMAM;
       },
     },
     objDLOMAM2016: {
-      get: function () {
+      get: function() {
         return this.fDLOMAM2016;
       },
-      set: function () {
+      set: function() {
         return this.fDLOMAM2016;
       },
     },
     objDLOFM: {
-      get: function () {
+      get: function() {
         return this.fDLOFM;
       },
-      set: function () {
+      set: function() {
         return this.fDLOFM;
       },
     },
     objDLOFM2019: {
-      get: function () {
+      get: function() {
         return this.fDLOFM2019;
       },
-      set: function () {
+      set: function() {
         return this.fDLOFM2019;
       },
     },
     objDLOJan: {
-      get: function () {
+      get: function() {
         return this.fDLOJan;
       },
-      set: function () {
+      set: function() {
         return this.fDLOJan;
       },
     },
-    objDLOJan2018 : {
-      get: function () {
+    objDLOJan2018: {
+      get: function() {
         return this.fDLOJan2018;
       },
-      set: function () {
+      set: function() {
         return this.fDLOJan2018;
       },
     },
     objDLOYTD: {
-      get: function () {
+      get: function() {
         return this.fDLOYTD;
       },
-      set: function () {
+      set: function() {
         return this.fDLOYTD;
       },
     },
     objDLORT: {
-      get: function () {
+      get: function() {
         return this.fDLORT;
       },
-      set: function () {
+      set: function() {
         return this.fDLORT;
       },
     },
     objDLO: {
-      get: function () {
+      get: function() {
         return this.fDLO;
       },
-      set: function () {
+      set: function() {
         return this.fDLO;
       },
     },
     objDLOffline: {
-      get: function () {
+      get: function() {
         return this.fDetectionLogsOffline;
       },
-      set: function () {
+      set: function() {
         return this.fDetectionLogsOffline;
       },
     },
   },
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>
