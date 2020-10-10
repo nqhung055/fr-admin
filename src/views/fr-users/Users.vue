@@ -770,7 +770,7 @@ export default {
         userType: parseInt(user.userType),
         confidenceLevel: user.confidenceLevel,
         ic: user.icCard,
-        facePhoto: user.infoPhoto,
+        facePhoto: user.photo,
         allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
         expiredAt:
           user.validUntil && user.validUntil !== "forever"
