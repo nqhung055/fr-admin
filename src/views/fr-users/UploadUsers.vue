@@ -40,11 +40,11 @@
                     :placeholder="$t('message.uploadImagesPlaceHolder')"
                   ></v-file-input>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="12"> <!-- :items="connectedDevices" -->
                   <v-select
                     v-model="selectedDevices"
                     :rules="devicesRules"
-                    :items="connectedDevices"
+                    :items="['111']"
                     label="Upload To Devices"
                     multiple
                   ></v-select>
@@ -176,7 +176,20 @@ export default {
       uploadImages: [],
       isUploadDataValid: true,
       selectedDevices: [],
-      showConfirmDialog: false
+      showConfirmDialog: false,
+      defaultUser: {
+        devices: [],
+        userId: "",
+        name: "",
+        facePhoto: "",
+        phone: "",
+        allowPeriods: [],
+        userType: "",
+        confidenceLevel: 80,
+        ic: "",
+        effectFrom: "",
+        expiredAt: "" 
+      }
     }
   },
   mounted() {},
@@ -202,7 +215,7 @@ export default {
               confidenceLevel: rawUser['Personal confidence'],
               userType: rawUser['User type'],
               name: rawUser['Name'],
-              userId: parseInt(rawUser['Number']),
+              userId: rawUser['Number'],
               facePhoto: '',
               phone: rawUser['Cellphone number'],
               effectFrom: rawUser['Validity period']
@@ -224,7 +237,7 @@ export default {
           'load',
           () => {
             const users = this.uploadUsers.filter(
-              user => user.userId === parseInt(userId)
+              user => user.userId == userId
             )
             users.forEach(user => {
               user.facePhoto = reader.result
@@ -247,12 +260,18 @@ export default {
       try {
         if (isClearUserData) await this.deleteUserFromDevice()
 
-        await Promise.all(
-          this.uploadUsers.map(user => {
-            const userWithDevies = { ...user, devices: this.selectedDevices }
-            return this.$axios.post('/upload/user', userWithDevies)
-          })
-        )
+        for (let index = 0; index < this.uploadUsers.length; index++) {
+          const user = this.uploadUsers[index];
+          const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
+            await this.$axios.post('/upload/user', userWithDevies)
+        }
+        
+        // await Promise.all(
+        //   this.uploadUsers.map(user => {
+        //     const userWithDevies = { ...user, devices: this.selectedDevices }
+        //     return this.$axios.post('/upload/user', userWithDevies)
+        //   })
+        // )
 
         this.clearUploadedData()
         this.showConfirmDialog = false
