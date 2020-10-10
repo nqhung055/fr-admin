@@ -76,19 +76,18 @@ export default {
     let registeredUser = [];
     
     if (this.xLabel.includes("day")) {
-      Object.values(this.dataSets).forEach((elm) => {
-        lbls.push(elm.date);
-        Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
-          if (types.indexOf(key) === -1) types.push(key);
-          if (String(key).toLowerCase() === "employee")
-            registeredUser.push(
-              Object.values(groupByKey(elm.data, "type")[key]).length
-            );
-          else
-            guest.push(Object.values(groupByKey(elm.data, "type")[key]).length);
-          // console.log('Type: ' + String(key).toLowerCase() + ' - Items: ' + Object.values(groupByKey(elm.data, "type")[key]).length);
-        });
-      });
+      // Object.values(this.dataSets).forEach((elm) => {
+      //   lbls.push(elm.date);
+      //   Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
+      //     if (types.indexOf(key) === -1) types.push(key);
+      //     if (String(key).toLowerCase() === "employee")
+      //       registeredUser.push(
+      //         Object.values(groupByKey(elm.data, "type")[key]).length
+      //       );
+      //     else
+      //       guest.push(Object.values(groupByKey(elm.data, "type")[key]).length);
+      //   });
+      // });
     } else if (this.xLabel.includes("month")) {
       Object.values(this.dataSets).forEach((elm) => {
         lbls.push(new Date(elm.month).toLocaleString("en-us", { month: "short"}));

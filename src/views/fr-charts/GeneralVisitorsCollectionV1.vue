@@ -185,7 +185,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import VisitorsLineChart from "./GeneralVisitorsLineChartV1";
+import VisitorsLineChart from "./VisitorsLineChart";
 import {
   getCurrentAppLayout,
   groupByTime,
