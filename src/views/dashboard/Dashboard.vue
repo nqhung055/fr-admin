@@ -67,12 +67,13 @@
           :heading="$t('message.visitorsummaries')"
           customClasses="general-dashboard-doughnut-chart"
         >
-          <visitor-stat
+          <entry-sumary></entry-sumary>
+          <!-- <visitor-stat
             :total="Number(this.totalLogs)"
             :labels="visitorTypes"
             :data="[filteredByTypes[0].length, filteredByTypes[1].length]"
             :bgColor="[ChartConfig.color.lightGrey, ChartConfig.color.primary]"
-          />
+          /> -->
         </app-card>
       </v-row>
       <!-- Pass vs Fail temperature -->
@@ -144,7 +145,8 @@ import { groupByKey } from "Helpers/helpers"
 
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/GeneralVisitorsCollectionV1";
-import VisitorStat from "../fr-detection-logs/VisitorStat";
+// import VisitorStat from "../fr-detection-logs/VisitorStat";
+import EntrySumary from "./EntrySumary";
 import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
 // import IndexStatistics from "../commons/fr-statistics";
 
@@ -171,12 +173,13 @@ export default {
   components: {
     IndexesBlock,
     VisitorsCollection,
-    VisitorStat,
+    // VisitorStat,
+    EntrySumary,
     GeneralColumnChart,
     // IndexStatistics,
   },
   mounted() {
-     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
+    this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
     this.totalLogs = this.objDLOffline.rows.length;
     Object.keys(this.groupByType).forEach((key) => {
@@ -267,8 +270,8 @@ export default {
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
-          this.nPresentResidents = response.data["totalResidents"],
-          this.nPresentGuests = response.data["presentPeoples"],
+          this.nPresentResidents = response.data["presentResidents"],
+          this.nPresentGuests = response.data["presentGuests"],
           console.log("nTotalResidentskey: " + this.nTotalResidents + " - nPresentPeoples: " + this.nPresentPeoples + " - nPresentResidents: " + this.nPresentResidents + " - nPresentGuests: " + this.nPresentGuests)
         })
         .catch((error) => {
