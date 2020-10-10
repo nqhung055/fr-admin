@@ -215,7 +215,7 @@ export default {
               confidenceLevel: rawUser['Personal confidence'],
               userType: rawUser['User type'],
               name: rawUser['Name'],
-              userId: rawUser['Number'],
+              userId: rawUser['Number'] + "",
               facePhoto: '',
               phone: rawUser['Cellphone number'],
               effectFrom: rawUser['Validity period']
