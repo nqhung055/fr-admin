@@ -281,6 +281,7 @@ export default {
       console.log("url: " + this.strFullURL);
     },
     async getVisitorSummary(url) {
+      console.log('url: ' + url);
       await this.$axios
         .get(url)
         .then(response => {
