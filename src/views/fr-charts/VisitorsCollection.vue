@@ -51,7 +51,9 @@
       <visitors-line-chart
         :xLabel="this.xLabel[0]"
         :yLabel="this.yLabel"
-        :dataSets="this.lstVisitors"
+        :labels="this.arrLabels"
+        :ruPoints="this.arrRUPoints"
+        :gPoints="this.arrGPoints"
         style="width: 100%; height: 330px;"
         v-show="selectedBtn == 'daily'"
       />
@@ -61,7 +63,7 @@
             <i class="zmdi zmdi-account primary--text"></i>
           </span>
           <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.daySumRUs }}</span>
+            <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints }}</span>
             <span class="d-block fs-12 grey--text fw-normal">{{
               $t("message.employee")
             }}</span>
@@ -72,7 +74,7 @@
             <i class="zmdi zmdi-account-o success--text"></i>
           </span>
           <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.daySumGuests }}</span>
+            <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
             <span class="d-block fs-12 grey--text fw-normal">{{
               $t("message.stranger")
             }}</span>
@@ -83,12 +85,8 @@
             <i class="zmdi zmdi-accounts-add error--text"></i>
           </span>
           <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{
-              this.dayTotalVisitors
-            }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.totalVisitors")
-            }}</span>
+            <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints + this.sumGPoints }}</span>
+            <span class="d-block fs-12 grey--text fw-normal">{{ $t("message.totalVisitors") }}</span>
           </p>
         </v-col>
       </v-row>
@@ -246,8 +244,8 @@ export default {
       numDataPoint: "",
       strFullURL: "",
       arrLabels: [],
-      RUPoints: [],
-      GPoints: [],
+      arrRUPoints: [],
+      arrGPoints: [],
       sumRUPoints: 0,
       sumGPoints: 0,
     };
@@ -287,7 +285,7 @@ export default {
               // })
           }
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
-          console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + this.listGPoints + ' : ' + this.sumGPoints);
+          console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints.length + ' : ' + this.sumGPoints);
           // this.dayTotalVisitors = sumEmp + sumGuest;
           // this.lstVisitors = response.data;
           // console.log('ll: ' + listLogs.length);

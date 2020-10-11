@@ -22,6 +22,18 @@ export default {
       type: Array,
       default: [],
     },
+    labels: {
+      type: Array,
+      default: [],
+    },
+    ruPoints: {
+      type: Array,
+      default: [],
+    },
+    gPoints: {
+      type: Array,
+      default: [],
+    },
   },
   data() {
     return {
@@ -122,34 +134,24 @@ export default {
 
     this.renderChart(
       {
-        labels: lbls,
+        labels: this.labels,
         datasets: [
           {
             label:
-              String(types[0]).toLowerCase() === "registered_user"
-                ? "Residents"
-                : "Guests",
+              String(types[0]).toLowerCase() === "registered_user" ? "Residents" : "Guests",
             lineTension,
             borderColor:
-              String(types[0]).toLowerCase() === "registered_user"
-                ? ChartConfig.color.primary
-                : ChartConfig.color.warning,
+              String(types[0]).toLowerCase() === "registered_user" ? ChartConfig.color.primary : ChartConfig.color.warning,
             pointBorderColor:
-              String(types[0]).toLowerCase() === "registered_user"
-                ? ChartConfig.color.primary
-                : ChartConfig.color.warning,
+              String(types[0]).toLowerCase() === "registered_user" ? ChartConfig.color.primary : ChartConfig.color.warning,
             pointBorderWidth,
             pointRadius,
             fill: false,
             pointBackgroundColor:
-              String(types[0]).toLowerCase() === "registered_user"
-                ? ChartConfig.color.primary
-                : ChartConfig.color.warning,
+              String(types[0]).toLowerCase() === "registered_user" ? ChartConfig.color.primary : ChartConfig.color.warning,
             borderWidth,
             data:
-              String(types[0]).toLowerCase() === "registered_user"
-                ? registeredUser
-                : guest,
+              String(types[0]).toLowerCase() === "registered_user" ? this.ruPoints : this.gPoints,
           },
           {
             label:
