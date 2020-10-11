@@ -8,32 +8,33 @@ const pointBorderWidth = 2;
 
 export default {
   extends: Line,
-  props: {
-    xLabel: {
-      type: String,
-      default: "x-Axes",
-    },
-    yLabel: {
-      type: String,
-      default: "y-Axes",
-    },
-    dataSets: {
-      type: Array,
-      default: [],
-    },
-    dsLabels: {
-      type: Array,
-      default: [],
-    },
-    dsRUPoints: {
-      type: Array,
-      default: [],
-    },
-    dsGPoints: {
-      type: Array,
-      default: [],
-    },
-  },
+  // props: {
+  //   xLabel: {
+  //     type: String,
+  //     default: "x-Axes",
+  //   },
+  //   yLabel: {
+  //     type: String,
+  //     default: "y-Axes",
+  //   },
+  //   dataSets: {
+  //     type: Array,
+  //     default: [],
+  //   },
+  //   dsLabels: {
+  //     type: Array,
+  //     default: [],
+  //   },
+  //   dsRUPoints: {
+  //     type: Array,
+  //     default: [],
+  //   },
+  //   dsGPoints: {
+  //     type: Array,
+  //     default: [],
+  //   },
+  // },
+  props: ["xLabel", "yLabel", "dsLabels", "dsRUPoints", "dsGPoints"],
   data() {
     return {
       options: {
