@@ -149,7 +149,7 @@ import { ChartConfig } from "Constants/chart-config";
 import { groupByKey } from "Helpers/helpers"
 
 import IndexesBlock from "../commons/fr-dasboard-block";
-import VisitorsCollection from "../fr-charts/GeneralVisitorsCollectionV1";
+import VisitorsCollection from "../fr-charts/VisitorsCollection";
 import VisitorStat from "../fr-detection-logs/VisitorStat";
 // import EntrySumary from "./EntrySumary";
 import GeneralColumnChart from "../fr-charts/GeneralColumnChart";

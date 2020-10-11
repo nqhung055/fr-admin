@@ -276,7 +276,7 @@ export default {
           // console.log('data: ' + Object.entries(response.data).length);
           for (let [key, item] of Object.entries(response.data)) {
              listLogs.push(item);
-            // console.log('key: ' + key + ' - item: ' + item.label);
+            console.log('key: ' + key + ' - item: ' + item.label);
               // Object.values(item).forEach((elm) => {
               //   console.log('elm : ' + elm);
               // })

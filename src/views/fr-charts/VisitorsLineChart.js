@@ -74,7 +74,9 @@ export default {
     let types = [];
     let guest = [];
     let registeredUser = [];
-    
+    Object.values(this.dataSets).forEach(ds => {
+      console.log('label: ' = ds.label);
+    });
     if (this.xLabel.includes("day")) {
       // Object.values(this.dataSets).forEach((elm) => {
       //   lbls.push(elm.date);
@@ -124,28 +126,28 @@ export default {
         datasets: [
           {
             label:
-              String(types[0]).toLowerCase() === "employee"
-                ? "Registered Users"
+              String(types[0]).toLowerCase() === "registered_user"
+                ? "Residents"
                 : "Guests",
             lineTension,
             borderColor:
-              String(types[0]).toLowerCase() === "employee"
+              String(types[0]).toLowerCase() === "registered_user"
                 ? ChartConfig.color.primary
                 : ChartConfig.color.warning,
             pointBorderColor:
-              String(types[0]).toLowerCase() === "employee"
+              String(types[0]).toLowerCase() === "registered_user"
                 ? ChartConfig.color.primary
                 : ChartConfig.color.warning,
             pointBorderWidth,
             pointRadius,
             fill: false,
             pointBackgroundColor:
-              String(types[0]).toLowerCase() === "employee"
+              String(types[0]).toLowerCase() === "registered_user"
                 ? ChartConfig.color.primary
                 : ChartConfig.color.warning,
             borderWidth,
             data:
-              String(types[0]).toLowerCase() === "employee"
+              String(types[0]).toLowerCase() === "registered_user"
                 ? registeredUser
                 : guest,
           },
