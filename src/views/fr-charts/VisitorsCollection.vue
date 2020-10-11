@@ -245,9 +245,9 @@ export default {
       dataPoint: [5, 10, 15, 20, 25, 30],
       numDataPoint: "",
       strFullURL: "",
-      visitorLabels: [],
-      RUPoionts: [],
-      GPoionts: [],
+      arrLabels: [],
+      RUPoints: [],
+      GPoints: [],
       sumRUPoints: 0,
       sumGPoints: 0,
     };
@@ -286,8 +286,8 @@ export default {
               //   console.log('elm : ' + elm);
               // })
           }
-          this.sumRUPoints = sumRU; this.sumGPoints = sumG;
-            console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listRUPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints + ' : ' + this.sumGPoints);
+          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
+          console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + this.listGPoints + ' : ' + this.sumGPoints);
           // this.dayTotalVisitors = sumEmp + sumGuest;
           // this.lstVisitors = response.data;
           // console.log('ll: ' + listLogs.length);
