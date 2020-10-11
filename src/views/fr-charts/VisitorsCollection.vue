@@ -291,7 +291,7 @@ export default {
             sumRU += item[1].noStranger; sumG += item[1].noUser;
             // console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
           });
-          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
+          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;
           // this.arrLabels.forEach(elm => {
           //   console.log('Label: ' + elm);
           // })          
