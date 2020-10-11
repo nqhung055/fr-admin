@@ -1,6 +1,5 @@
 import { Line } from "vue-chartjs";
 import { ChartConfig } from "Constants/chart-config";
-import { groupByKey } from "Helpers/helpers"; //countGroupedByKey, sumValues,
 
 const lineTension = lineTension;
 const borderWidth = 3;
@@ -82,56 +81,7 @@ export default {
   },
   computed: {},
   mounted() {
-    let lbls = [];
     let types = ["registered_user", "stranger"];
-    let guest = [];
-    let registeredUser = [];
-    // Object.values(this.dataSets).forEach(ds => {
-    //   console.log('label: ' + ds.label);
-    // });
-    if (this.xLabel.includes("day")) {
-      // Object.values(this.dataSets).forEach((elm) => {
-      //   lbls.push(elm.date);
-      //   Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
-      //     if (types.indexOf(key) === -1) types.push(key);
-      //     if (String(key).toLowerCase() === "employee")
-      //       registeredUser.push(
-      //         Object.values(groupByKey(elm.data, "type")[key]).length
-      //       );
-      //     else
-      //       guest.push(Object.values(groupByKey(elm.data, "type")[key]).length);
-      //   });
-      // });
-    } else if (this.xLabel.includes("month")) {
-      Object.values(this.dataSets).forEach((elm) => {
-        lbls.push(new Date(elm.month).toLocaleString("en-us", { month: "short"}));
-        Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
-          if (types.indexOf(key) === -1) types.push(key);
-          if (String(key).toLowerCase() === "employee")
-            registeredUser.push(
-              Object.values(groupByKey(elm.data, "type")[key]).length
-            );
-          else
-            guest.push(Object.values(groupByKey(elm.data, "type")[key]).length);
-        //   console.log('Month - Type: ' + String(key).toLowerCase() + ' - Items: ' + Object.values(groupByKey(elm.data, "type")[key]).length);
-        });
-      });
-    } else if (this.xLabel.includes("year")) {
-      Object.values(this.dataSets).forEach((elm) => {
-        lbls.push(elm.y);
-        Object.keys(groupByKey(elm.data, "type")).forEach((key) => {
-          if (types.indexOf(key) === -1) types.push(key);
-          if (String(key).toLowerCase() === "employee")
-            registeredUser.push(
-              Object.values(groupByKey(elm.data, "type")[key]).length
-            );
-          else
-            guest.push(Object.values(groupByKey(elm.data, "type")[key]).length);
-          // console.log('Type: ' + String(key).toLowerCase() + ' - Items: ' + Object.values(groupByKey(elm.data, "type")[key]).length);
-        });
-      });
-    } 
-
     this.renderChart(
       {
         labels: this.dsLabels,
@@ -154,31 +104,20 @@ export default {
               String(types[0]).toLowerCase() === "registered_user" ? this.dsRUPoints : this.dsGPoints,
           },
           {
-            label:
-              String(types[1]).toLowerCase() === "stranger"
-                ? "Guests"
-                : "Registered Users",
+            label: String(types[1]).toLowerCase() === "stranger" ? "Guests" : "Residents",
             lineTension,
             borderColor:
-              String(types[1]).toLowerCase() === "stranger"
-                ? ChartConfig.color.warning
-                : ChartConfig.color.primary,
+              String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
             pointBorderColor:
-              String(types[1]).toLowerCase() === "stranger"
-                ? ChartConfig.color.warning
-                : ChartConfig.color.primary,
+              String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
             pointBorderWidth,
             pointRadius,
             fill: false,
             pointBackgroundColor:
-              String(types[1]).toLowerCase() === "stranger"
-                ? ChartConfig.color.warning
-                : ChartConfig.color.primary,
+              String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
             borderWidth,
             data:
-              String(types[1]).toLowerCase() === "stranger"
-                ? guest
-                : registeredUser,
+              String(types[1]).toLowerCase() === "stranger" ? this.dsGPoints : this.dsRUPoints,
           },
         ],
       },
