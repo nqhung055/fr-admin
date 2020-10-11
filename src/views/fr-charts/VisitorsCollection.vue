@@ -245,7 +245,11 @@ export default {
       dataPoint: [5, 10, 15, 20, 25, 30],
       numDataPoint: "",
       strFullURL: "",
-      
+      visitorLabels: [],
+      RUPoionts: [],
+      GPoionts: [],
+      sumRUPoints: 0,
+      sumGPoints: 0,
     };
   },
   methods: {
@@ -272,16 +276,20 @@ export default {
       await this.$axios
         .get(url)
         .then(response => {
-          let listLogs = [];
-          // console.log('data: ' + Object.entries(response.data).length);
+          let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
+          console.log('data: ' + Object.entries(response.data).length);
           for (let [key, item] of Object.entries(response.data)) {
-             listLogs.push(item);
-            console.log('key: ' + key + ' - item: ' + item.label);
+             listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
+            sumRU += item.noStranger; sumG += item.noUser;
+            console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
               // Object.values(item).forEach((elm) => {
               //   console.log('elm : ' + elm);
               // })
           }
-          this.lstVisitors = listLogs;
+          this.sumRUPoints = sumRU; this.sumGPoints = sumG;
+            console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listRUPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints + ' : ' + this.sumGPoints);
+          // this.dayTotalVisitors = sumEmp + sumGuest;
+          // this.lstVisitors = response.data;
           // console.log('ll: ' + listLogs.length);
         })
         .catch((error) => {

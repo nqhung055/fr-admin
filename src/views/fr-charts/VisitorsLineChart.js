@@ -74,9 +74,9 @@ export default {
     let types = [];
     let guest = [];
     let registeredUser = [];
-    Object.values(this.dataSets).forEach(ds => {
-      console.log('label: ' + ds.label);
-    });
+    // Object.values(this.dataSets).forEach(ds => {
+    //   console.log('label: ' + ds.label);
+    // });
     if (this.xLabel.includes("day")) {
       // Object.values(this.dataSets).forEach((elm) => {
       //   lbls.push(elm.date);
