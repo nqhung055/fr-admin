@@ -649,7 +649,7 @@ export default {
   statisticsByDay: 'Statistics by day',
   value: 'Value',
   today: 'Today:',
-  byTimes: 'Reporting by day, Reporting by month, Reporting by year',
+  byTimes: 'Reporting by day, Reporting by month, Reporting by week',
   hundredUnits: 'Hundred units',
   millionUnits: 'Million units',
   billionUnits: 'Billion units',

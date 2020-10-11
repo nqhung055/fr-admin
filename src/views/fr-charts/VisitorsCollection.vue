@@ -271,7 +271,6 @@ export default {
     showDay() {
       this.selectedBtn = "daily";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
-      console.log("url: " + this.strFullURL);
       this.getVisitorSummary(this.strFullURL);
     },
     showWeek() {
