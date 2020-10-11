@@ -47,138 +47,148 @@
         <!-- <v-spacer></v-spacer> -->
       </v-row>
     </div>
-    <div>
-      <visitors-line-chart
-        :xLabel="this.xLabel[0]"
-        :yLabel="this.yLabel"
-        :dsLabels="this.arrLabels"
-        :dsRUPoints="this.arrRUPoints"
-        :dsGPoints="this.arrGPoints"
-        style="width: 100%; height: 330px;"
-        v-show="selectedBtn == 'daily'"
-      />
-      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'daily'">
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account primary--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.employee")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account-o success--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.stranger")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-accounts-add error--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints + this.sumGPoints }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{ $t("message.totalVisitors") }}</span>
-          </p>
-        </v-col>
-      </v-row>
-      <!-- <visitors-line-chart
-        style="width: 100%; height: 330px;"
-        :xLabel="this.xLabel[2]"
-        :yLabel="this.yLabel"
-        :dataSets="this.sortingListLogsByYear()"
-        v-show="selectedBtn == 'weekly'"
-      />
-      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'weekly'">
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account primary--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.yearSumRUs }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.employee")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account-o success--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.yearSumGuests }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.stranger")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-accounts-add error--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{
-              this.yearTotalVisitors
-            }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.totalVisitors")
-            }}</span>
-          </p>
-        </v-col>
-      </v-row>
-      <visitors-line-chart
-        style="width: 100%; height: 330px;"
-        :xLabel="this.xLabel[1]"
-        :yLabel="this.yLabel"
-        :dataSets="sortingListLogsByMonth()"
-        v-show="selectedBtn == 'monthly'"
-      />
-      <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'monthly'">
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account primary--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.monthSumRUs }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.employee")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-account-o success--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{ this.monthSumGuests }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.stranger")
-            }}</span>
-          </p>
-        </v-col>
-        <v-col cols="4" class="d-custom-flex">
-          <span class="mr-2">
-            <i class="zmdi zmdi-accounts-add error--text"></i>
-          </span>
-          <p class="mb-0">
-            <span class="d-block fs-14 fw-bold">{{
-              this.monthTotalVisitors
-            }}</span>
-            <span class="d-block fs-12 grey--text fw-normal">{{
-              $t("message.totalVisitors")
-            }}</span>
-          </p>
-        </v-col>
-      </v-row>       -->
-    </div>
+    <div v-if="errored">
+        <p>{{ $t('message.getLogsError') }}</p>
+      </div>
+      <div v-else>
+        <div v-if="loading" class="pr-4">
+          {{ $t('message.loading') }}
+        </div>
+        <div v-else>
+          <div>
+            <visitors-line-chart
+              :xLabel="this.xLabel[0]"
+              :yLabel="this.yLabel"
+              :dsLabels="this.arrLabels"
+              :dsRUPoints="this.arrRUPoints"
+              :dsGPoints="this.arrGPoints"
+              style="width: 100%; height: 330px;"
+              v-show="selectedBtn == 'daily'"
+            />
+            <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'daily'">
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account primary--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.employee")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account-o success--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.stranger")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-accounts-add error--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints + this.sumGPoints }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{ $t("message.totalVisitors") }}</span>
+                </p>
+              </v-col>
+            </v-row>
+            <!-- <visitors-line-chart
+              style="width: 100%; height: 330px;"
+              :xLabel="this.xLabel[2]"
+              :yLabel="this.yLabel"
+              :dataSets="this.sortingListLogsByYear()"
+              v-show="selectedBtn == 'weekly'"
+            />
+            <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'weekly'">
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account primary--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.yearSumRUs }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.employee")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account-o success--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.yearSumGuests }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.stranger")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-accounts-add error--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{
+                    this.yearTotalVisitors
+                  }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.totalVisitors")
+                  }}</span>
+                </p>
+              </v-col>
+            </v-row>
+            <visitors-line-chart
+              style="width: 100%; height: 330px;"
+              :xLabel="this.xLabel[1]"
+              :yLabel="this.yLabel"
+              :dataSets="sortingListLogsByMonth()"
+              v-show="selectedBtn == 'monthly'"
+            />
+            <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'monthly'">
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account primary--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.monthSumRUs }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.employee")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-account-o success--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{ this.monthSumGuests }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.stranger")
+                  }}</span>
+                </p>
+              </v-col>
+              <v-col cols="4" class="d-custom-flex">
+                <span class="mr-2">
+                  <i class="zmdi zmdi-accounts-add error--text"></i>
+                </span>
+                <p class="mb-0">
+                  <span class="d-block fs-14 fw-bold">{{
+                    this.monthTotalVisitors
+                  }}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">{{
+                    $t("message.totalVisitors")
+                  }}</span>
+                </p>
+              </v-col>
+            </v-row>       -->
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 <script>
@@ -275,26 +285,16 @@ export default {
         .get(url)
         .then(response => {
           let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
-          // console.log('data: ' + Object.entries(response.data).length);
-          // for (let [key, item] of Object.entries(response.data)) {
-          //   listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
-          //   sumRU += item.noStranger; sumG += item.noUser;
-          //   console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
-          // }
           Object.entries(response.data).forEach((item) => {
             // console.log('key: ' + item[1].label);
             listLabels.push( item[1].label); listRUPoints.push( item[1].noStranger); listGPoints.push( item[1].noUser);
             sumRU += item[1].noStranger; sumG += item[1].noUser;
-            console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
+            // console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
           });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
-          this.arrLabels.forEach(elm => {
-            console.log('Label: ' + elm);
-          })
-          // console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints.length + ' : ' + this.sumGPoints);
-          // this.dayTotalVisitors = sumEmp + sumGuest;
-          // this.lstVisitors = response.data;
-          // console.log('ll: ' + listLogs.length);
+          // this.arrLabels.forEach(elm => {
+          //   console.log('Label: ' + elm);
+          // })          
         })
         .catch((error) => {
           this.errored = true;
