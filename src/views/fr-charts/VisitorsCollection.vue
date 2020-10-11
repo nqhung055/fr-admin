@@ -276,16 +276,21 @@ export default {
         .then(response => {
           let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
           // console.log('data: ' + Object.entries(response.data).length);
-          for (let [key, item] of Object.entries(response.data)) {
+          // for (let [key, item] of Object.entries(response.data)) {
+          //   listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
+          //   sumRU += item.noStranger; sumG += item.noUser;
+          //   console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
+          // }
+         Object.entries(response.data).forEach(item => {
             listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
             sumRU += item.noStranger; sumG += item.noUser;
-            console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
-              // Object.values(item).forEach((elm) => {
-              //   console.log('elm : ' + elm);
-              // })
-          }
+            console.log(' - label: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
+          });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
-          console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints.length + ' : ' + this.sumGPoints);
+          this.arrLabels.forEach(elm => {
+            console.log('Label: ' + elm);
+          })
+          // console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints.length + ' : ' + this.sumGPoints);
           // this.dayTotalVisitors = sumEmp + sumGuest;
           // this.lstVisitors = response.data;
           // console.log('ll: ' + listLogs.length);
