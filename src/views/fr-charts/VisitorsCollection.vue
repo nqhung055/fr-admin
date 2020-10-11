@@ -90,7 +90,7 @@
           </p>
         </v-col>
       </v-row>
-      <visitors-line-chart
+      <!-- <visitors-line-chart
         style="width: 100%; height: 330px;"
         :xLabel="this.xLabel[2]"
         :yLabel="this.yLabel"
@@ -177,7 +177,7 @@
             }}</span>
           </p>
         </v-col>
-      </v-row>      
+      </v-row>       -->
     </div>
   </div>
 </template>
