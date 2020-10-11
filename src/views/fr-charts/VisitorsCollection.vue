@@ -51,6 +51,7 @@
       <visitors-line-chart
         :xLabel="this.xLabel[0]"
         :yLabel="this.yLabel"
+        :dataSets="[]"
         :labels="this.arrLabels"
         :ruPoints="this.arrRUPoints"
         :gPoints="this.arrGPoints"

@@ -83,7 +83,7 @@ export default {
   computed: {},
   mounted() {
     let lbls = [];
-    let types = [];
+    let types = ["registered_user", "stranger"];
     let guest = [];
     let registeredUser = [];
     // Object.values(this.dataSets).forEach(ds => {
