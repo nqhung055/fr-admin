@@ -55,6 +55,7 @@
             colClasses="col-xl-8 col-lg-7 col-md-7 col-sm-6 col-12"
             customClasses="mb-0 sales-widget"
             :fullBlock="false"
+            :reloadable="true"
           >
             <div v-if="loading" class="pr-4">
               {{ $t('message.loading') }}
