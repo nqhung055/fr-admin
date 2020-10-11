@@ -25,6 +25,7 @@
               return-object
               multiple
               @input="getVistorData(selectedDevices)"
+              @change="changeSelectedDevices"
             >
               <template v-slot:prepend-item>
                 <v-list-item ripple @click="selectAllDevices">
@@ -62,6 +63,7 @@
              </div>
            <div v-else>
               <visitors-collection
+                ref="visitorChart"
                 :url="this.strGetVisitorSummary"
                 :xLabel="$t('message.byTimes').split(', ')"
                 :yLabel="$t('message.hundredUnits')" />
@@ -241,6 +243,9 @@ export default {
     
   },
   methods: {
+    changeSelectedDevices() {
+      this.$refs.visitorChart.getVisitorSummary(this.getVisitorSummary(this.selectedDevices))
+    },
     async getDevices() {
       await this.$axios
         .get("/registered/device/list")
