@@ -77,7 +77,7 @@ export default {
   },
   computed: {},
   mounted() {
-    let types = ["stranger", "residents"];
+    let types = ["residents","stranger"];
     this.renderChart(
       {
         labels: this.dsLabels,
