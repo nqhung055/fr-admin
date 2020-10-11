@@ -83,7 +83,7 @@ export default {
   computed: {},
   mounted() {
     let types = ["registered_user", "stranger"];
-    console.log('dsLabels: ' + this.dsLabels.length);
+    console.log('xLabel: ' + this.xLabel + ' - yLabel: ' + this.yLabel);
     this.renderChart(
       {
         labels: this.dsLabels,

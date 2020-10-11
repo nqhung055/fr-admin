@@ -275,9 +275,9 @@ export default {
         .get(url)
         .then(response => {
           let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
-          console.log('data: ' + Object.entries(response.data).length);
+          // console.log('data: ' + Object.entries(response.data).length);
           for (let [key, item] of Object.entries(response.data)) {
-             listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
+            listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
             sumRU += item.noStranger; sumG += item.noUser;
             console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
               // Object.values(item).forEach((elm) => {
