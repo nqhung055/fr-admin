@@ -281,16 +281,16 @@ export default {
           //   sumRU += item.noStranger; sumG += item.noUser;
           //   console.log('key: ' + key + ' - item: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
           // }
-          Object.entries(response.data).forEach((key) => {
-            console.log('key: ' + key.label);
-            // listLabels.push( item.label); listRUPoints.push( item.noStranger); listGPoints.push( item.noUser);
-            // sumRU += item.noStranger; sumG += item.noUser;
-            // console.log(' - label: ' + item.label + ' - noStranger: ' + item.noStranger + ' - noUser: ' + item.noUser);
+          Object.entries(response.data).forEach((item) => {
+            // console.log('key: ' + item[1].label);
+            listLabels.push( item[1].label); listRUPoints.push( item[1].noStranger); listGPoints.push( item[1].noUser);
+            sumRU += item[1].noStranger; sumG += item[1].noUser;
+            console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
           });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.RUPoints = listRUPoints; this.GPoints = listGPoints;
-          // this.arrLabels.forEach(elm => {
-          //   console.log('Label: ' + elm);
-          // })
+          this.arrLabels.forEach(elm => {
+            console.log('Label: ' + elm);
+          })
           // console.log('listLabels: ' + listLabels.length + ' - listRUPoints: ' + listGPoints.length + ' : ' + this.sumRUPoints + ' - listGPoints: ' + listGPoints.length + ' : ' + this.sumGPoints);
           // this.dayTotalVisitors = sumEmp + sumGuest;
           // this.lstVisitors = response.data;
