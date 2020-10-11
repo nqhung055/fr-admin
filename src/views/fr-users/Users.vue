@@ -592,7 +592,6 @@ export default {
         ],
         id: [
           (id) => !!id || "ID is required",
-          (id) => !isNaN(id) || "ID must be a number",
         ],
         ic: [(ic) => !!ic || "IC Card is required"],
         confidenceLevel: [

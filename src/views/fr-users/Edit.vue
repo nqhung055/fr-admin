@@ -305,8 +305,7 @@ export default {
             name => !!name || 'Name is required',
             name => (name && name.length <= 10) || 'Name must be less than 10 characters',
           ],
-          id: [ 
-            id => !!id || 'ID is required',
+          id: [
             id => !isNaN(id) || 'ID must be a number'
           ],
           ic: [ 
