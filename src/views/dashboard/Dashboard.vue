@@ -77,7 +77,7 @@
               :total="Number(this.totalLogs)"
               :labels="visitorTypes"
               :data="[filteredByTypes[0].length, filteredByTypes[1].length]"
-              :bgColor="[ChartConfig.color.lightGrey, ChartConfig.color.primary]"
+              :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
             />
           </app-card>
         </v-row>
