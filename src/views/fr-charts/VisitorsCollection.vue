@@ -98,11 +98,13 @@
                 </p>
               </v-col>
             </v-row>
-            <!-- <visitors-line-chart
+            <visitors-line-chart
               style="width: 100%; height: 330px;"
               :xLabel="this.xLabel[2]"
               :yLabel="this.yLabel"
-              :dataSets="this.sortingListLogsByYear()"
+              :dsLabels="this.arrLabels"
+              :dsRUPoints="this.arrRUPoints"
+              :dsGPoints="this.arrGPoints"
               v-show="selectedBtn == 'weekly'"
             />
             <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'weekly'">
@@ -111,7 +113,7 @@
                   <i class="zmdi zmdi-account primary--text"></i>
                 </span>
                 <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">{{ this.yearSumRUs }}</span>
+                  <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.employee")
                   }}</span>
@@ -122,7 +124,7 @@
                   <i class="zmdi zmdi-account-o success--text"></i>
                 </span>
                 <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">{{ this.yearSumGuests }}</span>
+                  <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.stranger")
                   }}</span>
@@ -134,7 +136,7 @@
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">{{
-                    this.yearTotalVisitors
+                    this.sumRUPoints + this.sumGPoints
                   }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.totalVisitors")
@@ -146,7 +148,9 @@
               style="width: 100%; height: 330px;"
               :xLabel="this.xLabel[1]"
               :yLabel="this.yLabel"
-              :dataSets="sortingListLogsByMonth()"
+              :dsLabels="this.arrLabels"
+              :dsRUPoints="this.arrRUPoints"
+              :dsGPoints="this.arrGPoints"
               v-show="selectedBtn == 'monthly'"
             />
             <v-row class="cart-wrap hidden-only pl-6" v-show="selectedBtn == 'monthly'">
@@ -155,7 +159,7 @@
                   <i class="zmdi zmdi-account primary--text"></i>
                 </span>
                 <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">{{ this.monthSumRUs }}</span>
+                  <span class="d-block fs-14 fw-bold">{{ this.sumRUPoints }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.employee")
                   }}</span>
@@ -166,7 +170,7 @@
                   <i class="zmdi zmdi-account-o success--text"></i>
                 </span>
                 <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">{{ this.monthSumGuests }}</span>
+                  <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.stranger")
                   }}</span>
@@ -178,14 +182,14 @@
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">{{
-                    this.monthTotalVisitors
+                    this.sumRUPoints + this.sumGPoints
                   }}</span>
                   <span class="d-block fs-12 grey--text fw-normal">{{
                     $t("message.totalVisitors")
                   }}</span>
                 </p>
               </v-col>
-            </v-row>       -->
+            </v-row>      
           </div>
         </div>
       </div>
@@ -273,12 +277,12 @@ export default {
     showWeek() {
       this.selectedBtn = "weekly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
-      console.log("url: " + this.strFullURL);
+      this.getVisitorSummary(this.strFullURL);
     },
     showMonth() {
       this.selectedBtn = "monthly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
-      console.log("url: " + this.strFullURL);
+      this.getVisitorSummary(this.strFullURL);
     },
     async getVisitorSummary(url) {
       console.log('url: ' + url);
@@ -287,18 +291,10 @@ export default {
         .then(response => {
           let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
           Object.entries(response.data).forEach((item) => {
-            // console.log('key: ' + item[1].label);
             listLabels.push( item[1].label); listRUPoints.push( item[1].noStranger); listGPoints.push( item[1].noUser);
             sumRU += item[1].noStranger; sumG += item[1].noUser;
-            // console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
           });
-          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;
-          this.arrRUPoints.forEach(elm => {
-            console.log('arrRUPoints: ' + elm);
-          })
-          this.arrGPoints.forEach(elm => {
-            console.log('arrGPoints: ' + elm);
-          })          
+          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;                 
         })
         .catch((error) => {
           this.errored = true;
