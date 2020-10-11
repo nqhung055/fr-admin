@@ -244,7 +244,7 @@ export default {
   },
   methods: {
     changeSelectedDevices() {
-      this.$refs.visitorChart.getVisitorSummary(this.getVisitorSummary(this.selectedDevices))
+      this.$refs.visitorChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
     },
     async getDevices() {
       await this.$axios

@@ -283,6 +283,12 @@ export default {
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
     },
+    getParams() {
+      return "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+    },
+    reloadWithDefaultUrl(url) {
+      this.getVisitorSummary(url + this.getParams());
+    },
     async getVisitorSummary(url) {
       console.log('url: ' + url);
       await this.$axios
