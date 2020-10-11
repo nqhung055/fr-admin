@@ -22,15 +22,15 @@ export default {
       type: Array,
       default: [],
     },
-    labels: {
+    dsLabels: {
       type: Array,
       default: [],
     },
-    ruPoints: {
+    dsRUPoints: {
       type: Array,
       default: [],
     },
-    gPoints: {
+    dsGPoints: {
       type: Array,
       default: [],
     },
@@ -134,7 +134,7 @@ export default {
 
     this.renderChart(
       {
-        labels: this.labels,
+        labels: this.dsLabels,
         datasets: [
           {
             label:
@@ -151,7 +151,7 @@ export default {
               String(types[0]).toLowerCase() === "registered_user" ? ChartConfig.color.primary : ChartConfig.color.warning,
             borderWidth,
             data:
-              String(types[0]).toLowerCase() === "registered_user" ? this.ruPoints : this.gPoints,
+              String(types[0]).toLowerCase() === "registered_user" ? this.dsRUPoints : this.dsGPoints,
           },
           {
             label:

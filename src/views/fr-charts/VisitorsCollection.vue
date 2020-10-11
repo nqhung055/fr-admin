@@ -52,9 +52,9 @@
         :xLabel="this.xLabel[0]"
         :yLabel="this.yLabel"
         :dataSets="[]"
-        :labels="this.arrLabels"
-        :ruPoints="this.arrRUPoints"
-        :gPoints="this.arrGPoints"
+        :dsLabels="this.arrLabels"
+        :dsRUPoints="this.arrRUPoints"
+        :dsGPoints="this.arrGPoints"
         style="width: 100%; height: 330px;"
         v-show="selectedBtn == 'daily'"
       />
