@@ -292,9 +292,12 @@ export default {
             // console.log(' - label: ' + item[1].label + ' - noStranger: ' + item[1].noStranger + ' - noUser: ' + item[1].noUser);
           });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;
-          // this.arrLabels.forEach(elm => {
-          //   console.log('Label: ' + elm);
-          // })          
+          this.arrRUPoints.forEach(elm => {
+            console.log('arrRUPoints: ' + elm);
+          })
+          this.arrGPoints.forEach(elm => {
+            console.log('arrGPoints: ' + elm);
+          })          
         })
         .catch((error) => {
           this.errored = true;
