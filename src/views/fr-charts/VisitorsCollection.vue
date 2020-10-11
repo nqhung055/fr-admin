@@ -291,7 +291,7 @@ export default {
         .then(response => {
           let listLabels = []; let listRUPoints = []; let listGPoints = []; let sumRU = 0; let sumG = 0;
           Object.entries(response.data).forEach((item) => {
-            listLabels.push( item[1].label); listRUPoints.push( item[1].noStranger); listGPoints.push( item[1].noUser);
+            listLabels.push( item[1].label); listRUPoints.push( item[1].noUser); listGPoints.push( item[1].noStranger);
             sumRU += item[1].noStranger; sumG += item[1].noUser;
           });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;                 
