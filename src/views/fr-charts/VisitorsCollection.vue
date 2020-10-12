@@ -299,7 +299,8 @@ export default {
             listLabels.push( item[1].label); listRUPoints.push( item[1].noUser); listGPoints.push( item[1].noStranger);
             sumRU += item[1].noUser; sumG += item[1].noStranger;
           });
-          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;                 
+          this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;
+          this.$emit('changeParams', response.data);
         })
         .catch((error) => {
           this.errored = true;

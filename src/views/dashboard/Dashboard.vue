@@ -63,10 +63,11 @@
              </div>
            <div v-else>
               <visitors-collection
-                ref="visitorChart"
+                ref="visitorLineChart"
                 :url="this.strGetVisitorSummary"
                 :xLabel="$t('message.byTimes').split(', ')"
-                :yLabel="$t('message.hundredUnits')" />
+                :yLabel="$t('message.hundredUnits')"
+                @changeParams="reloadPieChart"/>                
           </div>
           </app-card>
           <app-card
@@ -76,9 +77,10 @@
           >
             <!-- <entry-sumary></entry-sumary> -->
             <visitor-stat
-              :total="Number(this.totalLogs)"
+              ref="visitorPieChart"
               :labels="visitorTypes"
-              :data="[filteredByTypes[0].length, filteredByTypes[1].length]"
+              :data="pieChartData"
+              :total="pieChartData[0] + pieChartData[1]"
               :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
             />
           </app-card>
@@ -177,6 +179,7 @@ export default {
       visitorTypes: [],
       ChartConfig,
       strGetVisitorSummary: 'http://13.212.11.234:8081/visitor-summary?deviceIds=',
+      pieChartData: [30, 50]
     };
   },
   components: {
@@ -190,7 +193,7 @@ export default {
   mounted() {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0"; //this.strGetVisitorSummary = "http://localhost:8081/visitor-summary?deviceIds=";
     this.getDevices();
-    this.totalLogs = this.objDLOffline.rows.length;
+    // this.totalLogs = this.objDLOffline.rows.length;
     Object.keys(this.groupByType).forEach((key) => {
       this.visitorTypes.push(key);
     });
@@ -234,6 +237,7 @@ export default {
       arrGuest = this.objDLOffline.rows.filter(
         (item) => item.type.toLowerCase().trim() === "employee"
       );
+      console.log(238, [arrRU, arrGuest]);
 
       return [arrRU, arrGuest];
     },
@@ -244,7 +248,7 @@ export default {
   },
   methods: {
     changeSelectedDevices() {
-      this.$refs.visitorChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
+      this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
     },
     async getDevices() {
       await this.$axios
@@ -308,6 +312,17 @@ export default {
         return this.strGetVisitorSummary
       }
       
+    },
+    reloadPieChart(data) {
+      const total = data.reduce((total, unitData) => {
+        const { noStranger, noUser } = unitData
+        total.totalStranger = total.totalStranger + noStranger
+        total.totalUser = total.totalUser + noUser
+        return total
+      }, { totalStranger: 0, totalUser: 0 })
+
+      this.pieChartData = [ total.totalStranger, total.totalUser ]
+      this.$refs.visitorPieChart.reloadPieChart()
     }
   },
 };

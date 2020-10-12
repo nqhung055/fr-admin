@@ -15,6 +15,20 @@ export default {
 			}
 		}
 	},
+	computed: {
+		// renderChart() {
+		// 	const { labels, data, backgroundColor } = this.data;
+		// 	this.renderChart({
+		// 		labels,
+		// 		datasets: [{
+		// 			data,
+		// 			backgroundColor,
+		// 			borderWidth: [0, 0, 0],
+		// 			hoverBackgroundColor: backgroundColor
+		// 		}]
+		// 	}, this.options)
+		// }
+	},
 	mounted() {
 		// console.log('data: ' + this.data);
 		const { labels, data, backgroundColor } = this.data;
