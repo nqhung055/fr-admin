@@ -77,7 +77,7 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log('xLabel: ' + this.xLabel);
+    // console.log('xLabel: ' + this.xLabel);
     let types = ["residents","stranger"];
     this.renderChart(
       {

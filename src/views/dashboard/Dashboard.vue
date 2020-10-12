@@ -176,7 +176,7 @@ export default {
       totalLogs: Number,
       visitorTypes: [],
       ChartConfig,
-      strGetVisitorSummary: 'http://localhost:8081/visitor-summary?deviceIds=',
+      strGetVisitorSummary: 'http://13.212.11.234:8081/visitor-summary?deviceIds=',
     };
   },
   components: {
@@ -251,8 +251,14 @@ export default {
         .get("/registered/device/list")
         .then((response) => {
           this.selectedDevices = response.data;
-          this.getVisitorSummary(response.data);
-          return this.devices = response.data;
+          Object.values(response.data).forEach(dv => {
+            if (this.devices.indexOf(dv) === -1) this.devices.push(dv);
+          });
+          this.getVisitorSummary(this.devices);
+          this.devices.forEach(dv => {
+            console.log('Dashboard > dv: ' + dv);
+          });
+          return this.devices;
         })
         .catch((error) => {
           this.errored = true;
@@ -282,7 +288,7 @@ export default {
         strDevices += dt + ",";
       });
       await this.$axios
-        .get('http://localhost:8081/users-summary?deviceIds=' + strDevices)
+        .get('http://13.212.11.234:8081/users-summary?deviceIds=' + strDevices)
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
@@ -294,16 +300,12 @@ export default {
           console.log(error);
         })
         .finally();
-        // "totalResidents": 2,
-        // "presentPeoples": 2,
-        // "presentResidents": 1,
-        // "presentGuests": 1
     },
     getVisitorSummary(arrDevices) {
-      let strDevices = ""; this.strGetVisitorSummary = 'http://localhost:8081/visitor-summary?deviceIds=';
+      let strDevices = ""; this.strGetVisitorSummary = 'http://13.212.11.234:8081/visitor-summary?deviceIds=';
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
-          strDevices += dv + ",";
+          if (strDevices.indexOf(dv) === -1) strDevices += dv + ",";
         });
         this.strGetVisitorSummary += strDevices;
         return this.strGetVisitorSummary

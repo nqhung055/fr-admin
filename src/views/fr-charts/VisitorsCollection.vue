@@ -290,7 +290,7 @@ export default {
       this.getVisitorSummary(url + this.getParams());
     },
     async getVisitorSummary(url) {
-      console.log('url: ' + url);
+      console.log('Visitor Collection > url: ' + url);
       await this.$axios
         .get(url)
         .then(response => {
