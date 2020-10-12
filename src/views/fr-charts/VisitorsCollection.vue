@@ -32,6 +32,7 @@
             <v-date-picker
               v-model="date"
               @input="menu2 = false"
+              @change="changeDate"
             ></v-date-picker>
           </v-menu>
         </v-col>
@@ -41,6 +42,7 @@
             :items="dataPoint"
             label="Data Point"
             single-line
+            @change="changeDate"
           >
           </v-select>
         </v-col>
@@ -280,6 +282,10 @@ export default {
     },
     showMonth() {
       this.selectedBtn = "monthly";
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      this.getVisitorSummary(this.strFullURL);
+    },
+    changeDate() {
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
     },
