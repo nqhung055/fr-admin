@@ -255,9 +255,6 @@ export default {
             if (this.devices.indexOf(dv) === -1) this.devices.push(dv);
           });
           this.getVisitorSummary(this.devices);
-          this.devices.forEach(dv => {
-            console.log('Dashboard > dv: ' + dv);
-          });
           return this.devices;
         })
         .catch((error) => {
@@ -305,7 +302,7 @@ export default {
       let strDevices = ""; this.strGetVisitorSummary = 'http://13.212.11.234:8081/visitor-summary?deviceIds=';
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
-          if (strDevices.indexOf(dv) === -1) strDevices += dv + ",";
+          strDevices += dv + ",";
         });
         this.strGetVisitorSummary += strDevices;
         return this.strGetVisitorSummary
