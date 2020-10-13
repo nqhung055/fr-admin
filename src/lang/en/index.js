@@ -657,7 +657,7 @@ export default {
   loading: 'Loading ...',
   selectDevice: 'Select Device',
   totalResident: '#No Resident',
-  currentTotalPeople: '#No Rresent People',
+  currentTotalPeople: '#No Present People',
   currentTotalResidents: '#No Present Residents',
   currentTotalGuests: '#No Present Guests',
 }
