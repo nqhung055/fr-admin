@@ -623,7 +623,7 @@ export default {
   temperaturesReport: 'Temperatures',
   visitorCollection: 'Resident Vs Guest Entries.',
   visitorsummaries: 'Entry Summary',
-  temperatureScreening: 'Entry Pass/Fail Breakdown',
+  temperatureScreening: 'Entry Temperature Scanning ',
   temperatureScreeningMonthly: 'Entry Pass vs Failed temperature monthly screening',
   temperatureScreeningDaily: 'Entry Pass vs Failed temperature daily screening',
   temperatureScreeningHourly: 'Entry Pass vs Failed temperature hourly screening',

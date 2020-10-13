@@ -37,7 +37,7 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: true,
-          data: ["Project 1", "Project 2", "Project 3", "Project 4"],
+          data: ["2020-10-13", "2020-10-12", "2020-10-11", "2020-10-13=0"],
         },
         yAxis: {
           type: "value",
