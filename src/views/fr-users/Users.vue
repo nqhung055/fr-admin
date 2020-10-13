@@ -219,6 +219,15 @@
                             ></v-text-field>
                           </div>
                         </v-col>
+                        <v-col cols="12" class="user-block">
+                          <v-select
+                            v-model="newUser.block_id"
+                            :items="userBlocks"
+                            item-text="label"
+                            item-value="value"
+                            label="Block"
+                          ></v-select>
+                        </v-col>
                       </v-row>
                     </v-col>
                     <v-col cols="6" class="continer-user-right">
@@ -609,6 +618,7 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
+      userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ]
     };
   },
   mounted() {
@@ -689,6 +699,8 @@ export default {
       };
 
       const addResponse = await this.$axios.post("/upload/user", this.newUser);
+      const updateResponse = await this.$axios.patch(`http://localhost:8081/users/${this.newUser.userId}`, { block_id: this.newUser.block_id });
+      console.log(703, updateResponse);
       if (addResponse.status === 200) {
         this.renewUser();
         this.showNewUserDialog = false;
