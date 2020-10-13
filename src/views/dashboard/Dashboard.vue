@@ -191,6 +191,7 @@ export default {
   mounted() {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
+    this.getUsersSummary();
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
@@ -343,6 +344,20 @@ export default {
 
       this.temperatureChartData = [ total.totalStranger, total.totalUser ]
       this.$refs.temperature.reloadTemperature()
+    },
+    async getUsersSummary() {
+      await this.$axios
+        .get('http://13.212.11.234:8081/users-summary?deviceIds=')
+        .then(response => {
+          this.nTotalResidents = response.data["totalResidents"],
+          this.nPresentPeoples = response.data["presentPeoples"],
+          this.nPresentResidents = response.data["presentResidents"],
+          this.nPresentGuests = response.data["presentGuests"]
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally();
     }
   },
 };
