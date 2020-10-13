@@ -271,16 +271,21 @@ export default {
       return getCurrentAppLayout(this.$router);
     },
     showDay() {
+      this.dataPoint = [5, 10, 15, 20, 25, 30];
+      this.numDataPoint = 5;
       this.selectedBtn = "daily";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
     },
     showWeek() {
+      this.dataPoint = [1, 2, 3, 4, 5, 6];
+      this.numDataPoint = 1;
       this.selectedBtn = "weekly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
     },
     showMonth() {
+      this.dataPoint = [1, 2, 3, 4, 5, 6];
       this.selectedBtn = "monthly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
