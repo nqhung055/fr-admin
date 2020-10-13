@@ -2,12 +2,12 @@
   <app-card>
     <div class="d-custom-flex justify-space-between">
       <div>
-        <h4>{{title}}</h4>
+        <h5>{{title}}</h5>
         <v-row justify="center">
-          <h1 class="mb-2">
+          <h3 class="mb-2">
             {{value}}
             <!-- <i :class="[{'ti-arrow-up success--text ml-2': status === 1, 'ti-arrow-down warning--text ml-2': status === 0 }]" /> -->
-          </h1>
+          </h3>
         </v-row>
       </div>
     </div>
