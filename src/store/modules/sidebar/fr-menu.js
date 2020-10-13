@@ -1,15 +1,17 @@
 // Sidebar Routers
 export const menus = {
-	"": [
+	"":[
 			{
-				action: "zmdi-view-dashboard",
+				// action: "zmdi-view-dashboard",
+				// hiddenOnCollapse: true,
+				// header: true,
 				title: "message.dashboard",
 				path: '/dashboard/dashboard.html',
 				active: true,
 				label: "Old"
 			},
 			{
-				action: "zmdi zmdi-account",
+				// action: "zmdi zmdi-account",
 				title: "message.users",
 				path: "/default/users/user-list.html",
 				label: "Old",
@@ -17,7 +19,7 @@ export const menus = {
 				active: false
 			},
 			{
-				action: "zmdi zmdi-account",
+				// action: "zmdi zmdi-account",
 				title: "message.report",
 				path: "/default/users/reports.html",
 				label: "Old",
@@ -25,7 +27,7 @@ export const menus = {
 				active: false,
 			},
 			{
-				action: "zmdi zmdi-account",
+				// action: "zmdi zmdi-account",
 				title: "message.deviceManagement",
 				path: '/default/users/device-management.html',
 				label: "Old",

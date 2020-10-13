@@ -81,7 +81,7 @@
               </v-col>
               <v-col cols="4" class="d-custom-flex">
                 <span class="mr-2">
-                  <i class="zmdi zmdi-account-o success--text"></i>
+                  <i class="zmdi zmdi-account-o warning--text"></i>
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>

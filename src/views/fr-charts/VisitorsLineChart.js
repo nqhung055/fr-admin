@@ -84,7 +84,7 @@ export default {
         labels: this.dsLabels,
         datasets: [
           {
-            label: String(types[0]).toLowerCase() === "residents" ? "Residents" : "Guests",
+            label: String(types[0]).toLowerCase() === "residents" ? "Registered User" : "Guest",
             lineTension,
             borderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
             pointBorderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
@@ -96,7 +96,7 @@ export default {
             data: String(types[0]).toLowerCase() === "residents" ? this.dsRUPoints : this.dsGPoints,
           },
           {
-            label: String(types[1]).toLowerCase() === "stranger" ? "Guests" : "Residents",
+            label: String(types[1]).toLowerCase() === "stranger" ? "Guest" : "Registered User",
             lineTension,
             borderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
             pointBorderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
