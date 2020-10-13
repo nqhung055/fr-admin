@@ -25,7 +25,7 @@
           <span class="d-block">{{ this.labels[0] }}</span>
         </div>
         <div class="fs-12 fw-normal grey--text">
-          <span class="v-badge grey px-2 py-1"></span>
+          <span class="v-badge warning px-2 py-1"></span>
           <span class="d-block"> {{ Math.round(this.data[1]/this.total*100) }}%</span>
           <span class="d-block">{{ this.labels[1] }}</span>
         </div>

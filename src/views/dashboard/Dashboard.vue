@@ -78,7 +78,7 @@
             <!-- <entry-sumary></entry-sumary> -->
             <visitor-stat
               ref="visitorPieChart"
-              :labels="['Resident', 'Guest']"
+              :labels="['Registered User', 'Guest']"
               :data="pieChartData"
               :total="pieChartData[0] + pieChartData[1]"
               :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
@@ -100,12 +100,12 @@
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">52</span>
-                  <span class="d-block fs-12 grey--text fw-normal">#No Resident Pass</span>
+                  <span class="d-block fs-12 grey--text fw-normal">#No Registered User Pass</span>
                 </p>
               </v-col>
               <v-col cols="4" class="d-custom-flex">
                 <span class="mr-2">
-                  <i class="zmdi zmdi-invert-colors-off error--text"></i>
+                  <i class="zmdi zmdi-invert-colors-off warning--text"></i>
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">49</span>
