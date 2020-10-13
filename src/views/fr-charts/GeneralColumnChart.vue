@@ -30,14 +30,14 @@ export default {
         radiusAxis: {
           min: 0
         },
-        color: [ChartConfig.color.success, ChartConfig.color.danger],
+        color: [ChartConfig.color.primary, ChartConfig.color.warning],
         legend: {
           data: ["Series A", "Series B"],
         },
         xAxis: {
           type: "category",
           boundaryGap: true,
-          data: ["Project 1", "Project 2", "Project 3", "Project 4"],
+          data: ["2020-10-13", "2020-10-12", "2020-10-11", "2020-10-13"],
         },
         yAxis: {
           type: "value",

@@ -78,7 +78,7 @@
             <!-- <entry-sumary></entry-sumary> -->
             <visitor-stat
               ref="visitorPieChart"
-              :labels="visitorTypes"
+              :labels="this.visitorTypes"
               :data="pieChartData"
               :total="pieChartData[0] + pieChartData[1]"
               :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
@@ -92,57 +92,56 @@
             colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 flex"
             customClasses="mb-0 sales-widget"
           >
-            <general-column-chart />
-            <v-row class="cart-wrap hidden-only pl-6" justify="center">
-              <v-col cols="4" class="d-custom-flex">
-                <span class="mr-2">
-                  <i class="zmdi zmdi-invert-colors primary--text"></i>
-                </span>
-                <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">52</span>
-                  <span class="d-block fs-12 grey--text fw-normal">{{$t('message.pass')}}</span>
-                </p>
-              </v-col>
-              <v-col cols="4" class="d-custom-flex">
-                <span class="mr-2">
-                  <i class="zmdi zmdi-invert-colors-off error--text"></i>
-                </span>
-                <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">49</span>
-                  <span class="d-block fs-12 grey--text fw-normal">{{$t('message.failed')}}</span>
-                </p>
-              </v-col>
-              <v-col cols="2" class="d-custom-flex">
-                <span class="mr-2">
-                  <i class="zmdi zmdi-male-female success--text"></i>
-                </span>
-                <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">101</span>
-                  <span
-                    class="d-block fs-12 grey--text fw-normal"
-                  >{{$t('message.guestPass')}}</span>
-                </p>
-              </v-col>
-              <v-col cols="2" class="d-custom-flex">
-                <span class="mr-2">
-                  <i class="zmdi zmdi-nature-people error--text"></i>
-                </span>
-                <p class="mb-0">
-                  <span class="d-block fs-14 fw-bold">101</span>
-                  <span
-                    class="d-block fs-12 grey--text fw-normal"
-                  >{{$t('message.guestFailed')}}</span>
-                </p>
-              </v-col>
-            </v-row>
+            <div v-if="loading" class="pr-4">
+              {{ $t('message.loading') }}
+            </div>
+            <div v-else>
+              <temperature-collection
+              ref="temperature" :url="this.strGetTemperatureSummary" :xLabel="$t('message.byTimes').split(', ')" :yLabel="$t('message.hundredUnits')" @changeParams="reloadTemperature"/>
+              <!-- <v-row class="cart-wrap hidden-only pl-6" justify="center">
+                <v-col cols="4" class="d-custom-flex">
+                  <span class="mr-2">
+                    <i class="zmdi zmdi-account primary--text"></i>
+                  </span>
+                  <p class="mb-0">
+                    <span class="d-block fs-14 fw-bold">52</span>
+                    <span class="d-block fs-12 grey--text fw-normal">#No Registered User Pass</span>
+                  </p>
+                </v-col>
+                <v-col cols="4" class="d-custom-flex">
+                  <span class="mr-2">
+                    <i class="zmdi zmdi-account-o warning--text"></i>
+                  </span>
+                  <p class="mb-0">
+                    <span class="d-block fs-14 fw-bold">49</span>
+                    <span class="d-block fs-12 grey--text fw-normal">#No Guest Pass</span>
+                  </p>
+                </v-col>
+                <v-col cols="2" class="d-custom-flex">
+                  <span class="mr-2">
+                    <i class="zmdi zmdi-male-female success--text"></i>
+                  </span>
+                  <p class="mb-0">
+                    <span class="d-block fs-14 fw-bold">101</span>
+                    <span
+                      class="d-block fs-12 grey--text fw-normal"
+                    >{{$t('message.guestPass')}}</span>
+                  </p>
+                </v-col>
+                <v-col cols="2" class="d-custom-flex">
+                  <span class="mr-2">
+                    <i class="zmdi zmdi-nature-people error--text"></i>
+                  </span>
+                  <p class="mb-0">
+                    <span class="d-block fs-14 fw-bold">101</span>
+                    <span
+                      class="d-block fs-12 grey--text fw-normal"
+                    >{{$t('message.guestFailed')}}</span>
+                  </p>
+                </v-col>
+              </v-row> -->
+            </div>
           </app-card>
-          <!-- <app-card
-            :heading="$t('message.statisticsByDay')"
-            colClasses="col-xl-4 col-lg-5 col-md-5 col-sm-6 col-12"
-            customClasses="mb-0 sales-widget"
-          >
-            <index-statistics />
-          </app-card> -->
         </v-row>
       </div>
     </v-container>
@@ -156,9 +155,7 @@ import { groupByKey } from "Helpers/helpers"
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/VisitorsCollection";
 import VisitorStat from "../fr-detection-logs/VisitorStat";
-// import EntrySumary from "./EntrySumary";
-import GeneralColumnChart from "../fr-charts/GeneralColumnChart";
-// import IndexStatistics from "../commons/fr-statistics";
+import TemperatureCollection from "../fr-charts/TemperatureCollection";
 
 export default {
   data() {
@@ -176,27 +173,24 @@ export default {
       nPresentResidents: '',
       nPresentGuests: '',
       totalLogs: Number,
-      visitorTypes: [],
+      visitorTypes: ["Guest", "Registered User"],
       ChartConfig,
       strGetVisitorSummary: 'http://13.212.11.234:8081/visitor-summary?deviceIds=',
-      pieChartData: [30, 50]
+      strGetTemperatureSummary: 'http://13.212.11.234:8081/temperature-summary?deviceIds=',
+      pieChartData: [30, 50],
+      temperatureChartData: [30, 50],
+
     };
   },
   components: {
     IndexesBlock,
     VisitorsCollection,
     VisitorStat,
-    // EntrySumary,
-    GeneralColumnChart,
-    // IndexStatistics,
+    TemperatureCollection,
   },
   mounted() {
-    this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0"; //this.strGetVisitorSummary = "http://localhost:8081/visitor-summary?deviceIds=";
+    this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
-    // this.totalLogs = this.objDLOffline.rows.length;
-    Object.keys(this.groupByType).forEach((key) => {
-      this.visitorTypes.push(key);
-    });
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
@@ -259,6 +253,7 @@ export default {
             if (this.devices.indexOf(dv) === -1) this.devices.push(dv);
           });
           this.getVisitorSummary(this.devices);
+          this.getTemperatureSummary(this.devices);
           return this.devices;
         })
         .catch((error) => {
@@ -275,7 +270,8 @@ export default {
         } else {
           this.selectedDevices = this.devices.slice();
         }
-        this.getVisitorSummary(this.selectedDevices)
+        this.getVisitorSummary(this.selectedDevices);
+        this.getTemperatureSummary(this.devices);
         this.getSumPeoples(this.selectedDevices);
       });
     },
@@ -313,7 +309,20 @@ export default {
       }
       
     },
+    getTemperatureSummary(arrDevices) {
+      let strDevices = ""; this.strGetTemperatureSummary = 'http://13.212.11.234:8081/temperature-summary?deviceIds=';
+      if(arrDevices != null) {
+        Object.values(arrDevices).forEach(dv => {
+          strDevices += dv + ",";
+        });
+        this.strGetTemperatureSummary += strDevices;
+        return this.strGetTemperatureSummary
+      }
+    },
     reloadPieChart(data) {
+      // Object.keys(data[1]).forEach(key => {
+      //   console.log('key: ' + key + ' - val: ' + data[1][key]);
+      // });
       const total = data.reduce((total, unitData) => {
         const { noStranger, noUser } = unitData
         total.totalStranger = total.totalStranger + noStranger
@@ -323,6 +332,17 @@ export default {
 
       this.pieChartData = [ total.totalStranger, total.totalUser ]
       this.$refs.visitorPieChart.reloadPieChart()
+    },
+    reloadTemperature(data) {
+      const total = data.reduce((total, unitData) => {
+        const { noStranger, noUser } = unitData
+        total.totalStranger = total.totalStranger + noStranger
+        total.totalUser = total.totalUser + noUser
+        return total
+      }, { totalStranger: 0, totalUser: 0 })
+
+      this.temperatureChartData = [ total.totalStranger, total.totalUser ]
+      this.$refs.temperature.reloadTemperature()
     }
   },
 };

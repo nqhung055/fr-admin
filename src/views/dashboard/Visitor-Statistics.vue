@@ -470,7 +470,7 @@ export default {
         vm.sumGuest = totalGuest;
         listLogs.push({ month: String(key), data: item });
       }
-      console.log('total RU: ' + vm.sumRU + ' - total : ' + vm.sumGuest);
+      // console.log('total RU: ' + vm.sumRU + ' - total : ' + vm.sumGuest);
       Object.values(visitorTypes).forEach(val => {
         if(String(val).toLowerCase() === "registered_user") {
           arrValues.push(totalRU);

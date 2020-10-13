@@ -22,7 +22,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Select date"
+                label="Select Start Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -81,7 +81,7 @@
               </v-col>
               <v-col cols="4" class="d-custom-flex">
                 <span class="mr-2">
-                  <i class="zmdi zmdi-account-o success--text"></i>
+                  <i class="zmdi zmdi-account-o warning--text"></i>
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">{{ this.sumGPoints }}</span>
@@ -296,7 +296,7 @@ export default {
       this.getVisitorSummary(url + this.getParams());
     },
     async getVisitorSummary(url) {
-      console.log('Visitor Collection > url: ' + url);
+      // console.log('Visitor Collection > url: ' + url);
       await this.$axios
         .get(url)
         .then(response => {

@@ -21,13 +21,13 @@
       <div class="d-custom-flex general-dashboard-doughnut-footer">
         <div class="fs-12 fw-normal grey--text">
           <span class="v-badge primary px-2 py-1"></span>
-          <span class="d-block"> {{ this.data[0]/this.total*100 }}%</span>
-          <span class="d-block">{{ this.labels[0] }}</span>
+          <span class="d-block"> {{ Math.round(this.data[1]/this.total*100) }}%</span>
+          <span class="d-block">{{ this.labels[1] }}</span>
         </div>
         <div class="fs-12 fw-normal grey--text">
-          <span class="v-badge grey px-2 py-1"></span>
-          <span class="d-block"> {{ this.data[1]/this.total*100 }}%</span>
-          <span class="d-block">{{ this.labels[1] }}</span>
+          <span class="v-badge warning px-2 py-1"></span>
+          <span class="d-block"> {{ Math.round(this.data[0]/this.total*100) }}%</span>
+          <span class="d-block">{{ this.labels[0] }}</span>
         </div>
         <!-- <div class="fs-12 fw-normal grey--text">
           <span class="v-badge warning px-2 py-1"></span>
@@ -111,5 +111,10 @@ export default {
       // },
     };
   },
+  mounted() {
+    // this.labels.forEach(lb => {
+    //   console.log("label: " + lb);
+    // });
+  }
 };
 </script>
