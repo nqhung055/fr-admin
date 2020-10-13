@@ -78,7 +78,7 @@
             <!-- <entry-sumary></entry-sumary> -->
             <visitor-stat
               ref="visitorPieChart"
-              :labels="['Registered User', 'Guest']"
+              :labels="this.visitorTypes"
               :data="pieChartData"
               :total="pieChartData[0] + pieChartData[1]"
               :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
@@ -97,10 +97,8 @@
             </div>
             <div v-else>
               <temperature-collection
-                :url="this.strGetTemperatureSummary"
-                :xLabel="$t('message.byTimes').split(', ')"
-                :yLabel="$t('message.hundredUnits')" />
-              <v-row class="cart-wrap hidden-only pl-6" justify="center">
+              ref="temperature" :url="this.strGetTemperatureSummary" :xLabel="$t('message.byTimes').split(', ')" :yLabel="$t('message.hundredUnits')" @changeParams="reloadTemperature"/>
+              <!-- <v-row class="cart-wrap hidden-only pl-6" justify="center">
                 <v-col cols="4" class="d-custom-flex">
                   <span class="mr-2">
                     <i class="zmdi zmdi-account primary--text"></i>
@@ -119,7 +117,7 @@
                     <span class="d-block fs-12 grey--text fw-normal">#No Guest Pass</span>
                   </p>
                 </v-col>
-                <!-- <v-col cols="2" class="d-custom-flex">
+                <v-col cols="2" class="d-custom-flex">
                   <span class="mr-2">
                     <i class="zmdi zmdi-male-female success--text"></i>
                   </span>
@@ -140,17 +138,10 @@
                       class="d-block fs-12 grey--text fw-normal"
                     >{{$t('message.guestFailed')}}</span>
                   </p>
-                </v-col> -->
-              </v-row>
+                </v-col>
+              </v-row> -->
             </div>
           </app-card>
-          <!-- <app-card
-            :heading="$t('message.statisticsByDay')"
-            colClasses="col-xl-4 col-lg-5 col-md-5 col-sm-6 col-12"
-            customClasses="mb-0 sales-widget"
-          >
-            <index-statistics />
-          </app-card> -->
         </v-row>
       </div>
     </v-container>
@@ -164,9 +155,7 @@ import { groupByKey } from "Helpers/helpers"
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/VisitorsCollection";
 import VisitorStat from "../fr-detection-logs/VisitorStat";
-// import EntrySumary from "./EntrySumary";
 import TemperatureCollection from "../fr-charts/TemperatureCollection";
-// import IndexStatistics from "../commons/fr-statistics";
 
 export default {
   data() {
@@ -184,28 +173,24 @@ export default {
       nPresentResidents: '',
       nPresentGuests: '',
       totalLogs: Number,
-      visitorTypes: [],
+      visitorTypes: ["Guest", "Registered User"],
       ChartConfig,
       strGetVisitorSummary: 'http://13.212.11.234:8081/visitor-summary?deviceIds=',
       strGetTemperatureSummary: 'http://13.212.11.234:8081/temperature-summary?deviceIds=',
-      pieChartData: [30, 50]
+      pieChartData: [30, 50],
+      temperatureChartData: [30, 50],
+
     };
   },
   components: {
     IndexesBlock,
     VisitorsCollection,
     VisitorStat,
-    // EntrySumary,
     TemperatureCollection,
-    // IndexStatistics,
   },
   mounted() {
-    this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0"; //this.strGetVisitorSummary = "http://localhost:8081/visitor-summary?deviceIds=";
+    this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
-    // this.totalLogs = this.objDLOffline.rows.length;
-    Object.keys(this.groupByType).forEach((key) => {
-      this.visitorTypes.push(key);
-    });
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
@@ -335,6 +320,9 @@ export default {
       }
     },
     reloadPieChart(data) {
+      Object.keys(data[1]).forEach(key => {
+        console.log('key: ' + key + ' - val: ' + data[1][key]);
+      });
       const total = data.reduce((total, unitData) => {
         const { noStranger, noUser } = unitData
         total.totalStranger = total.totalStranger + noStranger
@@ -344,6 +332,17 @@ export default {
 
       this.pieChartData = [ total.totalStranger, total.totalUser ]
       this.$refs.visitorPieChart.reloadPieChart()
+    },
+    reloadTemperature(data) {
+      const total = data.reduce((total, unitData) => {
+        const { noStranger, noUser } = unitData
+        total.totalStranger = total.totalStranger + noStranger
+        total.totalUser = total.totalUser + noUser
+        return total
+      }, { totalStranger: 0, totalUser: 0 })
+
+      this.temperatureChartData = [ total.totalStranger, total.totalUser ]
+      this.$refs.temperature.reloadTemperature()
     }
   },
 };

@@ -22,7 +22,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
-                label="Select date"
+                label="Select Start Date"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -296,7 +296,7 @@ export default {
       this.getVisitorSummary(url + this.getParams());
     },
     async getVisitorSummary(url) {
-      console.log('Visitor Collection > url: ' + url);
+      // console.log('Visitor Collection > url: ' + url);
       await this.$axios
         .get(url)
         .then(response => {
