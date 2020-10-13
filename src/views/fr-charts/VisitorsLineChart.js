@@ -76,41 +76,50 @@ export default {
     };
   },
   computed: {},
+  watch: {
+    dsLabels: function () {
+      this.renderChartFunction();
+    }
+  },
   mounted() {
     // console.log('xLabel: ' + this.xLabel);
-    let types = ["residents","stranger"];
-    this.renderChart(
-      {
-        labels: this.dsLabels,
-        datasets: [
-          {
-            label: String(types[0]).toLowerCase() === "residents" ? "Registered User" : "Guest",
-            lineTension,
-            borderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-            pointBorderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-            pointBorderWidth,
-            pointRadius,
-            fill: false,
-            pointBackgroundColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-            borderWidth,
-            data: String(types[0]).toLowerCase() === "residents" ? this.dsRUPoints : this.dsGPoints,
-          },
-          {
-            label: String(types[1]).toLowerCase() === "stranger" ? "Guest" : "Registered User",
-            lineTension,
-            borderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-            pointBorderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-            pointBorderWidth,
-            pointRadius,
-            fill: false,
-            pointBackgroundColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-            borderWidth,
-            data: String(types[1]).toLowerCase() === "stranger" ? this.dsGPoints : this.dsRUPoints,
-          },                    
-        ],
-      },
-      this.options
-    );
+    this.renderChartFunction();
   },
-  methods: {},
+  methods: {
+    renderChartFunction() {
+      let types = ["residents", "stranger"];
+      this.renderChart(
+        {
+          labels: this.dsLabels,
+          datasets: [
+            {
+              label: String(types[0]).toLowerCase() === "residents" ? "Registered User" : "Guest",
+              lineTension,
+              borderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
+              pointBorderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
+              pointBorderWidth,
+              pointRadius,
+              fill: false,
+              pointBackgroundColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
+              borderWidth,
+              data: String(types[0]).toLowerCase() === "residents" ? this.dsRUPoints : this.dsGPoints,
+            },
+            {
+              label: String(types[1]).toLowerCase() === "stranger" ? "Guest" : "Registered User",
+              lineTension,
+              borderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
+              pointBorderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
+              pointBorderWidth,
+              pointRadius,
+              fill: false,
+              pointBackgroundColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
+              borderWidth,
+              data: String(types[1]).toLowerCase() === "stranger" ? this.dsGPoints : this.dsRUPoints,
+            },
+          ],
+        },
+        this.options
+      );
+    }
+  },
 };
