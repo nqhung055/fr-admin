@@ -4,10 +4,10 @@
       <div>
         <h5>{{title}}</h5>
         <v-row justify="center">
-          <h3 class="mb-2">
+          <h1 class="mb-2">
             {{value}}
             <!-- <i :class="[{'ti-arrow-up success--text ml-2': status === 1, 'ti-arrow-down warning--text ml-2': status === 0 }]" /> -->
-          </h3>
+          </h1>
         </v-row>
       </div>
     </div>
