@@ -699,7 +699,7 @@ export default {
       };
 
       const addResponse = await this.$axios.post("/upload/user", this.newUser);
-      const updateResponse = await this.$axios.patch(`http://localhost:8081/users/${this.newUser.userId}`, { block_id: this.newUser.block_id });
+      const updateResponse = await this.$axios.patch(`http://localhost:8081/users`, { block_id: this.newUser.block_id, userId: this.newUser.userId, deviceIds: this.newUser.devices });
       console.log(703, updateResponse);
       if (addResponse.status === 200) {
         this.renewUser();
