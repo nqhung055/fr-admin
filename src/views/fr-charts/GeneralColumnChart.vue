@@ -30,7 +30,7 @@ export default {
         radiusAxis: {
           min: 0
         },
-        color: [ChartConfig.color.success, ChartConfig.color.danger],
+        color: [ChartConfig.color.primary, ChartConfig.color.warning],
         legend: {
           data: ["Series A", "Series B"],
         },

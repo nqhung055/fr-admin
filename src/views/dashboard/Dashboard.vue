@@ -78,7 +78,7 @@
             <!-- <entry-sumary></entry-sumary> -->
             <visitor-stat
               ref="visitorPieChart"
-              :labels="visitorTypes"
+              :labels="['Resident', 'Guest']"
               :data="pieChartData"
               :total="pieChartData[0] + pieChartData[1]"
               :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
@@ -100,7 +100,7 @@
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">52</span>
-                  <span class="d-block fs-12 grey--text fw-normal">{{$t('message.pass')}}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">#No Resident Pass</span>
                 </p>
               </v-col>
               <v-col cols="4" class="d-custom-flex">
@@ -109,10 +109,10 @@
                 </span>
                 <p class="mb-0">
                   <span class="d-block fs-14 fw-bold">49</span>
-                  <span class="d-block fs-12 grey--text fw-normal">{{$t('message.failed')}}</span>
+                  <span class="d-block fs-12 grey--text fw-normal">#No Guest Pass</span>
                 </p>
               </v-col>
-              <v-col cols="2" class="d-custom-flex">
+              <!-- <v-col cols="2" class="d-custom-flex">
                 <span class="mr-2">
                   <i class="zmdi zmdi-male-female success--text"></i>
                 </span>
@@ -133,7 +133,7 @@
                     class="d-block fs-12 grey--text fw-normal"
                   >{{$t('message.guestFailed')}}</span>
                 </p>
-              </v-col>
+              </v-col> -->
             </v-row>
           </app-card>
           <!-- <app-card
