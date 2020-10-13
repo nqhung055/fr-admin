@@ -286,6 +286,7 @@ export default {
     },
     showMonth() {
       this.dataPoint = [1, 2, 3, 4, 5, 6];
+      this.numDataPoint = 1;
       this.selectedBtn = "monthly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
