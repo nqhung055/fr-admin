@@ -320,9 +320,9 @@ export default {
       }
     },
     reloadPieChart(data) {
-      Object.keys(data[1]).forEach(key => {
-        console.log('key: ' + key + ' - val: ' + data[1][key]);
-      });
+      // Object.keys(data[1]).forEach(key => {
+      //   console.log('key: ' + key + ' - val: ' + data[1][key]);
+      // });
       const total = data.reduce((total, unitData) => {
         const { noStranger, noUser } = unitData
         total.totalStranger = total.totalStranger + noStranger
