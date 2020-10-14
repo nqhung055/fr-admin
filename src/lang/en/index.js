@@ -621,7 +621,7 @@ export default {
   report: 'Reports',
   deviceManagement: 'Device Management',
   temperaturesReport: 'Temperatures',
-  visitorCollection: 'Registered User & Guest Entries',
+  visitorCollection: 'Registered User & Guest Traffic',
   visitorsummaries: 'Entry Summary',
   temperatureScreening: 'Failed Temperature Scanning',
   temperatureScreeningMonthly: 'Entry Pass vs Failed temperature monthly screening',
