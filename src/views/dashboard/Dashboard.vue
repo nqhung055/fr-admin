@@ -53,7 +53,7 @@
         <v-row>
           <app-card
             :heading="$t('message.visitorCollection')"
-            colClasses="col-xl-8 col-lg-7 col-md-7 col-sm-6 col-12"
+            colClasses="col-12"
             customClasses="mb-0 sales-widget"
             :fullBlock="false"
             :reloadable="true"
@@ -70,20 +70,6 @@
                 @changeParams="reloadPieChart"
                 @clicked-btn="clickedBtn"/>                
           </div>
-          </app-card>
-          <app-card
-            colClasses="col-xl-4 col-lg-5 col-md-5 col-sm-6 col-12"
-            :heading="$t('message.visitorsummaries')"
-            customClasses="general-dashboard-doughnut-chart"
-          >
-            <!-- <entry-sumary></entry-sumary> -->
-            <visitor-stat
-              ref="visitorPieChart"
-              :labels="this.visitorTypes"
-              :data="pieChartData"
-              :total="pieChartData[0] + pieChartData[1]"
-              :bgColor="[ChartConfig.color.warning, ChartConfig.color.primary]"
-            />
           </app-card>
         </v-row>
         <!-- Pass vs Fail temperature -->
@@ -155,7 +141,6 @@ import { groupByKey } from "Helpers/helpers"
 
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/VisitorsCollection";
-import VisitorStat from "../fr-detection-logs/VisitorStat";
 import TemperatureCollection from "../fr-charts/TemperatureCollection";
 
 export default {
@@ -186,7 +171,6 @@ export default {
   components: {
     IndexesBlock,
     VisitorsCollection,
-    VisitorStat,
     TemperatureCollection,
   },
   mounted() {
