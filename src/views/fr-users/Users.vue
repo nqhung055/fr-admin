@@ -583,6 +583,36 @@ export default {
           sortable: false,
           value: "name",
         },
+        {
+          text: "Card ID",
+          align: "left",
+          sortable: false,
+          value: "cardId",
+        },
+        {
+          text: "Site ID",
+          align: "left",
+          sortable: false,
+          value: "siteId",
+        },
+        {
+          text: "Floor ID",
+          align: "left",
+          sortable: false,
+          value: "floorId",
+        },
+        {
+          text: "Block ID",
+          align: "left",
+          sortable: false,
+          value: "blockId",
+        },
+        {
+          text: "Company ID",
+          align: "left",
+          sortable: false,
+          value: "companyId",
+        },
         { text: "Action", align: "center", value: "action", width: "10%" },
       ],
       userTypes: [
