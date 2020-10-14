@@ -229,15 +229,6 @@
                             ></v-text-field>
                           </div>
                         </v-col>
-                        <v-col cols="12" class="user-block">
-                          <v-select
-                            v-model="newUser.blockId"
-                            :items="userBlocks"
-                            item-text="label"
-                            item-value="value"
-                            label="Block"
-                          ></v-select>
-                        </v-col>
                         <v-col cols="12">
                           <v-select
                             v-model="newUser.siteId"
@@ -254,15 +245,6 @@
                             item-text="label"
                             item-value="value"
                             label="Floor"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-select
-                            v-model="newUser.companyId"
-                            :items="userCompanys"
-                            item-text="label"
-                            item-value="value"
-                            label="Company"
                           ></v-select>
                         </v-col>
                       </v-row>
@@ -480,6 +462,24 @@
                               }}
                             </template>
                           </v-select>
+                        </v-col>
+                        <v-col cols="12" class="user-block">
+                          <v-select
+                            v-model="newUser.blockId"
+                            :items="userBlocks"
+                            item-text="label"
+                            item-value="value"
+                            label="Block"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="newUser.companyId"
+                            :items="userCompanys"
+                            item-text="label"
+                            item-value="value"
+                            label="Company"
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-col>
