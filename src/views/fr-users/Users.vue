@@ -726,7 +726,7 @@ export default {
     },
     async changeSelectedDevice() {
       const usersResponse = await this.$axios.get(
-        'http://13.212.11.234:8081/users', { params: { device: this.selectedDevice } }
+        `/get/user/list/of/${this.selectedDevice}`
       );
       if (usersResponse.status === 200) {
         this.users = usersResponse.data || [];
