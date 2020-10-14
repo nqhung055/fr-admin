@@ -220,13 +220,13 @@ export default {
           Object.keys(response.data).forEach((key) => {
             if (key==="registered") {
               Object.entries(response.data[key]).forEach((ru) => {
-                sumRUF += ru[1]["passed"];
+                sumRUF += ru[1]["failed"];
                 listRUFPoints.push(ru[1]["failed"]);
                 arrLabels.push(ru[1]["label"]);
               });
             } else {
               Object.entries(response.data[key]).forEach((g) => {
-                sumGF += g[1]["passed"];
+                sumGF += g[1]["failed"];
                 listGFPoints.push(g[1]["failed"]);
               });
             }
