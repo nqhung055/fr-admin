@@ -67,7 +67,8 @@
                 :url="this.strGetVisitorSummary"
                 :xLabel="$t('message.byTimes').split(', ')"
                 :yLabel="''"
-                @changeParams="reloadPieChart"/>                
+                @changeParams="reloadPieChart"
+                @clicked-btn="clickedBtn"/>                
           </div>
           </app-card>
           <app-card
@@ -244,6 +245,8 @@ export default {
   methods: {
     changeSelectedDevices() {
       this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
+      this.getTemperatureSummary(this.selectedDevices);
+      this.clickedBtn();
     },
     async getDevices() {
       await this.$axios
@@ -272,7 +275,7 @@ export default {
           this.selectedDevices = this.devices.slice();
         }
         this.getVisitorSummary(this.selectedDevices);
-        this.getTemperatureSummary(this.devices);
+        this.getTemperatureSummary(this.selectedDevices);
         this.getSumPeoples(this.selectedDevices);
       });
     },
@@ -358,6 +361,10 @@ export default {
           console.log(error);
         })
         .finally();
+    },
+    clickedBtn() {
+      const url = `${this.strGetTemperatureSummary}&endDate=${this.$refs.visitorLineChart.date}&dataPointType=${this.$refs.visitorLineChart.selectedBtn}&dataPointNumber=${this.$refs.visitorLineChart.numDataPoint}`
+      this.$refs.temperature.reloadWithDefaultUrl(url)
     }
   },
 };

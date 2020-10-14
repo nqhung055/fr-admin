@@ -276,6 +276,7 @@ export default {
       this.selectedBtn = "daily";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
+      this.$emit('clicked-btn');
     },
     showWeek() {
       this.dataPoint = [1, 2, 3, 4, 5, 6];
@@ -283,6 +284,7 @@ export default {
       this.selectedBtn = "weekly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
+      this.$emit('clicked-btn');
     },
     showMonth() {
       this.dataPoint = [1, 2, 3, 4, 5, 6];
@@ -290,10 +292,12 @@ export default {
       this.selectedBtn = "monthly";
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
+      this.$emit('clicked-btn');
     },
     changeDate() {
       this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
       this.getVisitorSummary(this.strFullURL);
+      this.$emit('clicked-btn');
     },
     getParams() {
       return "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;

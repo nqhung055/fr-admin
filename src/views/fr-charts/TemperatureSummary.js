@@ -122,62 +122,45 @@ export default {
     };
   },
   computed: {},
+  watch: {
+    arrLabels: function() {
+      this.renderChartTemperature();
+    }
+  },
   mounted() {
     // let types = ["residents","stranger"];
-    this.renderChart(
-      {
-        labels: this.arrLabels,
-        datasets: [
-          {
-             type: 'bar',
-             label: this.e_label,
-             barPercentage: 0.4,
-             categoryPercentage: 1.3,
-             backgroundColor: ChartConfig.color.primary,
-             hoverBackgroundColor: ChartConfig.color.primary,
-             borderWidth: 0,
-             data: this.arrRU
-          },
-          {
-             type: 'bar',
-             label: this.s_label,
-             barPercentage: 0.4,
-             categoryPercentage: 1.3,
-             backgroundColor: ChartConfig.color.warning,
-             hoverBackgroundColor: ChartConfig.color.warning,
-             borderWidth: 0,
-             data: this.arrG
-          }
-       ]
-        // datasets: [
-        //   {
-        //     label: String(types[0]).toLowerCase() === "residents" ? "Registered User" : "Guest",
-        //     lineTension,
-        //     borderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-        //     pointBorderColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-        //     pointBorderWidth,
-        //     pointRadius,
-        //     fill: false,
-        //     pointBackgroundColor: String(types[0]).toLowerCase() === "residents" ? ChartConfig.color.primary : ChartConfig.color.warning,
-        //     borderWidth,
-        //     data: String(types[0]).toLowerCase() === "residents" ? this.arrRU : this.arrG,
-        //   },
-        //   {
-        //     label: String(types[1]).toLowerCase() === "stranger" ? "Guest" : "Registered User",
-        //     lineTension,
-        //     borderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-        //     pointBorderColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-        //     pointBorderWidth,
-        //     pointRadius,
-        //     fill: false,
-        //     pointBackgroundColor: String(types[1]).toLowerCase() === "stranger" ? ChartConfig.color.warning : ChartConfig.color.primary,
-        //     borderWidth,
-        //     data: String(types[1]).toLowerCase() === "stranger" ? this.arrG : this.arrRU,
-        //   },                    
-        // ],
-      },
-      this.bar
-    );
+    this.renderChartTemperature();
   },
-  methods: {},
+  methods: {
+    renderChartTemperature() {
+      this.renderChart(
+        {
+          labels: this.arrLabels,
+          datasets: [
+            {
+              type: 'bar',
+              label: this.e_label,
+              barPercentage: 0.4,
+              categoryPercentage: 1.3,
+              backgroundColor: ChartConfig.color.primary,
+              hoverBackgroundColor: ChartConfig.color.primary,
+              borderWidth: 0,
+              data: this.arrRU
+            },
+            {
+              type: 'bar',
+              label: this.s_label,
+              barPercentage: 0.4,
+              categoryPercentage: 1.3,
+              backgroundColor: ChartConfig.color.warning,
+              hoverBackgroundColor: ChartConfig.color.warning,
+              borderWidth: 0,
+              data: this.arrG
+            }
+          ]
+        },
+        this.bar
+      );
+    }
+  },
 };

@@ -183,7 +183,6 @@ export default {
     this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
     this.getTemperatureSummary(this.strFullURL);
     // this.BuildChart();
-
   },
   methods: {
     showDay() {
@@ -209,7 +208,7 @@ export default {
       return "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
     },
     reloadWithDefaultUrl(url) {
-      this.getTemperatureSummary(url + this.getParams());
+      this.getTemperatureSummary(url);
     },
     async getTemperatureSummary(url) {
       // console.log('Temperature Collection > url: ' + url);
