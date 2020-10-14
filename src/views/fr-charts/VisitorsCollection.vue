@@ -10,7 +10,16 @@
         <!-- <v-row justify="center">
         <v-date-picker v-model="picker"></v-date-picker>
       </v-row> -->
-        <v-col md="3">
+        <v-col md="2">
+          <v-select
+            v-model="trafficValue"
+            :items="traffic"
+            label="Traffic"
+            single-line
+          >
+          </v-select>
+        </v-col>
+        <v-col md="2">
           <v-menu
             v-model="menu2"
             :close-on-content-click="false"
@@ -36,7 +45,7 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
-        <v-col md="3">
+        <v-col md="2">
           <v-select
             v-model="numDataPoint"
             :items="dataPoint"
@@ -264,6 +273,21 @@ export default {
       arrGPoints: [],
       sumRUPoints: 0,
       sumGPoints: 0,
+      traffic: [
+        {
+          'text': 'Entry & Exit',
+          'value': '1,2'
+        },
+        {
+          'text': 'Entry',
+          'value': '1'
+        },
+        {
+          'text': 'Exit',
+          'value': '2'
+        },
+      ],
+      trafficValue: ""
     };
   },
   methods: {

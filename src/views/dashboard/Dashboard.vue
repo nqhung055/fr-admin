@@ -67,7 +67,6 @@
                 :url="this.strGetVisitorSummary"
                 :xLabel="$t('message.byTimes').split(', ')"
                 :yLabel="''"
-                @changeParams="reloadPieChart"
                 @clicked-btn="clickedBtn"/>                
           </div>
           </app-card>
