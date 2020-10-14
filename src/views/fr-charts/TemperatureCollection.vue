@@ -10,7 +10,7 @@
     <div v-else>
       <div>
         <!-- <ECharts :options="bar" id="barChart" style="width:100%; height:400px"></ECharts> -->
-        <temperature-summary class="mb-5" :xLabel="this.xLabel[0]" :yLabel="this.yLabel" style="width: 100%; height: 400px;" :arrRU="arrRUFPoints"  :arrG="this.arrRUFPoints"  :arrLabels="this.lstLabels" :e_label="$t('message.employee')" :s_label="$t('message.stranger')"/>
+        <temperature-summary class="mb-5" :xLabel="this.xLabel[0]" :yLabel="this.yLabel" style="width: 100%; height: 400px;" :arrRU="this.arrRUFPoints"  :arrG="this.arrGFPoints"  :arrLabels="this.lstLabels" :e_label="$t('message.employee')" :s_label="$t('message.stranger')"/>
         <v-row class="cart-wrap hidden-only pl-6" justify="center">
           <v-col cols="4" class="d-custom-flex">
             <span class="mr-2">
