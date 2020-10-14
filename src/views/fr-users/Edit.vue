@@ -278,6 +278,24 @@
                         <v-col cols="2" class="user-al-a">
                           <v-icon size="25" style="color: green; cursor: pointer;" @click="addPeriod()">ti-plus</v-icon>
                         </v-col>
+                        <v-col cols="12" class="user-company">
+                          <v-select
+                            v-model="editUser.companyId"
+                            :items="userCompanys"
+                            item-text="label"
+                            item-value="value"
+                            label="Company"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12" class="user-block">
+                          <v-select
+                            v-model="editUser.blockId"
+                            :items="userBlocks"
+                            item-text="label"
+                            item-value="value"
+                            label="Block"
+                          ></v-select>
+                        </v-col>
                         <v-col cols="12" class="user-periods">
                           <v-select
                             v-model="editUser.allowPeriods"
@@ -297,24 +315,6 @@
                             </template>
                             
                           </v-select>
-                        </v-col>
-                        <v-col cols="12" class="user-block">
-                          <v-select
-                            v-model="editUser.blockId"
-                            :items="userBlocks"
-                            item-text="label"
-                            item-value="value"
-                            label="Block"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-select
-                            v-model="editUser.companyId"
-                            :items="userCompanys"
-                            item-text="label"
-                            item-value="value"
-                            label="Company"
-                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-col>
