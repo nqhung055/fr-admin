@@ -433,7 +433,25 @@
                             >ti-plus</v-icon
                           >
                         </v-col>
-                        <v-col cols="12" class="user-periods">
+                        <v-col cols="12" class="user-company">
+                          <v-select
+                            v-model="newUser.companyId"
+                            :items="userCompanys"
+                            item-text="label"
+                            item-value="value"
+                            label="Company"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12" class="user-block">
+                          <v-select
+                            v-model="newUser.blockId"
+                            :items="userBlocks"
+                            item-text="label"
+                            item-value="value"
+                            label="Block"
+                          ></v-select>
+                        </v-col>
+                         <v-col cols="12" class="user-periods">
                           <v-select
                             v-model="newUser.allowPeriods"
                             :items="newUser.allowPeriods"
@@ -462,24 +480,6 @@
                               }}
                             </template>
                           </v-select>
-                        </v-col>
-                        <v-col cols="12" class="user-block">
-                          <v-select
-                            v-model="newUser.blockId"
-                            :items="userBlocks"
-                            item-text="label"
-                            item-value="value"
-                            label="Block"
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-select
-                            v-model="newUser.companyId"
-                            :items="userCompanys"
-                            item-text="label"
-                            item-value="value"
-                            label="Company"
-                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-col>
