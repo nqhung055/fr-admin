@@ -179,7 +179,7 @@ export default {
     };
   },
   mounted() {
-    this.numDataPoint = 5;
+    this.numDataPoint = 14;
     this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
     this.getTemperatureSummary(this.strFullURL);
     // this.BuildChart();
