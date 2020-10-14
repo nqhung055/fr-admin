@@ -38,7 +38,17 @@
                           </v-select>
                         </v-col>
                         <v-col cols="12" class="user-id">
-                          <v-text-field :label="$t('message.userId')" v-model="editUser.userId" :rules="editUserRules.id" required></v-text-field>
+                          <v-row>
+                            <v-col>
+                              <v-text-field :label="$t('message.userId')" v-model="editUser.userId" :rules="editUserRules.id" required></v-text-field>
+                            </v-col>
+                            <v-col>
+                              <v-text-field
+                                :label="'Card ID'"
+                                v-model="editUser.cardId"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
                         </v-col>
                         <v-col cols="12" class="user-name">
                           <div>
@@ -74,6 +84,24 @@
                           <div>
                             <v-text-field :label="$t('message.ic')" v-model="editUser.ic" :rules="editUserRules.ic" required></v-text-field>
                           </div>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="editUser.siteId"
+                            :items="userSites"
+                            item-text="label"
+                            item-value="value"
+                            label="Site"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="editUser.floorId"
+                            :items="userFloors"
+                            item-text="label"
+                            item-value="value"
+                            label="Floor"
+                          ></v-select>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -270,6 +298,24 @@
                             
                           </v-select>
                         </v-col>
+                        <v-col cols="12" class="user-block">
+                          <v-select
+                            v-model="editUser.blockId"
+                            :items="userBlocks"
+                            item-text="label"
+                            item-value="value"
+                            label="Block"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="editUser.companyId"
+                            :items="userCompanys"
+                            item-text="label"
+                            item-value="value"
+                            label="Company"
+                          ></v-select>
+                        </v-col>
                       </v-row>
                     </v-col>
                   </v-row> 
@@ -325,6 +371,10 @@ export default {
         isShowExpiredAtPanel: false,
         isShowExpiredAtMinutePanel: false,
         facePhoto: {},
+        userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],
+        userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
+        userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
+        userCompanys: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ]
       }
     },
     mounted() {},
