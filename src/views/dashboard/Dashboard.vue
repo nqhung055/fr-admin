@@ -66,7 +66,7 @@
                 ref="visitorLineChart"
                 :url="this.strGetVisitorSummary"
                 :xLabel="$t('message.byTimes').split(', ')"
-                :yLabel="$t('message.hundredUnits')"
+                :yLabel="''"
                 @changeParams="reloadPieChart"/>                
           </div>
           </app-card>
@@ -97,7 +97,7 @@
             </div>
             <div v-else>
               <temperature-collection
-              ref="temperature" :url="this.strGetTemperatureSummary" :xLabel="$t('message.byTimes').split(', ')" :yLabel="$t('message.hundredUnits')" @changeParams="reloadTemperature"/>
+              ref="temperature" :url="this.strGetTemperatureSummary" :xLabel="$t('message.byTimes').split(', ')" :yLabel="''" @changeParams="reloadTemperature"/>
               <!-- <v-row class="cart-wrap hidden-only pl-6" justify="center">
                 <v-col cols="4" class="d-custom-flex">
                   <span class="mr-2">

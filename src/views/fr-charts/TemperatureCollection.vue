@@ -18,7 +18,7 @@
             </span>
             <p class="mb-0">
               <span class="d-block fs-14 fw-bold">{{ sumRUFPoints }}</span>
-              <span class="d-block fs-12 grey--text fw-normal">#No Registered User Failed</span>
+              <span class="d-block fs-12 grey--text fw-normal">Registered User Failed</span>
             </p>
           </v-col>
           <v-col cols="4" class="d-custom-flex">
@@ -27,7 +27,7 @@
             </span>
             <p class="mb-0">
               <span class="d-block fs-14 fw-bold">{{ sumGFPoints }}</span>
-              <span class="d-block fs-12 grey--text fw-normal">#No Guest Failed</span>
+              <span class="d-block fs-12 grey--text fw-normal">Guest Failed</span>
             </p>
           </v-col>
           <v-col cols="2" class="d-custom-flex">
@@ -38,7 +38,7 @@
               <span class="d-block fs-14 fw-bold">{{ sumRUFPoints + sumGFPoints }}</span>
               <span
                 class="d-block fs-12 grey--text fw-normal"
-              >#No Total Failed</span>
+              >Total Failed</span>
             </p>
           </v-col>
           <!-- <v-col cols="2" class="d-custom-flex">
