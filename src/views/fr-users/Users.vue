@@ -633,7 +633,7 @@ export default {
       showEditUserDialog: false,
       newUser: {
         devices: [],
-        confidenceLevel: 80,
+        confidenceLevel: 65,
         userType: 0,
         allowPeriods: [],
       },
@@ -655,7 +655,8 @@ export default {
         (file) =>
           !file ||
           file.size < 1000000 ||
-          "FacePhoto size should be less than 1 MB!",
+          "JPG file format (maximum 300Kb & recommeded resolution 1280 x 720)"
+          // "FacePhoto size should be less than 1 MB!",
       ],
       isNewUserValid: true,
       newUserRules: {
@@ -741,7 +742,7 @@ export default {
     renewUser() {
       this.newUser = {
         devices: [],
-        confidenceLevel: 80,
+        confidenceLevel: 65,
         userType: 0,
         name: "",
         userId: "",

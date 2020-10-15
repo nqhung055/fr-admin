@@ -81,6 +81,7 @@
                                     .indexOf(item.id)
                                 }}
                               </td>
+                              <td>{{ item.detectionTime }}</td>
                               <td>
                                 <img
                                   :src="item.photo"
@@ -91,10 +92,9 @@
                               </td>
                               <td>{{ item.userId }}</td>
                               <td>{{ item.bodyTemperature }}</td>
-                              <td>{{ item.roomTemperature }}</td>
+                              <!-- <td>{{ item.roomTemperature }}</td> -->
                               <td>{{ item.fromDevice }}</td>
                               <td>{{ item.type }}</td>
-                              <td>{{ item.detectionTime }}</td>
                               <!-- <td class="text-center">
                                 <v-btn
                                   icon
@@ -177,6 +177,12 @@ export default {
           value: "number",
         },
         {
+          text: "Time",
+          align: "left",
+          sortable: false,
+          value: "detectionTime",
+        },
+        {
           text: "Photo",
           align: "center",
           sortable: false,
@@ -187,19 +193,19 @@ export default {
           align: "left",
           sortable: false,
           value: "userId",
-        },
+        },        
         {
           text: "Body Temperature",
           align: "left",
           sortable: false,
           value: "bodyTemperature",
         },
-        {
-          text: "Room Temperature",
-          align: "left",
-          sortable: false,
-          value: "roomTemperature",
-        },
+        // {
+        //   text: "Room Temperature",
+        //   align: "left",
+        //   sortable: false,
+        //   value: "roomTemperature",
+        // },
         {
           text: "fromDevice",
           align: "left",
@@ -212,12 +218,7 @@ export default {
           sortable: false,
           value: "type",
         },
-        {
-          text: "Time",
-          align: "left",
-          sortable: false,
-          value: "detectionTime",
-        },
+        
         // {
         //   text: "Remove",
         //   sortable: false,
