@@ -346,7 +346,7 @@ export default {
         .finally();
     },
     clickedBtn() {
-      const url = `${this.strGetTemperatureSummary}&endDate=${this.$refs.visitorLineChart.date}&dataPointType=${this.$refs.visitorLineChart.selectedBtn}&dataPointNumber=${this.$refs.visitorLineChart.numDataPoint}`
+      const url = `${this.strGetTemperatureSummary}&endDate=${this.$refs.visitorLineChart.date}&dataPointType=${this.$refs.visitorLineChart.selectedBtn}&dataPointNumber=${this.$refs.visitorLineChart.numDataPoint}&traffic=${this.$refs.visitorLineChart.trafficValue}`
       this.$refs.temperature.reloadWithDefaultUrl(url)
     }
   },

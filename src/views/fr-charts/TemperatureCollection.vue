@@ -176,11 +176,12 @@ export default {
           },
         ],
       },
+      trafficValue: "both"
     };
   },
   mounted() {
     this.numDataPoint = 14;
-    this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+    this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
     this.getTemperatureSummary(this.strFullURL);
     // this.BuildChart();
   },

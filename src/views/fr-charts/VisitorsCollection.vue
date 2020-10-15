@@ -16,6 +16,7 @@
             :items="traffic"
             label="Traffic"
             single-line
+            @change="changeDate"
           >
           </v-select>
         </v-col>
@@ -275,19 +276,19 @@ export default {
       sumGPoints: 0,
       traffic: [
         {
-          'text': 'Entry & Exit',
-          'value': '1,2'
+          "text": "Entry & Exit",
+          "value": "both"
         },
         {
-          'text': 'Entry',
-          'value': '1'
+          "text": "Entry",
+          "value": "entry"
         },
         {
-          'text': 'Exit',
-          'value': '2'
+          "text": "Exit",
+          "value": "exit"
         },
       ],
-      trafficValue: ""
+      trafficValue: "both"
     };
   },
   methods: {
@@ -298,7 +299,7 @@ export default {
       this.dataPoint = [5, 10, 15, 20, 25, 30];
       this.numDataPoint = 5;
       this.selectedBtn = "daily";
-      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
       this.getVisitorSummary(this.strFullURL);
       this.$emit('clicked-btn');
     },
@@ -306,7 +307,7 @@ export default {
       this.dataPoint = [1, 2, 3, 4, 5, 6];
       this.numDataPoint = 6;
       this.selectedBtn = "weekly";
-      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
       this.getVisitorSummary(this.strFullURL);
       this.$emit('clicked-btn');
     },
@@ -314,12 +315,13 @@ export default {
       this.dataPoint = [1, 2, 3, 4, 5, 6];
       this.numDataPoint = 1;
       this.selectedBtn = "monthly";
-      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
       this.getVisitorSummary(this.strFullURL);
       this.$emit('clicked-btn');
     },
     changeDate() {
-      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+      console.log(this.trafficValue);
+      this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
       this.getVisitorSummary(this.strFullURL);
       this.$emit('clicked-btn');
     },
@@ -340,7 +342,7 @@ export default {
             sumRU += item[1].noUser; sumG += item[1].noStranger;
           });
           this.sumRUPoints = sumRU; this.sumGPoints = sumG; this.arrLabels = listLabels; this.arrRUPoints = listRUPoints; this.arrGPoints = listGPoints;
-          this.$emit('changeParams', response.data);
+          // this.$emit('changeParams', response.data);
         })
         .catch((error) => {
           this.errored = true;
@@ -522,7 +524,7 @@ export default {
     // this.sumVisitorsPerDay();
     // console.log(Object.keys(this.yearData).length);
     this.numDataPoint = 5;
-    this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint;
+    this.strFullURL = this.url + "&endDate=" + this.date + "&dataPointType=" + this.selectedBtn + "&dataPointNumber=" + this.numDataPoint + "&traffic=" + this.trafficValue;
     this.getVisitorSummary(this.strFullURL);
   },
   computed: {
