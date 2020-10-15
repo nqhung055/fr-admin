@@ -116,13 +116,13 @@
                         </v-col>
                         <v-col cols="12">
                           <v-file-input
-                            :label="$t('message.facePhoto')"
-                            :rules="uploadRules"
+                            :label="$t('message.facePhotoLabel')"
                             filled
                             v-model="facePhoto"
                             prepend-icon="mdi-camera"
                             @change="uploadFile()"
                           ></v-file-input>
+                          <!-- :rules="uploadRules" -->
                         </v-col>
                       </v-row>
                     </v-col>
