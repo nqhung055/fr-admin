@@ -23,6 +23,7 @@
                         <v-col cols="12">
                           <v-file-input 
                             :label="$t('message.facePhoto')"
+                            :rules="uploadRules"
                             filled
                             v-model="facePhoto"
                             prepend-icon="mdi-camera"
@@ -371,6 +372,13 @@ export default {
         isShowExpiredAtPanel: false,
         isShowExpiredAtMinutePanel: false,
         facePhoto: {},
+        uploadRules: [
+          (file) =>
+            !file ||
+            file.size < 1000000 ||
+            "JPG file format (maximum 300Kb & recommeded resolution 1280 x 720)"
+            // "FacePhoto size should be less than 1 MB!",
+        ],
         userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],
         userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
         userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
