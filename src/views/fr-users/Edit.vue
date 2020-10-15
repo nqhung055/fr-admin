@@ -376,7 +376,7 @@ export default {
           (file) =>
             !file ||
             file.size < 1000000 ||
-            "JPG file format (maximum 300Kb & recommeded resolution 1280 x 720)"
+            "JPG file format (maximum 300Kb & recommended resolution 1280 x 720)"
             // "FacePhoto size should be less than 1 MB!",
         ],
         userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],

@@ -655,7 +655,7 @@ export default {
         (file) =>
           !file ||
           file.size < 1000000 ||
-          "JPG file format (maximum 300Kb & recommeded resolution 1280 x 720)"
+          "JPG file format (maximum 300Kb & recommended resolution 1280 x 720)"
           // "FacePhoto size should be less than 1 MB!",
       ],
       isNewUserValid: true,

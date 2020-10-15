@@ -593,7 +593,7 @@ export default {
   effectFrom: "Effect From",
   userType: "User Type",
   confidenceLevel: "Confidence Level",
-  ic: "IC Card",
+  ic: "NRIC/ FIN",
   device: "Device",
   facePhoto: "Face Photo",
   facePhotoLabel: "JPG file format (maximum 300Kb & recommeded resolution 1280 x 720)",
