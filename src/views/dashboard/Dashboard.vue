@@ -160,8 +160,8 @@ export default {
       totalLogs: Number,
       visitorTypes: ["Guest", "Registered User"],
       ChartConfig,
-      strGetVisitorSummary: 'http://13.212.11.234:8081/visitor-summary?deviceIds=',
-      strGetTemperatureSummary: 'http://13.212.11.234:8081/temperature-summary?deviceIds=',
+      strGetVisitorSummary: 'http://18.136.142.61:8081/visitor-summary?deviceIds=',
+      strGetTemperatureSummary: 'http://18.136.142.61:8081/temperature-summary?deviceIds=',
       pieChartData: [30, 50],
       temperatureChartData: [30, 50],
 
@@ -272,7 +272,7 @@ export default {
         strDevices += dt + ",";
       });
       await this.$axios
-        .get('http://13.212.11.234:8081/users-summary?deviceIds=' + strDevices)
+        .get('http://18.136.142.61:8081/users-summary?deviceIds=' + strDevices)
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
@@ -286,7 +286,7 @@ export default {
         .finally();
     },
     getVisitorSummary(arrDevices) {
-      let strDevices = ""; this.strGetVisitorSummary = 'http://13.212.11.234:8081/visitor-summary?deviceIds=';
+      let strDevices = ""; this.strGetVisitorSummary = 'http://18.136.142.61:8081/visitor-summary?deviceIds=';
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
           strDevices += dv + ",";
@@ -297,7 +297,7 @@ export default {
       
     },
     getTemperatureSummary(arrDevices) {
-      let strDevices = ""; this.strGetTemperatureSummary = 'http://13.212.11.234:8081/temperature-summary?deviceIds=';
+      let strDevices = ""; this.strGetTemperatureSummary = 'http://18.136.142.61:8081/temperature-summary?deviceIds=';
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
           strDevices += dv + ",";
@@ -333,7 +333,7 @@ export default {
     },
     async getUsersSummary() {
       await this.$axios
-        .get('http://13.212.11.234:8081/users-summary?deviceIds=')
+        .get('http://18.136.142.61:8081/users-summary?deviceIds=')
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
