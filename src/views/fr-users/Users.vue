@@ -72,7 +72,7 @@
               <template slot="items" slot-scope="props">
                 <td>{{ props.item.name }}</td>
               </template>
-              <template v-slot:item.action="{ item }">
+              <template v-slot:[`item.action`]="{ item }">
                 <!---->
                 <v-btn color="success" @click="editUser(item)">
                   <v-icon>ti-pencil</v-icon>
@@ -108,11 +108,7 @@
                     >
                       <v-row>
                         <v-col cols="12" align="center">
-                          <v-img
-                            :src="srcFacePhoto"
-                            width="100"
-                            height="96"
-                          ></v-img>
+                          <v-img :src="srcFacePhoto" width="100" height="96"></v-img>
                         </v-col>
                         <v-col cols="12">
                           <v-file-input
@@ -139,19 +135,10 @@
                             <template v-slot:prepend-item>
                               <v-list-item ripple @click="selectAllDevices">
                                 <v-list-item-action>
-                                  <v-icon
-                                    :color="
-                                      newUser.devices.length > 0
-                                        ? 'indigo darken-4'
-                                        : ''
-                                    "
-                                    >{{ icon }}</v-icon
-                                  >
+                                  <v-icon :color="newUser.devices.length > 0 ? 'indigo darken-4' : ''">{{ icon }}</v-icon>
                                 </v-list-item-action>
                                 <v-list-item-content>
-                                  <v-list-item-title
-                                    >Select All</v-list-item-title
-                                  >
+                                  <v-list-item-title>Select All</v-list-item-title>
                                 </v-list-item-content>
                               </v-list-item>
                               <v-divider class="mt-2"></v-divider>
@@ -302,12 +289,8 @@
                               v-if="isShowEffectFromMinutePanel"
                               v-model="effectFromStringMinute"
                               full-width
-                              @click:minute="
-                                $refs.effectFromMenu.save(
-                                  effectFromStringMinute
-                                )
-                              "
-                            ></v-time-picker>
+                              @click:minute="$refs.effectFromMenu.save(effectFromStringMinute)">
+                            </v-time-picker>
                           </v-menu>
                         </v-col>
                         <v-col cols="6" class="user-ea-h">
@@ -361,10 +344,8 @@
                               v-if="isShowExpiredAtMinutePanel"
                               v-model="expiredAtStringMinute"
                               full-width
-                              @click:minute="
-                                $refs.expiredAtMenu.save(expiredAtStringMinute)
-                              "
-                            ></v-time-picker>
+                              @click:minute="$refs.expiredAtMenu.save(expiredAtStringMinute)">
+                            </v-time-picker>
                           </v-menu>
                         </v-col>
                         <v-col cols="5" class="user-al-s">
@@ -443,15 +424,17 @@
                           ></v-select>
                         </v-col>
                         <v-col cols="12" class="user-block">
-                          <v-select
+                          <v-select v-if="userBlocks"
                             v-model="newUser.blockId"
-                            :items="userBlocks"
-                            item-text="label"
-                            item-value="value"
-                            label="Block"
+                            :items="userBlocks"                            
+                            label="Select Block"
+                            item-text="'name'"
+                            item-value="'id'"
+                            single-line
                           ></v-select>
+                          
                         </v-col>
-                         <v-col cols="12" class="user-periods">
+                        <v-col cols="12" class="user-periods">
                           <v-select
                             v-model="newUser.allowPeriods"
                             :items="newUser.allowPeriods"
@@ -633,6 +616,7 @@ export default {
       showEditUserDialog: false,
       newUser: {
         devices: [],
+        blockId:[],
         confidenceLevel: 65,
         userType: 0,
         allowPeriods: [],
@@ -655,8 +639,8 @@ export default {
         (file) =>
           !file ||
           file.size < 1000000 ||
-          "JPG file format (maximum 300Kb & recommended resolution 1280 x 720)"
-          // "FacePhoto size should be less than 1 MB!",
+          "JPG file format (maximum 300Kb & recommended resolution 1280 x 720)",
+        // "FacePhoto size should be less than 1 MB!",
       ],
       isNewUserValid: true,
       newUserRules: {
@@ -667,9 +651,7 @@ export default {
             (name && name.length <= 10) ||
             "Name must be less than 10 characters",
         ],
-        id: [
-          (id) => !!id || "ID is required",
-        ],
+        id: [(id) => !!id || "ID is required"],
         ic: [(ic) => !!ic || "IC Card is required"],
         confidenceLevel: [
           (confidenceLevel) =>
@@ -686,14 +668,31 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
-      userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],
-      userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
-      userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
-      userCompanys: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ],
+      userBlocks: [
+        // { label: "Block 1", value: 1 },
+        // { label: "Block 2", value: 2 },
+        // { label: "Block 3", value: 3 },
+      ],
+      userSites: [
+        // { label: "Site 1", value: 1 },
+        // { label: "Site 2", value: 2 },
+        // { label: "Site 3", value: 3 },
+      ],
+      userFloors: [
+        // { label: "Floor 1", value: 1 },
+        // { label: "Floor 2", value: 2 },
+        // { label: "Floor 3", value: 3 },
+      ],
+      userCompanys: [
+        // { label: "Company 1", value: 1 },
+        // { label: "Company 2", value: 2 },
+        // { label: "Company 3", value: 3 },
+      ],
     };
   },
   mounted() {
     this.getDevices();
+    this.getUserRelatedData();
   },
   computed: {
     cSelectAllDevices() {
@@ -770,7 +769,14 @@ export default {
       };
 
       const addResponse = await this.$axios.post("/upload/user", this.newUser);
-      const updateResponse = await this.$axios.patch(`http://localhost:8081/users`, { block_id: this.newUser.block_id, userId: this.newUser.userId, deviceIds: this.newUser.devices });
+      const updateResponse = await this.$axios.patch(
+        `http://18.136.142.61:8081/users`,
+        {
+          block_id: this.newUser.block_id,
+          userId: this.newUser.userId,
+          deviceIds: this.newUser.devices,
+        }
+      );
       console.log(703, updateResponse);
       if (addResponse.status === 200) {
         this.renewUser();
@@ -824,6 +830,24 @@ export default {
           text: "Can not get Devive list. Please reload page!",
         });
       }
+    },
+    async getUserRelatedData() {
+      const blocks = await this.$axios.get("http://18.136.142.61:8081/blocks");
+      const companies = await this.$axios.get("http://18.136.142.61:8081/companies");
+      const floors = await this.$axios.get("http://18.136.142.61:8081/floors");
+      const sites = await this.$axios.get("http://18.136.142.61:8081/sites");
+      try {
+        if(blocks.status === 200 && companies.status === 200 && floors.status === 200 && sites.status === 200) {
+          this.userBlocks = JSON.parse(JSON.stringify(blocks.data));
+          this.userCompanys = companies.data;
+          this.userFloors = floors.data;
+          this.userSites = sites.data;
+        }
+      } catch (error) {
+        this.errored = true;
+          console.log(error);
+      }
+      finally {() => this.loading = false;}
     },
     selectAllDevices() {
       this.$nextTick(() => {
@@ -893,7 +917,7 @@ export default {
           type: "error",
           text: "There is no users to delete!",
         });
-        return
+        return;
       }
       this.showConfirmDeleteUsersDialog = true;
     },
