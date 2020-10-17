@@ -88,20 +88,22 @@
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.siteId"
-                            :items="userSites"
-                            item-text="label"
-                            item-value="value"
-                            label="Site"
+                            v-model="editUser.site"
+                            :items="sites"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Site"
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.floorId"
-                            :items="userFloors"
-                            item-text="label"
-                            item-value="value"
-                            label="Floor"
+                            v-model="editUser.floor"
+                            :items="floors"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Floor"
                           ></v-select>
                         </v-col>
                       </v-row>
@@ -281,20 +283,22 @@
                         </v-col>
                         <v-col cols="12" class="user-company">
                           <v-select
-                            v-model="editUser.companyId"
-                            :items="userCompanys"
-                            item-text="label"
-                            item-value="value"
-                            label="Company"
+                            v-model="editUser.company"
+                            :items="companies"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Company"
                           ></v-select>
                         </v-col>
                         <v-col cols="12" class="user-block">
                           <v-select
-                            v-model="editUser.blockId"
-                            :items="userBlocks"
-                            item-text="label"
-                            item-value="value"
-                            label="Block"
+                            v-model="editUser.block"
+                            :items="blocks"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Block"
                           ></v-select>
                         </v-col>
                         <v-col cols="12" class="user-periods">
@@ -340,9 +344,11 @@
 import Vue from 'vue';
 
 export default {
-    props: ['isShowPopup', 'devices', 'editUser', 'userTypes', 'effectFromStringMinute', 'expiredAtStringMinute'],
+    props: ['isShowPopup', 'devices', 'blocks', 'companies', 'floors', 'sites', 'editUser', 'userTypes', 'effectFromStringMinute', 'expiredAtStringMinute'],
     data() {
       return {
+        loading: true,
+        errored: false,
         isEditUserValid: true,
         editUserRules: {
           devices: [
@@ -382,29 +388,52 @@ export default {
         userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],
         userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
         userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
-        userCompanys: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ]
+        userCompanies: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ]
       }
     },
-    mounted() {},
+    mounted() {
+      // console.log('Device: ' + this.editUser.devices);
+    },
     computed: {},
     methods: {
+      async getUserDetail() {
+        // let strGetUserByDevice = "http://18.136.142.61:8081/users/1011?device=RLK-0061345"
+        // const userDetail = await this.$axios.get("http://18.136.142.61:8081/sites");
+      },
       async editCurrentUser() {
         if(!this.$refs.editUser.validate()) return
+        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = "";
         const editUser = {
           ...this.editUser,
           expiredAt: this.editUser.expiredAt ? this.editUser.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
           effectFrom: this.editUser.effectFrom ? this.editUser.effectFrom + ' ' + this.effectFromStringMinute : undefined,
         }
-
+        Object.keys(editUser).forEach((key) => {
+          if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site") {
+            deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block"]; companyId = editUser["company"]; floorId = editUser["floor"]; siteId = editUser["site"];
+          }
+        });
+        urlUpdateUsers += userId + "?devices=" + deviceId;
+        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId };
+        
         const editResponse = await this.$axios.post('/upload/user', editUser)
         if (editResponse.status === 200) {
-          this.$emit('updateSuccess', true)
-          this.$emit('closePopup', true)
-          Vue.notify({
-            group: 'loggedIn',
-            type: 'success',
-            text: 'Update User successful!'
-          })
+          const updateRelatedData = await this.$axios.patch(urlUpdateUsers, objUpdateUser);
+          try {
+            if (updateRelatedData.status === 200) {
+              this.$emit('updateSuccess', true)
+              this.$emit('closePopup', true)
+              Vue.notify({
+                group: 'loggedIn',
+                type: 'success',
+                text: 'Update User successful!'
+              })
+            }
+          } catch (error) {
+            this.errored = true;
+              console.log(error);
+          }
+          finally {() => this.loading = false;}
         } else {
           Vue.notify({
             group: 'loggedIn',

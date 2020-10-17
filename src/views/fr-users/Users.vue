@@ -220,18 +220,20 @@
                           <v-select
                             v-model="newUser.siteId"
                             :items="userSites"
-                            item-text="label"
-                            item-value="value"
-                            label="Site"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Site"
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
                           <v-select
                             v-model="newUser.floorId"
                             :items="userFloors"
-                            item-text="label"
-                            item-value="value"
-                            label="Floor"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Floor"
                           ></v-select>
                         </v-col>
                       </v-row>
@@ -417,10 +419,11 @@
                         <v-col cols="12" class="user-company">
                           <v-select
                             v-model="newUser.companyId"
-                            :items="userCompanys"
-                            item-text="label"
-                            item-value="value"
-                            label="Company"
+                            :items="userCompanies"
+                            item-text="name"
+                            item-value="id"
+                            single-line
+                            label="Select Company"
                           ></v-select>
                         </v-col>
                         <v-col cols="12" class="user-block">
@@ -428,8 +431,8 @@
                             v-model="newUser.blockId"
                             :items="userBlocks"                            
                             label="Select Block"
-                            item-text="'name'"
-                            item-value="'id'"
+                            item-text="name"
+                            item-value="id"
                             single-line
                           ></v-select>
                           
@@ -439,10 +442,7 @@
                             v-model="newUser.allowPeriods"
                             :items="newUser.allowPeriods"
                             :label="$t('message.allowPeriods')"
-                            :item-text="
-                              (period) =>
-                                period.startTime + '-' + period.endTime
-                            "
+                            :item-text="(period) => period.startTime + '-' + period.endTime"
                             attach
                             chips
                             multiple
@@ -491,6 +491,10 @@
     <edit-user
       :isShowPopup="showEditUserDialog"
       :device="devices"
+      :blocks="userBlocks"
+      :companies="userCompanies"
+      :floors="userFloors"
+      :sites="userSites"
       :editUser="editedUser"
       :userTypes="userTypes"
       :effectFromStringMinute="editUserEffectFromStringMinute"
@@ -551,6 +555,8 @@ export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       searchUserKey: "",
       headers: [
         {
@@ -617,6 +623,9 @@ export default {
       newUser: {
         devices: [],
         blockId:[],
+        companyId:[],
+        floorId:[],
+        siteId:[],
         confidenceLevel: 65,
         userType: 0,
         allowPeriods: [],
@@ -668,26 +677,10 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
-      userBlocks: [
-        // { label: "Block 1", value: 1 },
-        // { label: "Block 2", value: 2 },
-        // { label: "Block 3", value: 3 },
-      ],
-      userSites: [
-        // { label: "Site 1", value: 1 },
-        // { label: "Site 2", value: 2 },
-        // { label: "Site 3", value: 3 },
-      ],
-      userFloors: [
-        // { label: "Floor 1", value: 1 },
-        // { label: "Floor 2", value: 2 },
-        // { label: "Floor 3", value: 3 },
-      ],
-      userCompanys: [
-        // { label: "Company 1", value: 1 },
-        // { label: "Company 2", value: 2 },
-        // { label: "Company 3", value: 3 },
-      ],
+      userBlocks: [],
+      userSites: [],
+      userFloors: [],
+      userCompanies: [],
     };
   },
   mounted() {
@@ -832,14 +825,15 @@ export default {
       }
     },
     async getUserRelatedData() {
-      const blocks = await this.$axios.get("http://18.136.142.61:8081/blocks");
+      let getURLAPI = "http://18.136.142.61:8081/";
+      const blocks = await this.$axios.get(getURLAPI + "blocks");
       const companies = await this.$axios.get("http://18.136.142.61:8081/companies");
       const floors = await this.$axios.get("http://18.136.142.61:8081/floors");
       const sites = await this.$axios.get("http://18.136.142.61:8081/sites");
       try {
         if(blocks.status === 200 && companies.status === 200 && floors.status === 200 && sites.status === 200) {
-          this.userBlocks = JSON.parse(JSON.stringify(blocks.data));
-          this.userCompanys = companies.data;
+          this.userBlocks = blocks.data;
+          this.userCompanies = companies.data;
           this.userFloors = floors.data;
           this.userSites = sites.data;
         }
@@ -870,6 +864,10 @@ export default {
 
       const editUser = {
         devices: [user.sn],
+        block: user.block_id,
+        company: user.company_id,
+        floor: user.floor_id,
+        site: user.site_id,
         userId: user.userId,
         name: user.name,
         phone: user.phone,
