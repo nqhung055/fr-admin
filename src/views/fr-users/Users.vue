@@ -33,8 +33,9 @@
                     v-model="selectedDevice"
                     :items="devices"
                     label="Select Device"
-                    @change="changeSelectedDevice()"
-                  ></v-select>
+                    @change="getListUsers()"
+                  >
+                  </v-select>
                 </v-col>
                 <v-col cols="6" class="header-table-search">
                   <v-text-field
@@ -499,7 +500,7 @@
       :userTypes="userTypes"
       :effectFromStringMinute="editUserEffectFromStringMinute"
       :expiredAtStringMinute="editUserExpiredAtStringMinute"
-      @updateSuccess="changeSelectedDevice()"
+      @updateSuccess="getListUsers()"
       @closePopup="closePopupEditUser()"
     ></edit-user>
     <upload-users
@@ -579,28 +580,28 @@ export default {
           value: "cardId",
         },
         {
-          text: "Site ID",
+          text: "Site",
           align: "left",
           sortable: false,
-          value: "siteId",
+          value: "siteName",
         },
         {
-          text: "Floor ID",
+          text: "Floor",
           align: "left",
           sortable: false,
-          value: "floorId",
+          value: "floorName",
         },
         {
-          text: "Block ID",
+          text: "Block",
           align: "left",
           sortable: false,
-          value: "blockId",
+          value: "blockName",
         },
         {
-          text: "Company ID",
+          text: "Company",
           align: "left",
           sortable: false,
-          value: "companyId",
+          value: "companyName",
         },
         { text: "Action", align: "center", value: "action", width: "10%" },
       ],
@@ -622,10 +623,11 @@ export default {
       showEditUserDialog: false,
       newUser: {
         devices: [],
-        blockId:[],
-        companyId:[],
-        floorId:[],
-        siteId:[],
+        blockId: 0,
+        companyId: 0,
+        floorId: 0,
+        siteId: 0,
+        cardId: "",
         confidenceLevel: 65,
         userType: 0,
         allowPeriods: [],
@@ -731,9 +733,25 @@ export default {
         });
       }
     },
+    async getListUsers() {
+      await this.$axios.get(
+        `http://18.136.142.61:8081/users?device=${this.selectedDevice}`
+      ).then((response) => {
+        this.users = response.data || [];
+      })
+      .catch((error) => {
+        this.errored = true;
+        console.log(error);
+      })
+      .finally(() => this.loading = false);
+    },
     renewUser() {
       this.newUser = {
         devices: [],
+        blockId: 0,
+        companyId: 0,
+        floorId:  0,
+        siteId: 0,
         confidenceLevel: 65,
         userType: 0,
         name: "",
@@ -765,7 +783,10 @@ export default {
       const updateResponse = await this.$axios.patch(
         `http://18.136.142.61:8081/users`,
         {
-          block_id: this.newUser.block_id,
+          blockId: this.newUser.blockId,
+          companyId: this.newUser.companyId,
+          floorId: this.newUser.floorId,
+          siteId: this.newUser.siteId,
           userId: this.newUser.userId,
           deviceIds: this.newUser.devices,
         }
@@ -775,7 +796,7 @@ export default {
         this.renewUser();
         this.showNewUserDialog = false;
         if (this.selectedDevice) {
-          this.changeSelectedDevice();
+          this.getListUsers();
         }
         Vue.notify({
           group: "loggedIn",
@@ -864,10 +885,11 @@ export default {
 
       const editUser = {
         devices: [user.sn],
-        block: user.block_id,
-        company: user.company_id,
-        floor: user.floor_id,
-        site: user.site_id,
+        block_id: user.blockId,
+        company_id: user.companyId,
+        floor_id: user.floorId,
+        site_id: user.siteId,
+        card_id: user.cardId,
         userId: user.userId,
         name: user.name,
         phone: user.phone,
@@ -906,7 +928,7 @@ export default {
     },
     uploadUsersSuccess() {
       this.isShowPopupUploadUsers = false;
-      this.changeSelectedDevice();
+      this.getListUsers();
     },
     showDeleteUsersDialog() {
       if (!this.selectedUsersToDelete.length) {
@@ -932,8 +954,7 @@ export default {
 
       if (deleteUsersResponse.status === 200) {
         this.showConfirmDeleteUsersDialog = false;
-        this.changeSelectedDevice();
-
+        this.getListUsers();
         Vue.notify({
           group: "loggedIn",
           type: "success",

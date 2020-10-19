@@ -46,7 +46,7 @@
                             <v-col>
                               <v-text-field
                                 :label="'Card ID'"
-                                v-model="editUser.cardId"
+                                v-model="editUser.card_id"
                               ></v-text-field>
                             </v-col>
                           </v-row>
@@ -88,7 +88,7 @@
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.site"
+                            v-model="editUser.site_id"
                             :items="sites"
                             item-text="name"
                             item-value="id"
@@ -98,7 +98,7 @@
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.floor"
+                            v-model="editUser.floor_id"
                             :items="floors"
                             item-text="name"
                             item-value="id"
@@ -283,7 +283,7 @@
                         </v-col>
                         <v-col cols="12" class="user-company">
                           <v-select
-                            v-model="editUser.company"
+                            v-model="editUser.company_id"
                             :items="companies"
                             item-text="name"
                             item-value="id"
@@ -293,7 +293,7 @@
                         </v-col>
                         <v-col cols="12" class="user-block">
                           <v-select
-                            v-model="editUser.block"
+                            v-model="editUser.block_id"
                             :items="blocks"
                             item-text="name"
                             item-value="id"
@@ -396,25 +396,21 @@ export default {
     },
     computed: {},
     methods: {
-      async getUserDetail() {
-        // let strGetUserByDevice = "http://18.136.142.61:8081/users/1011?device=RLK-0061345"
-        // const userDetail = await this.$axios.get("http://18.136.142.61:8081/sites");
-      },
       async editCurrentUser() {
         if(!this.$refs.editUser.validate()) return
-        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = "";
+        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
         const editUser = {
           ...this.editUser,
           expiredAt: this.editUser.expiredAt ? this.editUser.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
           effectFrom: this.editUser.effectFrom ? this.editUser.effectFrom + ' ' + this.effectFromStringMinute : undefined,
         }
         Object.keys(editUser).forEach((key) => {
-          if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site") {
-            deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block"]; companyId = editUser["company"]; floorId = editUser["floor"]; siteId = editUser["site"];
+          if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id") {
+            deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
-        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId };
+        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
         
         const editResponse = await this.$axios.post('/upload/user', editUser)
         if (editResponse.status === 200) {
