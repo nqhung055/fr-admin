@@ -91,7 +91,7 @@
                             v-model="editUser.site_id"
                             :items="sites"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Site"
                           ></v-select>
@@ -101,7 +101,7 @@
                             v-model="editUser.floor_id"
                             :items="floors"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Floor"
                           ></v-select>
@@ -286,7 +286,7 @@
                             v-model="editUser.company_id"
                             :items="companies"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Company"
                           ></v-select>
@@ -296,7 +296,7 @@
                             v-model="editUser.block_id"
                             :items="blocks"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Block"
                           ></v-select>

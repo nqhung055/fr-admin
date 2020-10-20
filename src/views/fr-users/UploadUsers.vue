@@ -60,7 +60,7 @@
                 <template slot="items" slot-scope="props">
                   <td>{{ props.item.name }}</td>
                 </template>
-                <template v-slot:item.image="{ item }">
+                <template v-slot:[`item.image`]="{ item }">
                   <div class="p-2">
                     <v-img :src="item.facePhoto" height="50" width="50"></v-img>
                   </div>
@@ -119,6 +119,8 @@ export default {
   props: ['isShowPopup', 'connectedDevices'],
   data() {
     return {
+      loading: true,
+      errored: false,
       uploadImageRules: [
         files => !!files.length || 'Images file should not be empty',
         files =>
@@ -160,11 +162,35 @@ export default {
           width: '10%'
         },
         {
-          text: 'Personal confidence',
-          align: 'center',
-          value: 'confidenceLevel',
+          text: 'Period',
+          align: 'left',
+          value: 'effectFrom',
           width: '10%'
         },
+        {
+          text: 'NRIC/FIN',
+          align: 'left',
+          value: 'ic',
+          width: '10%'
+        },
+        {
+          text: 'Card ID',
+          align: 'left',
+          value: 'cardId',
+          width: '10%'
+        },
+        {
+          text: 'Phone',
+          align: 'left',
+          value: 'phone',
+          width: '10%'
+        },
+        // {
+        //   text: 'Personal confidence',
+        //   align: 'center',
+        //   value: 'confidenceLevel',
+        //   width: '10%'
+        // },
         {
           text: 'FacePhoto',
           align: 'center',
@@ -184,8 +210,8 @@ export default {
         facePhoto: "",
         phone: "",
         allowPeriods: [],
-        userType: "",
-        confidenceLevel: 80,
+        userType: "-1",
+        confidenceLevel: 65,
         ic: "",
         effectFrom: "",
         expiredAt: "" 
@@ -212,10 +238,16 @@ export default {
           this.uploadUsers = rawUploadUsers.map(rawUser => {
             return {
               devices: rawUser['devices'],
-              confidenceLevel: rawUser['Personal confidence'],
-              userType: rawUser['User type'],
+              confidenceLevel: '65', //rawUser['Personal confidence'],
+              userType: '-1', //rawUser['User type'],
               name: rawUser['Name'],
               userId: rawUser['Number'] + "",
+              ic: rawUser['ID card number'],
+              cardId: rawUser['Card ID'],
+              company: rawUser['Company'],
+              site: rawUser['Site'],
+              block: rawUser['Block'],
+              floor: rawUser['Floor'],
               facePhoto: '',
               phone: rawUser['Cellphone number'],
               effectFrom: rawUser['Validity period']
@@ -258,12 +290,35 @@ export default {
     },
     async createUsers(isClearUserData = true) {
       try {
+        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        // console.log('isClearUserData: ' + isClearUserData);
         if (isClearUserData) await this.deleteUserFromDevice()
-
         for (let index = 0; index < this.uploadUsers.length; index++) {
           const user = this.uploadUsers[index];
           const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
-            await this.$axios.post('/upload/user', userWithDevies)
+          Object.keys(userWithDevies).forEach((key) => {
+            if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
+              devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
+              blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
+            }
+          });
+          urlUpdateUsers += userId + "?devices=" + devices;
+          let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+          const upGWAPI = await this.$axios.post('/upload/user', userWithDevies)
+          if (upGWAPI.status === 200) {
+            if ((blockId !== 'undefined' || blockId !== null) && (companyId !== 'undefined' || companyId !== null) && (floorId !== 'undefined' || floorId !== null) && (siteId !== 'undefined' || siteId !== null ) && (cardId !== 'undefined' || cardId !== null )) {
+              const upBEAPI = await this.$axios.patch(urlUpdateUsers, objUpdateUser);
+              try {
+                if (upBEAPI.status === 200) {
+                  this.errored = false;
+                }
+              } catch (error) {
+                this.errored = true;
+                  console.log(error);
+              }
+              finally {() => this.loading = false;}
+            }
+          }
         }
         
         // await Promise.all(
@@ -276,11 +331,13 @@ export default {
         this.clearUploadedData()
         this.showConfirmDialog = false
         this.$emit('uploadSuccess', true)
-        Vue.notify({
-          group: 'loggedIn',
-          type: 'success',
-          text: 'User uploaded!'
-        })
+        if (this.errored === false) {
+          Vue.notify({
+            group: 'loggedIn',
+            type: 'success',
+            text: 'User uploaded!'
+          });
+        }
       } catch (error) {
         Vue.notify({
           group: 'loggedIn',

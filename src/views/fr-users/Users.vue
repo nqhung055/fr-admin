@@ -222,7 +222,7 @@
                             v-model="newUser.siteId"
                             :items="userSites"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Site"
                           ></v-select>
@@ -232,7 +232,7 @@
                             v-model="newUser.floorId"
                             :items="userFloors"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Floor"
                           ></v-select>
@@ -422,7 +422,7 @@
                             v-model="newUser.companyId"
                             :items="userCompanies"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                             label="Select Company"
                           ></v-select>
@@ -433,7 +433,7 @@
                             :items="userBlocks"                            
                             label="Select Block"
                             item-text="name"
-                            item-value="id"
+                            item-value="shortName"
                             single-line
                           ></v-select>
                           
@@ -572,6 +572,13 @@ export default {
           align: "left",
           sortable: false,
           value: "name",
+        }
+        ,
+        {
+          text: "NRIC/FIN",
+          align: "left",
+          sortable: false,
+          value: "icCard",
         },
         {
           text: "Card ID",
@@ -623,10 +630,10 @@ export default {
       showEditUserDialog: false,
       newUser: {
         devices: [],
-        blockId: 0,
-        companyId: 0,
-        floorId: 0,
-        siteId: 0,
+        blockId: '',
+        companyId: '',
+        floorId: '',
+        siteId: '',
         cardId: "",
         confidenceLevel: 65,
         userType: 0,
@@ -748,12 +755,13 @@ export default {
     renewUser() {
       this.newUser = {
         devices: [],
-        blockId: 0,
-        companyId: 0,
-        floorId:  0,
-        siteId: 0,
+        blockId: "",
+        companyId: "",
+        floorId:  "",
+        siteId: "",
+        cardId: "",
         confidenceLevel: 65,
-        userType: 0,
+        userType: -1,
         name: "",
         userId: "",
         expiredAt: "",
@@ -787,6 +795,7 @@ export default {
           companyId: this.newUser.companyId,
           floorId: this.newUser.floorId,
           siteId: this.newUser.siteId,
+          cardId: this.newUser.cardId,
           userId: this.newUser.userId,
           deviceIds: this.newUser.devices,
         }
