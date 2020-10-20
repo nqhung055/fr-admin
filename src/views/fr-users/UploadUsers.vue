@@ -294,6 +294,7 @@ export default {
         // console.log('isClearUserData: ' + isClearUserData);
         if (isClearUserData) await this.deleteUserFromDevice()
         for (let index = 0; index < this.uploadUsers.length; index++) {
+          if (index !== 0) urlUpdateUsers = "http://18.136.142.61:8081/users/";
           const user = this.uploadUsers[index];
           const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
           Object.keys(userWithDevies).forEach((key) => {
@@ -303,7 +304,9 @@ export default {
             }
           });
           urlUpdateUsers += userId + "?devices=" + devices;
+          console.log('urlUpdateUsers: ' + urlUpdateUsers);
           let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+          console.log('blockID: ' + blockId + '- companyId: ' + companyId  + '- floorId: ' + floorId  + '- siteId: ' + siteId);
           const upGWAPI = await this.$axios.post('/upload/user', userWithDevies)
           if (upGWAPI.status === 200) {
             if ((blockId !== 'undefined' || blockId !== null) && (companyId !== 'undefined' || companyId !== null) && (floorId !== 'undefined' || floorId !== null) && (siteId !== 'undefined' || siteId !== null ) && (cardId !== 'undefined' || cardId !== null )) {
