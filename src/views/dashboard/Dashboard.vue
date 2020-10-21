@@ -168,6 +168,21 @@ export default {
       temperatureChartData: [30, 50],
     };
   },
+  // sockets: {
+  //   connect(socket) {
+  //     // Fired when the socket connects.
+  //     console.log('connect', socket);
+  //   },
+
+  //   disconnect(socket) {
+  //     console.log('disconnect', socket);
+  //   },
+
+  //   // Fired when the server sends something on the "messageChannel" channel.
+  //   messageChannel(data) {
+  //     console.log('messageChannel', data);
+  //   }
+  // },
   created() {
   },
   components: {
@@ -175,6 +190,14 @@ export default {
     VisitorsCollection,
     TemperatureCollection,
     // detectionws,
+  },
+  sockets: {
+    connect: function () {
+      console.log('socket connected')
+    },
+    customEmit: function () {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
   },
   mounted() {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
