@@ -546,6 +546,7 @@ import Vue from "vue";
 import editUser from "./Edit";
 import uploadUsers from "./UploadUsers";
 import syncUsers from "./SyncUsers";
+import AppConfig from '../../constants/AppConfig';
 
 export default {
   components: {
@@ -742,7 +743,7 @@ export default {
     },
     async getListUsers() {
       await this.$axios.get(
-        `http://18.136.142.61:8081/users?device=${this.selectedDevice}`
+        `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}`
       ).then((response) => {
         this.users = response.data || [];
       })
@@ -789,7 +790,7 @@ export default {
 
       const addResponse = await this.$axios.post("/upload/user", this.newUser);
       const updateResponse = await this.$axios.patch(
-        `http://18.136.142.61:8081/users`,
+        `${AppConfig.ip}${AppConfig.api_port}/users`,
         {
           blockId: this.newUser.blockId,
           companyId: this.newUser.companyId,
@@ -855,11 +856,10 @@ export default {
       }
     },
     async getUserRelatedData() {
-      let getURLAPI = "http://18.136.142.61:8081/";
-      const blocks = await this.$axios.get(getURLAPI + "blocks");
-      const companies = await this.$axios.get("http://18.136.142.61:8081/companies");
-      const floors = await this.$axios.get("http://18.136.142.61:8081/floors");
-      const sites = await this.$axios.get("http://18.136.142.61:8081/sites");
+      const blocks = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/blocks`);
+      const companies = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/companies`);
+      const floors = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/floors`);
+      const sites = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/sites`);
       try {
         if(blocks.status === 200 && companies.status === 200 && floors.status === 200 && sites.status === 200) {
           this.userBlocks = blocks.data;

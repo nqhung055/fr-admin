@@ -38,6 +38,10 @@ import './lib/VuelyCss'
 // messages
 import messages from './lang';
 
+//App config
+import AppConfig from './constants/AppConfig';
+
+
 Vue.config.productionTip = false
 
 // navigation guards before each
@@ -79,8 +83,8 @@ router.afterEach(() => {
 })
 
 const axiosInstance = axios.create({
-//   baseURL: 'http://13.229.132.84:5566'
-  baseURL: 'http://localhost:5566'
+	baseURL: AppConfig.ip + AppConfig.gw_port
+//   baseURL: 'http://localhost:5566'
 })
 
 axiosInstance.interceptors.request.use(function (config) {

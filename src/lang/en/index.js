@@ -606,7 +606,7 @@ export default {
   uploadImagesPlaceHolder: 'Only png and jpeg files',
   syncUser: 'Sync Users',
 
-  fracialRecogination: 'Fracial Recogination',
+  facialRecognition: 'Facial Recognition',
   detectionLogs: 'Detection Logs',
   visitorsReport: 'Visitors',
   loginToGatewayAdmin: 'Login to Gateway Admin',

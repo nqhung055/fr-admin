@@ -342,7 +342,7 @@
 
 <script>
 import Vue from 'vue';
-
+import AppConfig from '../../constants/AppConfig';
 export default {
     props: ['isShowPopup', 'devices', 'blocks', 'companies', 'floors', 'sites', 'editUser', 'userTypes', 'effectFromStringMinute', 'expiredAtStringMinute'],
     data() {
@@ -398,7 +398,7 @@ export default {
     methods: {
       async editCurrentUser() {
         if(!this.$refs.editUser.validate()) return
-        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
         const editUser = {
           ...this.editUser,
           expiredAt: this.editUser.expiredAt ? this.editUser.expiredAt + ' ' + this.expiredAtStringMinute : undefined,

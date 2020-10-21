@@ -114,6 +114,7 @@
 <script>
 import Vue from 'vue'
 import XLSX from 'xlsx'
+import AppConfig from '../../constants/AppConfig';
 
 export default {
   props: ['isShowPopup', 'connectedDevices'],
@@ -290,11 +291,11 @@ export default {
     },
     async createUsers(isClearUserData = true) {
       try {
-        let urlUpdateUsers = "http://18.136.142.61:8081/users/"; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
         // console.log('isClearUserData: ' + isClearUserData);
         if (isClearUserData) await this.deleteUserFromDevice()
         for (let index = 0; index < this.uploadUsers.length; index++) {
-          if (index !== 0) urlUpdateUsers = "http://18.136.142.61:8081/users/";
+          if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
           const user = this.uploadUsers[index];
           const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
           Object.keys(userWithDevies).forEach((key) => {
