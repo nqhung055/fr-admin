@@ -14,6 +14,7 @@
           <indexes-block :b1="0" :b2="0" :b3="0" :b4="0" />
         </div>
         <div v-else>
+          <!-- <detectionws></detectionws> -->
           <indexes-block :b1="nTotalResidents" :b2="nPresentPeoples" :b3="nPresentResidents" :b4="nPresentGuests" />
         </div>
         <v-row>
@@ -136,12 +137,13 @@
 <script>
 import { mapGetters } from "vuex";
 import { ChartConfig } from "Constants/chart-config";
-import { groupByKey } from "Helpers/helpers"
+import { groupByKey } from "Helpers/helpers";
+import AppConfig from "Constants/AppConfig";
 
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/VisitorsCollection";
 import TemperatureCollection from "../fr-charts/TemperatureCollection";
-
+// import detectionws from "../../components/fr-admin/detection-ws.vue";
 export default {
   data() {
     return {
@@ -160,17 +162,19 @@ export default {
       totalLogs: Number,
       visitorTypes: ["Guest", "Registered User"],
       ChartConfig,
-      strGetVisitorSummary: 'http://18.136.142.61:8081/visitor-summary?deviceIds=',
-      strGetTemperatureSummary: 'http://18.136.142.61:8081/temperature-summary?deviceIds=',
+      strGetVisitorSummary: `${AppConfig.ip}${AppConfig.api_port}/visitor-summary?deviceIds=`,
+      strGetTemperatureSummary: `${AppConfig.ip}${AppConfig.api_port}/temperature-summary?deviceIds=`,
       pieChartData: [30, 50],
       temperatureChartData: [30, 50],
-
     };
+  },
+  created() {
   },
   components: {
     IndexesBlock,
     VisitorsCollection,
     TemperatureCollection,
+    // detectionws,
   },
   mounted() {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
@@ -235,10 +239,10 @@ export default {
       await this.$axios
         .get("/registered/device/list")
         .then((response) => {
-          this.selectedDevices = response.data;
           Object.values(response.data).forEach(dv => {
             if (this.devices.indexOf(dv) === -1) this.devices.push(dv);
           });
+          this.selectedDevices = this.devices;
           this.getVisitorSummary(this.devices);
           this.getTemperatureSummary(this.devices);
           return this.devices;
@@ -272,13 +276,12 @@ export default {
         strDevices += dt + ",";
       });
       await this.$axios
-        .get('http://18.136.142.61:8081/users-summary?deviceIds=' + strDevices)
+        .get(`${AppConfig.ip}${AppConfig.api_port}/users-summary?deviceIds=` + strDevices)
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
           this.nPresentResidents = response.data["presentResidents"],
           this.nPresentGuests = response.data["presentGuests"]
-          // console.log("nTotalResidentskey: " + this.nTotalResidents + " - nPresentPeoples: " + this.nPresentPeoples + " - nPresentResidents: " + this.nPresentResidents + " - nPresentGuests: " + this.nPresentGuests)
         })
         .catch((error) => {
           console.log(error);
@@ -286,7 +289,7 @@ export default {
         .finally();
     },
     getVisitorSummary(arrDevices) {
-      let strDevices = ""; this.strGetVisitorSummary = 'http://18.136.142.61:8081/visitor-summary?deviceIds=';
+      let strDevices = ""; this.strGetVisitorSummary = `${AppConfig.ip}${AppConfig.api_port}/visitor-summary?deviceIds=`;
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
           strDevices += dv + ",";
@@ -297,7 +300,7 @@ export default {
       
     },
     getTemperatureSummary(arrDevices) {
-      let strDevices = ""; this.strGetTemperatureSummary = 'http://18.136.142.61:8081/temperature-summary?deviceIds=';
+      let strDevices = ""; this.strGetTemperatureSummary = `${AppConfig.ip}${AppConfig.api_port}/temperature-summary?deviceIds=`;
       if(arrDevices != null) {
         Object.values(arrDevices).forEach(dv => {
           strDevices += dv + ",";
@@ -333,7 +336,7 @@ export default {
     },
     async getUsersSummary() {
       await this.$axios
-        .get('http://18.136.142.61:8081/users-summary?deviceIds=')
+        .get(`${AppConfig.ip}${AppConfig.api_port}/users-summary?deviceIds=`)
         .then(response => {
           this.nTotalResidents = response.data["totalResidents"],
           this.nPresentPeoples = response.data["presentPeoples"],
@@ -348,7 +351,9 @@ export default {
     clickedBtn() {
       const url = `${this.strGetTemperatureSummary}&endDate=${this.$refs.visitorLineChart.date}&dataPointType=${this.$refs.visitorLineChart.selectedBtn}&dataPointNumber=${this.$refs.visitorLineChart.numDataPoint}&traffic=${this.$refs.visitorLineChart.trafficValue}`
       this.$refs.temperature.reloadWithDefaultUrl(url)
-    }
+    },
+  },
+  beforeDestroy () {
   },
 };
 </script>
