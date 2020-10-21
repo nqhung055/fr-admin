@@ -24,7 +24,7 @@ import VueSocketIO from 'vue-socket.io'
 
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:7788'
+    connection: AppConfig.ip + AppConfig.ws_port
 }))
 
 // global components
