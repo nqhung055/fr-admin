@@ -616,6 +616,7 @@ export default {
   bodyTemperature: 'Body Temperature',
   roomTemperature: 'Room Temperature',
   noDetectionLogsFound: 'No Detection Logs Found',
+  noAlertUsers: 'No Alert Users Found',
   percentageOfVisitors: 'Visitor Stats',
   visitorSeparations: 'Failed screening ratio',
   generalDashboard: 'General Dashboard',

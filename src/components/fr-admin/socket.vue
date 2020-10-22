@@ -30,7 +30,7 @@ export default {
                 });
                 strObjInsert = { type: data['type'], userId: userid, time: time, bodyTemp: bodyTemp, confidence: confidence, roomTemp: roomTemp };
                 await this.createWSData(this.urlWSDateCreate, strObjInsert);
-                this.$emit('onmessage', true)
+                this.$emit('onmessage', strObjInsert)
             };
         };
     },

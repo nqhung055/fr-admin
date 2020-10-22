@@ -9,12 +9,13 @@
     transition="slide-y-transition"
     nudge-top="-20"
   >
+    <socket @onmessage="addAlertUser"/>
     <template v-slot:activator="{ on }">
       <v-btn class="notification-icon ma-0" v-on="on" icon large>
-        <v-badge right overlap>
-          <span slot="badge">{{5}}</span>
+        <v-badge right overlap :value="cAlertUser.length" color="error">
+          <span slot="badge">{{ cAlertUser.length }}</span>
           <i
-            class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg"
+            class="zmdi grey--text zmdi-notifications-active infinite wobble zmdi-hc-fw font-lg" :class="{'animated' : cAlertUser.length}"
           ></i>
         </v-badge>
       </v-btn>
@@ -24,14 +25,36 @@
         <span class="white--text fw-bold">Detection Logs</span>
         <span class="v-badge warning">3 NEW</span>
       </div>-->
-      <div class="text-center pa-4" v-if="detectionlogs == ''">
+      <div class="text-center pa-4" v-if="!cAlertUser.length">
         <span class="d-block font-3x mb-15 error--text">
           <i class="zmdi zmdi-info-outline"></i>
         </span>
-        <h3>{{$t('message.noDetectionLogsFound')}}</h3>
+        <h3>{{$t('message.noAlertUsers')}}</h3>
       </div>
       <div v-else class="dropdown-content">
-        <vue-perfect-scrollbar style="height:280px" :settings="settings">
+        <div>
+          <v-list two-line>
+            <template v-for="(user, index) in selectTop(cAlertUser,5)">
+              <v-list-item :key="index">
+                <v-list-item-content>
+                  <span class="fs-14">{{user.userId}}</span>
+                  <span
+                    class="fs-12 fw-normal grey--text"
+                  >User {{ user.userId }} is high temperature</span>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn @click="user.deleted = true" icon>
+                    <i class="zmdi zmdi-close"></i>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </template>
+          </v-list>
+        </div>
+
+
+
+        <!-- <vue-perfect-scrollbar style="height:280px" :settings="settings">
           <v-list two-line>
             <template v-for="(detectionlog, index) in selectTop(detectionlogs,5)">
               <v-list-item :key="index">
@@ -52,7 +75,7 @@
               </v-list-item>
             </template>
           </v-list>
-        </vue-perfect-scrollbar>
+        </vue-perfect-scrollbar> -->
         <delete-confirmation-dialog
           ref="deleteConfirmationDialog"
           heading="Please confirm ..."
@@ -101,34 +124,43 @@ router.beforeEach((to, from, next) => {
 }) */
 // import { mapGetters } from "vuex";
 import { getCurrentAppLayout } from "Helpers/helpers";
-import Vue from "vue";
+import socket from "../../components/fr-admin/socket.vue";
+
+// import Vue from "vue";
 export default {
   props: ["horizontal"],
   data() {
     return {
       detectionlogs: [],
+      alertUsers: [ { userId: "FR00001", deleted: false } ],
       selectDeletedLog: null,
       settings: {
         maxScrollbarLength: 160,
       },
     };
   },
-  /* computed: {
-    ...mapGetters(["detectionlogs"]),
-  }, */
-  async mounted() {
-    const dlResponse = await this.$axios.get(`/logs?pageIndex=0&pageSize=1000000`);
-
-    if (dlResponse.status === 200) {
-      // console.log("response data: " + dlResponse.data.rows.length);
-      this.detectionlogs = dlResponse.data.rows;
-    } else {
-      Vue.notify({
-        group: "loggedIn",
-        type: "error",
-        text: "Can not get detection logs. Please try again later!",
-      });
+  components: {
+    socket
+  },
+  computed: {
+    cAlertUser() {
+      const notDeletedAlrtUsers = this.alertUsers.filter(user => !user.deleted)
+      return notDeletedAlrtUsers
     }
+  },
+  async mounted() {
+    // const dlResponse = await this.$axios.get(`/logs?pageIndex=0&pageSize=1000000`);
+
+    // if (dlResponse.status === 200) {
+    //   // console.log("response data: " + dlResponse.data.rows.length);
+    //   this.detectionlogs = dlResponse.data.rows;
+    // } else {
+    //   Vue.notify({
+    //     group: "loggedIn",
+    //     type: "error",
+    //     text: "Can not get detection logs. Please try again later!",
+    //   });
+    // }
   },
   methods: {
     getCurrentAppLayoutHandler() {
@@ -163,6 +195,16 @@ export default {
       }
       return null;
     },
+    addAlertUser(user) {
+      if((35,5 < user.bodyTemp || user.bodyTem > 37,5) && this.isExistInAlertUsers(user)) {
+        this.alertUsers.push({...user, deleted: false})
+      }
+    },
+    isExistInAlertUsers(user) {
+      const isExist = this.alertUsers.find(alertUser => alertUser.userId === user.userId)
+      if (isExist) return true
+      return false
+    }
     /* filters: {
       resultCount: function () {
         return this.arr.length;
