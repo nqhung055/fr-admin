@@ -20,12 +20,6 @@ import InstantSearch from 'vue-instantsearch'
 import VueVideoPlayer from 'vue-video-player';
 import Croppa from 'vue-croppa';
 import axios from 'axios';
-import VueSocketIO from 'vue-socket.io'
-
-Vue.use(new VueSocketIO({
-    debug: true,
-    connection: AppConfig.ip + AppConfig.ws_port
-}))
 
 // global components
 import GlobalComponents from './globalComponents'

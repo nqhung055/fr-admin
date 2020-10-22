@@ -50,7 +50,7 @@
             </v-select>
           </v-col>
           <v-col md="2">
-            <socket/>
+            <socket @onmessage="reloadAllChart"/>
           </v-col>
         </v-row>
         <v-row>
@@ -232,6 +232,11 @@ export default {
     
   },
   methods: {
+    reloadAllChart() {
+      this.getUsersSummary();
+      this.getVisitorSummary(this.devices);
+      this.getTemperatureSummary(this.devices);
+    },
     changeSelectedDevices() {
       this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
       this.getTemperatureSummary(this.selectedDevices);

@@ -1,10 +1,12 @@
-<template><div></div></template>
+<template>
+  <div></div>
+</template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
 
 export default {
-    created() {
+    async created() {
         let ws = new WebSocket(`${AppConfig.ws}${AppConfig.ws_port}`);
         this.$data.dom = []; this.objDetection = null;
         ws.onopen = () => {
@@ -12,7 +14,7 @@ export default {
             // console.log('Event: ' + e.srcElement);
             ws.send(JSON.stringify({ cmd: "user_client" }));
 
-            ws.onmessage = (msg) => {
+            ws.onmessage = async (msg) => {
                 let data = JSON.parse(msg.data);
                 let strObjInsert = {}; let userid = ""; let time = ""; let bodyTemp = ""; let confidence = ""; let roomTemp = "";
                 Object.entries(data["data"]).forEach(dt => {
@@ -27,7 +29,8 @@ export default {
                     });
                 });
                 strObjInsert = { type: data['type'], userId: userid, time: time, bodyTemp: bodyTemp, confidence: confidence, roomTemp: roomTemp };
-                this.createWSData(this.urlWSDateCreate, strObjInsert);
+                await this.createWSData(this.urlWSDateCreate, strObjInsert);
+                this.$emit('onmessage', true)
             };
         };
     },
@@ -46,12 +49,14 @@ export default {
               try {
                 if (create.status === 200) {
                   this.errorred = false;
+                  return
                 }
               } catch (error) {
                 this.errorred = true;
                   console.log(error);
+                  return
               }
-              finally {() => this.loading = false;}
+              finally {() => {this.loading = false; return}}
         }
     },
 };
