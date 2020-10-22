@@ -41,7 +41,7 @@
                         <v-col cols="12" class="user-id">
                           <v-row>
                             <v-col>
-                              <v-text-field :label="$t('message.userId')" v-model="editUser.userId" :rules="editUserRules.id" required></v-text-field>
+                              <v-text-field :label="$t('message.userId')" v-model="editUser.userId" :rules="editUserRules.id" required :disabled="true"></v-text-field>
                             </v-col>
                             <v-col>
                               <v-text-field

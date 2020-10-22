@@ -14,7 +14,6 @@
           <indexes-block :b1="0" :b2="0" :b3="0" :b4="0" />
         </div>
         <div v-else>
-          <!-- <detectionws></detectionws> -->
           <indexes-block :b1="nTotalResidents" :b2="nPresentPeoples" :b3="nPresentResidents" :b4="nPresentGuests" />
         </div>
         <v-row>
@@ -49,6 +48,9 @@
                 <v-divider class="mt-2"></v-divider>
               </template>
             </v-select>
+          </v-col>
+          <v-col md="2">
+            <socket/>
           </v-col>
         </v-row>
         <v-row>
@@ -143,7 +145,7 @@ import AppConfig from "Constants/AppConfig";
 import IndexesBlock from "../commons/fr-dasboard-block";
 import VisitorsCollection from "../fr-charts/VisitorsCollection";
 import TemperatureCollection from "../fr-charts/TemperatureCollection";
-// import detectionws from "../../components/fr-admin/detection-ws.vue";
+import socket from "../../components/fr-admin/socket.vue";
 export default {
   data() {
     return {
@@ -168,36 +170,13 @@ export default {
       temperatureChartData: [30, 50],
     };
   },
-  // sockets: {
-  //   connect(socket) {
-  //     // Fired when the socket connects.
-  //     console.log('connect', socket);
-  //   },
-
-  //   disconnect(socket) {
-  //     console.log('disconnect', socket);
-  //   },
-
-  //   // Fired when the server sends something on the "messageChannel" channel.
-  //   messageChannel(data) {
-  //     console.log('messageChannel', data);
-  //   }
-  // },
   created() {
   },
   components: {
     IndexesBlock,
     VisitorsCollection,
     TemperatureCollection,
-    // detectionws,
-  },
-  sockets: {
-    connect: function () {
-      console.log('socket connected')
-    },
-    customEmit: function () {
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
+    socket,
   },
   mounted() {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
