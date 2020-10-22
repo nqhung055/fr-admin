@@ -21,6 +21,12 @@ const Users_List = () => import('Views/fr-users/Users');
 
 const Report = () => import('Views/fr-reports/Reports');
 const DeviceManagement = () => import('Views/fr-devices/DeviceManagement');
+const BlockManagement = () => import('Views/fr-blocks/BlockManagement');
+const CompanyManagement = () => import('Views/fr-companies/CompanyManagement');
+const FloorManagement = () => import('Views/fr-floors/FloorManagement');
+const SiteManagement = () => import('Views/fr-sites/SiteManagement');
+
+
 
 //Modules
 const DetectionLogs_V0 = () => import('Views/fr-detection-logs/DetectionLogs');
@@ -325,7 +331,7 @@ export default {
       }
     },
     {
-      path: '/default/users/detection-logs.html',
+      path: '/default/detection-logs.html',
       component: DetectionLogs,
       meta: {
         requiresAuth: true,
@@ -342,7 +348,7 @@ export default {
     },
     //Reports
     {
-      path: '/default/users/reports.html',
+      path: '/default/reports.html',
       component: Report,
       meta: {
         requiresAuth: true,
@@ -359,7 +365,7 @@ export default {
     },
     //Device Management
     {
-      path: '/default/users/device-management.html',
+      path: '/default/device-management.html',
       component: DeviceManagement,
       meta: {
         requiresAuth: true,
@@ -367,6 +373,74 @@ export default {
         breadcrumb: [
           {
             breadcrumbInactive: 'Device Management /'
+          },
+          {
+            breadcrumbActive: 'Main'
+          }
+        ]
+      }
+    },
+    //Block Management
+    {
+      path: '/default/block-management.html',
+      component: BlockManagement,
+      meta: {
+        requiresAuth: true,
+        title: 'message.blockManagement',
+        breadcrumb: [
+          {
+            breadcrumbInactive: 'Block Management /'
+          },
+          {
+            breadcrumbActive: 'Main'
+          }
+        ]
+      }
+    },
+    //Company Management
+    {
+      path: '/default/company-management.html',
+      component: CompanyManagement,
+      meta: {
+        requiresAuth: true,
+        title: 'message.companyManagement',
+        breadcrumb: [
+          {
+            breadcrumbInactive: 'Company Management /'
+          },
+          {
+            breadcrumbActive: 'Main'
+          }
+        ]
+      }
+    },
+    //Floor Management
+    {
+      path: '/default/floor-management.html',
+      component: FloorManagement,
+      meta: {
+        requiresAuth: true,
+        title: 'message.floorManagement',
+        breadcrumb: [
+          {
+            breadcrumbInactive: 'Floor Management /'
+          },
+          {
+            breadcrumbActive: 'Main'
+          }
+        ]
+      }
+    },
+    //Site Management
+    {
+      path: '/default/site-management.html',
+      component: SiteManagement,
+      meta: {
+        requiresAuth: true,
+        title: 'message.siteManagement',
+        breadcrumb: [
+          {
+            breadcrumbInactive: 'Site Management /'
           },
           {
             breadcrumbActive: 'Main'
