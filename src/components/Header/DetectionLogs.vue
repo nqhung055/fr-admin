@@ -9,7 +9,7 @@
     transition="slide-y-transition"
     nudge-top="-20"
   >
-    <socket @onmessage="addAlertUser"/>
+    <socket @onmessage="addAlertUser($event)"/>
     <template v-slot:activator="{ on }">
       <v-btn class="notification-icon ma-0" v-on="on" icon large>
         <v-badge right overlap :value="cAlertUser.length" color="error">
@@ -132,7 +132,7 @@ export default {
   data() {
     return {
       detectionlogs: [],
-      alertUsers: [ { userId: "FR00001", deleted: false } ],
+      alertUsers: [],
       selectDeletedLog: null,
       settings: {
         maxScrollbarLength: 160,
@@ -196,7 +196,7 @@ export default {
       return null;
     },
     addAlertUser(user) {
-      if((35,5 < user.bodyTemp || user.bodyTem > 37,5) && this.isExistInAlertUsers(user)) {
+      if((35,5 < user.bodyTemp || user.bodyTem > 37,5) && !this.isExistInAlertUsers(user)) {
         this.alertUsers.push({...user, deleted: false})
       }
     },
