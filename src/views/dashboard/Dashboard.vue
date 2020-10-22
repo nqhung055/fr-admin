@@ -233,9 +233,10 @@ export default {
   },
   methods: {
     reloadAllChart() {
-      this.getUsersSummary();
-      this.getVisitorSummary(this.devices);
-      this.getTemperatureSummary(this.devices);
+      this.getSumPeoples(this.selectedDevices);
+      this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
+      this.getTemperatureSummary(this.selectedDevices);
+      this.clickedBtn();
     },
     changeSelectedDevices() {
       this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
