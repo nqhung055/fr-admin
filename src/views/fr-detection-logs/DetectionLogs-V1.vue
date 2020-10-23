@@ -135,14 +135,14 @@ import Vue from 'vue'
 import { ChartConfig } from "Constants/chart-config";
 import { groupByKey } from "Helpers/helpers";
 
-import { Datetime } from 'vue-datetime';
-import 'vue-datetime/dist/vue-datetime.css';
+// import { Datetime } from 'vue-datetime';
+// import 'vue-datetime/dist/vue-datetime.css';
 // Vue.use(datetime);
 // Vue.component('vue-datetime', window.VueDatetime.Datetime);
 Vue.extend({
   template: '...',
   components: {
-    datetime: Datetime
+    // datetime: Datetime
   }
 });
 
@@ -302,7 +302,9 @@ export default {
       return groupByKey(this.logsList, "type");
     },
   },
-  components: { Datetime },
+  components: { 
+    // Datetime
+  },
   // setup (props, context) {
   //   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 
   //     'September', 'October', 'November', 'December']

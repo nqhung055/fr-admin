@@ -9,13 +9,17 @@
     transition="slide-y-transition"
     nudge-top="-20"
   >
-    <socket @onmessage="addAlertUser($event)"/>
+    <socket @onmessage="addAlertUser($event)" />
     <template v-slot:activator="{ on }">
+      <v-btn class="notification-icon ma-0" v-on="on" icon large >
+				<i class="zmdi grey--text zmdi-devices animated infinite wobble zmdi-hc-fw font-lg"></i>
+			</v-btn>
       <v-btn class="notification-icon ma-0" v-on="on" icon large>
         <v-badge right overlap :value="cAlertUser.length" color="error">
           <span slot="badge">{{ cAlertUser.length }}</span>
           <i
-            class="zmdi grey--text zmdi-notifications-active infinite wobble zmdi-hc-fw font-lg" :class="{'animated' : cAlertUser.length}"
+            class="zmdi grey--text zmdi-notifications-active infinite wobble zmdi-hc-fw font-lg"
+            :class="{ animated: cAlertUser.length }"
           ></i>
         </v-badge>
       </v-btn>
@@ -29,18 +33,18 @@
         <span class="d-block font-3x mb-15 error--text">
           <i class="zmdi zmdi-info-outline"></i>
         </span>
-        <h3>{{$t('message.noAlertUsers')}}</h3>
+        <h3>{{ $t("message.noAlertUsers") }}</h3>
       </div>
       <div v-else class="dropdown-content">
         <div>
           <v-list two-line>
-            <template v-for="(user, index) in selectTop(cAlertUser,5)">
+            <template v-for="(user, index) in selectTop(cAlertUser, 5)">
               <v-list-item :key="index">
                 <v-list-item-content>
-                  <span class="fs-14">{{user.userId}}</span>
-                  <span
-                    class="fs-12 fw-normal grey--text"
-                  >User {{ user.userId }} is high temperature</span>
+                  <span class="fs-14">{{ user.userId }}</span>
+                  <span class="fs-12 fw-normal grey--text"
+                    >User {{ user.userId }} is high temperature</span
+                  >
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn @click="user.deleted = true" icon>
@@ -51,8 +55,6 @@
             </template>
           </v-list>
         </div>
-
-
 
         <!-- <vue-perfect-scrollbar style="height:280px" :settings="settings">
           <v-list two-line>
@@ -89,13 +91,15 @@
           v-if="horizontal"
           small
           :to="`/${getCurrentAppLayoutHandler() + '/detection-logs.html'}`"
-        >{{$t('message.viewDetectionLogs')}}</v-btn>
+          >{{ $t("message.viewDetectionLogs") }}</v-btn
+        >
         <v-btn
           v-else
           small
           color="primary"
           :to="`/${getCurrentAppLayoutHandler() + '/detection-logs.html'}`"
-        >{{$t('message.viewDetectionLogs')}}</v-btn>
+          >{{ $t("message.viewDetectionLogs") }}</v-btn
+        >
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -140,17 +144,18 @@ export default {
     };
   },
   components: {
-    socket
+    socket,
   },
   computed: {
     cAlertUser() {
-      const notDeletedAlrtUsers = this.alertUsers.filter(user => !user.deleted)
-      return notDeletedAlrtUsers
-    }
+      const notDeletedAlrtUsers = this.alertUsers.filter(
+        (user) => !user.deleted
+      );
+      return notDeletedAlrtUsers;
+    },
   },
   async mounted() {
     // const dlResponse = await this.$axios.get(`/logs?pageIndex=0&pageSize=1000000`);
-
     // if (dlResponse.status === 200) {
     //   // console.log("response data: " + dlResponse.data.rows.length);
     //   this.detectionlogs = dlResponse.data.rows;
@@ -196,15 +201,20 @@ export default {
       return null;
     },
     addAlertUser(user) {
-      if((35,5 < user.bodyTemp || user.bodyTem > 37,5) && !this.isExistInAlertUsers(user)) {
-        this.alertUsers.push({...user, deleted: false})
+      if (
+        (35, 5 < user.bodyTemp || user.bodyTem > 37, 5) &&
+        !this.isExistInAlertUsers(user)
+      ) {
+        this.alertUsers.push({ ...user, deleted: false });
       }
     },
     isExistInAlertUsers(user) {
-      const isExist = this.alertUsers.find(alertUser => alertUser.userId === user.userId)
-      if (isExist) return true
-      return false
-    }
+      const isExist = this.alertUsers.find(
+        (alertUser) => alertUser.userId === user.userId
+      );
+      if (isExist) return true;
+      return false;
+    },
     /* filters: {
       resultCount: function () {
         return this.arr.length;

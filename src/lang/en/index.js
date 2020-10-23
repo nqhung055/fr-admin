@@ -665,4 +665,5 @@ export default {
   currentTotalPeople: '#No Present People',
   currentTotalResidents: '#No Present Registered User',
   currentTotalGuests: '#No Present Guest',
+  devicesHealth: 'FAILED ACCESS AT DEVICE RLX-0110024',
 }
