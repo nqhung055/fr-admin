@@ -611,6 +611,12 @@ export default {
           sortable: false,
           value: "companyName",
         },
+        {
+          text: "Status",
+          align: "left",
+          sortable: false,
+          value: "status",
+        },
         { text: "Action", align: "center", value: "action", width: "10%" },
       ],
       userTypes: [
