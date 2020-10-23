@@ -606,7 +606,7 @@ export default {
           value: "blockName",
         },
         {
-          text: "Company",
+          text: "-Company-",
           align: "left",
           sortable: false,
           value: "companyName",
