@@ -666,4 +666,5 @@ export default {
   currentTotalResidents: '#No Present Registered User',
   currentTotalGuests: '#No Present Guest',
   devicesHealth: 'FAILED ACCESS AT DEVICE RLX-0110024',
+  notAlarm: 'No unresolved failed access attempts!',
 }

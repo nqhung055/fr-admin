@@ -30,10 +30,10 @@
         <span class="v-badge warning">3 NEW</span>
       </div>-->
       <div class="text-center pa-4" v-if="!cAlertUser.length">
-        <span class="d-block font-3x mb-15 error--text">
+        <!-- <span class="d-block font-3x mb-15 error--text">
           <i class="zmdi zmdi-info-outline"></i>
-        </span>
-        <h3>{{ $t("message.noAlertUsers") }}</h3>
+        </span> -->
+        <h5>{{ $t("message.notAlarm") }}</h5>
       </div>
       <div v-else class="dropdown-content">
         <div>
@@ -202,7 +202,7 @@ export default {
     },
     addAlertUser(user) {
       if (
-        (35, 5 < user.bodyTemp || user.bodyTem > 37, 5) &&
+        (35.5 > user.bodyTemp || user.bodyTem > 37.5) &&
         !this.isExistInAlertUsers(user)
       ) {
         this.alertUsers.push({ ...user, deleted: false });
