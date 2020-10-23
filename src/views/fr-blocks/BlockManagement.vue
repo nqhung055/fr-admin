@@ -79,6 +79,8 @@ export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       search: "",
       selected: [],
       headers: [
@@ -110,28 +112,15 @@ export default {
         });
     },
     async getData() {
-      const blocks = await this.$axios.get(
-        `${AppConfig.ip}${AppConfig.api_port}/blocks`
-      );
-      //   const companies = await this.$axios.get(
-      //     `${AppConfig.ip}${AppConfig.api_port}/companies`
-      //   );
-      //   const floors = await this.$axios.get(
-      //     `${AppConfig.ip}${AppConfig.api_port}/floors`
-      //   );
-      //   const sites = await this.$axios.get(
-      //     `${AppConfig.ip}${AppConfig.api_port}/sites`
-      //   );
+      const blocks = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/blocks`);
       try {
         if (blocks.status === 200) {
-          // && companies.status === 200 && floors.status === 200 && sites.status === 200
           this.loader = false;
+          this.loading = false
           this.items = blocks.data;
-          //   this.userCompanies = companies.data;
-          //   this.userFloors = floors.data;
-          //   this.userSites = sites.data;
         }
       } catch (error) {
+        this.errored = true;
         console.log(error);
       }
     },

@@ -79,11 +79,13 @@ export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       search: "",
       selected: [],
       headers: [
         {
-          text: "name",
+          text: "Name",
           align: "left",
           sortable: false,
           value: "name",
@@ -96,32 +98,43 @@ export default {
   },
   mounted() {
     this.getData();
+    // this.getDetail(this.items);
   },
   methods: {
-    async getList() {
-      await this.$axios
-        .get(`${AppConfig.ip}${AppConfig.api_port}/`)
-        .then((response) => {
-          this.loader = false;
-          this.items = response.data || [];
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     async getData() {
       const devices = await this.$axios.get(`/registered/device/list`);
+      let strDevices = "";
       try {
         if (devices.status === 200) {
-          this.loader = false;
+          this.loader = false; 
+          this.loading = false
           Object.values(devices.data).forEach(dv => {
-            console.log('device: ' + dv);
-            if (this.items.indexOf(dv) === -1) this.items.push(dv);
+            if (this.items.indexOf(dv) === -1) strDevices += dv + ","
+            // this.items.push(dv);
           });
+          // Object.values(this.items).forEach(dv => {
+            // console.log('device: ' + strDevices);
+          // });devices?deviceIds=
+          // return this.items;
         }
       } catch (error) {
+        this.errored = true;
         console.log(error);
+      } finally {
+          const devices = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + strDevices);
+          try {
+            if (devices.status === 200) {
+              this.items = devices.data;
+            }
+          } catch (error) {
+            console.log(error);
+          }
       }
+    },
+    getDetail(lstDevices) {
+      Object.values(lstDevices).forEach(dv => {
+        console.log('device: ' + dv);
+      });
     },
   },
 };
