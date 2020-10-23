@@ -24,37 +24,47 @@
               >
               </v-text-field>
             </v-card-title>
-            <v-data-table
-              :headers="headers"
-              :items="items"
-              :search="search"
-              v-model="selected"
-              item-key="name"
-              show-select
-            >
-              <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom>
-                  <span slot="activator">
-                    {{ props.header.text }}
-                  </span>
-                  <span>
-                    {{ props.header.text }}
-                  </span>
-                </v-tooltip>
-              </template>
-              <template slot="items" slot-scope="props">
-                <td>
-                  <v-checkbox
-                    color="primary"
-                    hide-details
-                    v-model="props.selected"
-                  ></v-checkbox>
-                </td>
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.shortName }}</td>
-                <td>{{ props.item.description }}</td>
-              </template>
-            </v-data-table>
+            <div v-if="errored">
+              <p>{{ $t('message.getLogsError') }}</p>
+            </div>
+            <div v-else>
+              <div v-if="loading" class="pr-4">
+                {{ $t('message.loading') }}
+                </div>
+              <div v-else>
+                  <v-data-table
+                    :headers="headers"
+                    :items="items"
+                    :search="search"
+                    v-model="selected"
+                    item-key="name"
+                    show-select
+                  >
+                    <template slot="headerCell" slot-scope="props">
+                      <v-tooltip bottom>
+                        <span slot="activator">
+                          {{ props.header.text }}
+                        </span>
+                        <span>
+                          {{ props.header.text }}
+                        </span>
+                      </v-tooltip>
+                    </template>
+                    <template slot="items" slot-scope="props">
+                      <td>
+                        <v-checkbox
+                          color="primary"
+                          hide-details
+                          v-model="props.selected"
+                        ></v-checkbox>
+                      </td>
+                      <td>{{ props.item.name }}</td>
+                      <td>{{ props.item.shortName }}</td>
+                      <td>{{ props.item.description }}</td>
+                    </template>
+                  </v-data-table>
+              </div>
+            </div>
           </v-card>
         </app-card>
       </v-row>

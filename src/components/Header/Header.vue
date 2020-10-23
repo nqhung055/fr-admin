@@ -36,9 +36,9 @@
 					</v-btn>
         </div>-->
       </div>
-      <div class="navbar-center">
+      <!-- <div class="navbar-center">
         <devices-health />
-      </div>
+      </div> -->
       <div class="navbar-right">
         <!-- <v-btn class="v-step-2 mr-2 upgrade-btn" color="primary" tag="link" @click="sidebarPath('/pages/pricing-1')">{{ $t('message.pricing') }}</v-btn>
 				<v-btn icon large @click="toggleFullScreen" class="full-screen ma-0">
@@ -75,7 +75,7 @@ import Sidebar from "../Sidebar/Sidebar.vue";
 import ChatSidebar from "../ChatSidebar/ChatSidebar.vue";
 import screenfull from "screenfull";
 // import LanguageProvider from "./LanguageProvider";
-import DevicesHealth from "./DevicesHealth";
+// import DevicesHealth from "./DevicesHealth";
 import DetectionLogs from "./DetectionLogs";
 import User from "./User";
 /* import Notifications from "./Notifications";
@@ -142,7 +142,7 @@ export default {
     ChatSidebar,
 	// LanguageProvider,
     DetectionLogs,
-    DevicesHealth,
+    // DevicesHealth,
 	/* Notifications,
 	Cart,
 	QuickLinks, */
