@@ -426,7 +426,7 @@
                             single-line
                             label="Select Company"
                           ></v-select>
-                        </v-col>
+                        </v-col>                        
                         <v-col cols="12" class="user-block">
                           <v-select v-if="userBlocks"
                             v-model="newUser.blockId"
@@ -606,10 +606,16 @@ export default {
           value: "blockName",
         },
         {
-          text: "-Company-",
+          text: "Company",
           align: "left",
           sortable: false,
           value: "companyName",
+        },
+        {
+          text: "Status",
+          align: "left",
+          sortable: false,
+          value: "status",
         },
         { text: "Action", align: "center", value: "action", width: "10%" },
       ],
