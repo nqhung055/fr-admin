@@ -80,6 +80,7 @@ export default {
         },
         { text: "Short Name", value: "shortName" },
         { text: "Description", value: "description", sortable: false },
+		{ text: "Action", align: "center", value: "action", width: "10%" },
       ],
       items: [],
     };
