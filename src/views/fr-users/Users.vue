@@ -916,10 +916,7 @@ export default {
         phone: user.phone,
         userType: parseInt(user.userType),
         confidenceLevel: user.confidenceLevel,
-        ic: 
-			user.icCard !== ""
-			? "a"
-			: "b",
+        ic: user.icCard,
         facePhoto: user.photo,
         allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
         expiredAt:
