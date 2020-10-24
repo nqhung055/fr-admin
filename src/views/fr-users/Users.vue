@@ -579,7 +579,7 @@ export default {
           text: "NRIC/FIN",
           align: "left",
           sortable: false,
-          value: "icCard",
+          value: "icCardMasked",
         },
 		{
           text: "Exp. Date",
