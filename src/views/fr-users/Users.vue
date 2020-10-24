@@ -581,6 +581,12 @@ export default {
           sortable: false,
           value: "icCard",
         },
+		{
+          text: "Exp. Date",
+          align: "left",
+          sortable: false,
+          value: "validUntil",
+        },
         {
           text: "Card ID",
           align: "left",
@@ -606,7 +612,7 @@ export default {
           value: "blockName",
         },
         {
-          text: "!-Company-!",
+          text: "Company",
           align: "left",
           sortable: false,
           value: "companyName",
