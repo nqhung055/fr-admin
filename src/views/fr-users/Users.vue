@@ -28,10 +28,12 @@
           <v-card>
             <v-card-text>
               <v-row>
-                <v-col cols="2" class="header-table-select-devices">
+                <v-col cols="6" class="header-table-select-devices">
                   <v-select
                     v-model="selectedDevice"
                     :items="devices"
+                    item-text="displayName"
+                    item-value="name"
                     label="Select Device"
                     @change="getListUsers()"
                   >
@@ -857,7 +859,14 @@ export default {
     async getDevices() {
       const deviceResponse = await this.$axios.get("/registered/device/list");
       if (deviceResponse.status === 200) {
-        this.devices = deviceResponse.data;
+        const devices = deviceResponse.data
+        const devicesResponse = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + devices.join(','));
+        this.devices = devicesResponse.data.map(device => {
+            return {
+              ...device,
+              displayName: device.displayName ? device.displayName : device.displayName ? device.displayName : `${device.siteId ? device.siteId + '-' : ""}${device.blockId ? device.blockId + '-' : ""}${device.floorId ? device.floorId + '-' : ""}${device.customName ? device.customName: ""}`
+            }
+          })
       } else {
         Vue.notify({
           group: "loggedIn",
