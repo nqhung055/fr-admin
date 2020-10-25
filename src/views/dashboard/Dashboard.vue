@@ -22,7 +22,8 @@
               v-model="selectedDevices"
               :items="devices"
               label="Select Devices"
-              return-object
+              item-text="displayName"
+              item-value="name"
               multiple
               @input="getVistorData(selectedDevices)"
               @change="changeSelectedDevices"
@@ -239,27 +240,31 @@ export default {
       this.clickedBtn();
     },
     changeSelectedDevices() {
+      console.log(246, this.selectedDevices);
       this.$refs.visitorLineChart.reloadWithDefaultUrl(this.strGetVisitorSummary)
       this.getTemperatureSummary(this.selectedDevices);
       this.clickedBtn();
     },
     async getDevices() {
+      let devices = []
       await this.$axios
         .get("/registered/device/list")
         .then((response) => {
-          Object.values(response.data).forEach(dv => {
-            if (this.devices.indexOf(dv) === -1) this.devices.push(dv);
-          });
-          this.selectedDevices = this.devices;
-          this.getVisitorSummary(this.devices);
-          this.getTemperatureSummary(this.devices);
-          return this.devices;
+          devices = response.data
+          this.getVisitorSummary(devices);
+          this.getTemperatureSummary(devices);
+          this.selectedDevices = devices
         })
         .catch((error) => {
           this.errored = true;
           console.log(error);
         })
-        .finally(() => this.loading = false);
+        .finally(async () => {
+          this.loading = false
+          // Bind this array of deviceObj to a variable
+          const devicesResponse = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + devices.join(','));
+          this.devices = devicesResponse.data
+        });
     },
     selectAllDevices() {
       this.$nextTick(() => {
@@ -267,7 +272,7 @@ export default {
         if (this.cSelectAllDevices) {
           this.selectedDevices = [];
         } else {
-          this.selectedDevices = this.devices.slice();
+          this.selectedDevices = this.devices.map(device => device.name).slice();
         }
         this.getVisitorSummary(this.selectedDevices);
         this.getTemperatureSummary(this.selectedDevices);
