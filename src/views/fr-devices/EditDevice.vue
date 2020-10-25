@@ -14,7 +14,7 @@
                         <v-row>                
                             <v-col cols="12">
                                 <v-text-field
-                                   :label="$t('message.name')"
+                                   :label="$t('message.id')"
                                     hide-details
                                     disabled
                                     v-model="editDevice.name"
@@ -24,18 +24,9 @@
                                 <v-text-field
                                    :label="$t('message.displayName')"
                                     hide-details
-                                    v-model="editDevice.displayName"
+                                    v-model="cDisplayName"
                                 />
                             </v-col>
-                            <v-col cols="6">
-                                <v-select
-                                    v-model="editDevice.blockId"
-                                    :items="blocks"
-                                    item-text="name"
-                                    item-value="shortName"
-                                    :label="$t('message.block')"
-                                ></v-select>
-                            </v-col> 
                             <v-col cols="6">
                                 <v-select
                                     v-model="editDevice.siteId"
@@ -47,6 +38,15 @@
                             </v-col> 
                             <v-col cols="6">
                                 <v-select
+                                    v-model="editDevice.blockId"
+                                    :items="blocks"
+                                    item-text="name"
+                                    item-value="shortName"
+                                    :label="$t('message.block')"
+                                ></v-select>
+                            </v-col>
+                            <v-col cols="6">
+                                <v-select
                                     v-model="editDevice.floorId"
                                     :items="floors"
                                     item-text="name"
@@ -55,13 +55,11 @@
                                 ></v-select>
                             </v-col> 
                             <v-col cols="6">
-                                <v-select
-                                    v-model="editDevice.companyId"
-                                    :items="companies"
-                                    item-text="name"
-                                    item-value="shortName"
-                                    :label="$t('message.company')"
-                                ></v-select>
+                                <v-text-field
+                                   :label="$t('message.name')"
+                                    hide-details
+                                    v-model="editDevice.customName"
+                                />
                             </v-col>                           
                         </v-row>
                     </v-form>
@@ -98,7 +96,16 @@ export default {
       this.getFloors();
       this.getCompanies();
   },
-  computed: {},
+  computed: {
+    cDisplayName: {
+      get: function () {
+        return this.editDevice.displayName ? this.editDevice.displayName : `${this.editDevice.siteId ? this.editDevice.siteId + '-' : ""}${this.editDevice.blockId ? this.editDevice.blockId + '-' : ""}${this.editDevice.floorId ? this.editDevice.floorId + '-' : ""}${this.editDevice.customName ? this.editDevice.customName: ""}`
+      },
+      set: function (value) {
+        this.editDevice.displayName = value
+      },      
+    }
+  },
   methods: {
     async editedDevice() {
         // return console.log(this.editedDevice)

@@ -59,6 +59,9 @@
                         ></v-checkbox>
                       </td>
                     </template>
+                    <template slot="item.displayName" slot-scope="props">
+                      <td>{{ props.item.displayName ? props.item.displayName : `${props.item.siteId ? props.item.siteId + '-' : ""}${props.item.blockId ? props.item.blockId + '-' : ""}${props.item.floorId ? props.item.floorId + '-' : ""}${props.item.customName ? props.item.customName: ""}` }}</td>
+                    </template>
                     <template v-slot:[`item.action`]="{ item }">
                       <v-icon small @click="handleClickEditDevice(item)">ti-pencil</v-icon>
                     </template>
@@ -98,16 +101,16 @@ export default {
       showEditDeviceDialog: false,
       headers: [
         {
-          text: "Name",
+          text: "ID",
           align: "left",
           sortable: false,
           value: "name",
         },
-        { text: "Display Name", value: "displayName" },
-        { text: "Floor", value: "floorName" },
+        { text: "Name", value: "customName" },
         { text: "Site", value: "siteName" },
         { text: "Block", value: "blockName" },
-        { text: "Company", value: "companyName" },
+        { text: "Floor", value: "floorName" },
+        { text: "Display Name", value: "displayName" },
         { text: "Action", value: "action", width: "10%", sortable: false },
       ],
       items: [],
@@ -119,8 +122,7 @@ export default {
   methods: {
     handleClickEditDevice(device) {
       this.editDevice = { 
-        ...device,
-        displayName: device.displayName ? device.displayName : `${device.siteName ? device.siteName + ' - ' : ""} ${device.blockName ? device.blockName + ' - ' : ""} ${device.floorName ? device.floorName : ""}`
+        ...device
       }
       this.showEditDeviceDialog = true
     },

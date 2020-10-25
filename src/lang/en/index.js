@@ -671,5 +671,6 @@ export default {
   site: 'Site',
   floor: 'Floor',
   company: 'Company',
-  displayName: 'Display Name'
+  displayName: 'Display Name',
+  id: 'ID'
 }
