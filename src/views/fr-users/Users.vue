@@ -801,8 +801,8 @@ export default {
       };
 
       const addResponse = await this.$axios.post("/upload/user", this.newUser);
-      const updateResponse = await this.$axios.patch(
-        `${AppConfig.ip}${AppConfig.api_port}/users`,
+      await this.$axios.patch(
+        `${AppConfig.ip}${AppConfig.api_port}/users/${this.newUser.userId}?devices=${this.selectedDevice}`,
         {
           blockId: this.newUser.blockId,
           companyId: this.newUser.companyId,
@@ -813,7 +813,6 @@ export default {
           deviceIds: this.newUser.devices,
         }
       );
-      console.log(703, updateResponse);
       if (addResponse.status === 200) {
         this.renewUser();
         this.showNewUserDialog = false;
