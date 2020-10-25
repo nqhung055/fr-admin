@@ -17,7 +17,7 @@
           <indexes-block :b1="nTotalResidents" :b2="nPresentPeoples" :b3="nPresentResidents" :b4="nPresentGuests" />
         </div>
         <v-row>
-          <v-col md="7">
+          <v-col md="12">
             <v-select
               v-model="selectedDevices"
               :items="devices"
@@ -263,7 +263,12 @@ export default {
           this.loading = false
           // Bind this array of deviceObj to a variable
           const devicesResponse = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + devices.join(','));
-          this.devices = devicesResponse.data
+          this.devices = devicesResponse.data.map(device => {
+            return {
+              ...device,
+              displayName: device.displayName ? device.displayName : device.displayName ? device.displayName : `${device.siteId ? device.siteId + '-' : ""}${device.blockId ? device.blockId + '-' : ""}${device.floorId ? device.floorId + '-' : ""}${device.customName ? device.customName: ""}`
+            }
+          })
         });
     },
     selectAllDevices() {
