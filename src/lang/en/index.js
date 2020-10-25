@@ -667,4 +667,9 @@ export default {
   currentTotalGuests: '#No Present Guest',
   devicesHealth: 'FAILED ACCESS AT DEVICE RLX-0110024',
   notAlarm: 'No unresolved failed access attempts!',
+  editDevice: 'Edit Device',
+  site: 'Site',
+  floor: 'Floor',
+  company: 'Company',
+  displayName: 'Display Name'
 }

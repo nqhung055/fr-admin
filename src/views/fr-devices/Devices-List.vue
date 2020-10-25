@@ -58,9 +58,9 @@
                           v-model="props.selected"
                         ></v-checkbox>
                       </td>
-                      <td>{{ props.item["name"] }}</td>
-                      <td>{{ props.item[""] }}</td>
-                      <td>{{ props.item[""] }}</td>
+                    </template>
+                    <template v-slot:[`item.action`]="{ item }">
+                      <v-icon small @click="handleClickEditDevice(item)">ti-pencil</v-icon>
                     </template>
                   </v-data-table>
               </div>
@@ -69,13 +69,24 @@
         </app-card>
       </v-row>
     </v-container>
+    <edit-device
+      :isShowPopup="showEditDeviceDialog"
+      @closePopup="closeEditDevicePopup"
+      @editDeviceSuccess="editDeviceSuccess"
+      :editDevice="editDevice"
+      max-width="500px"
+    />
   </div>
 </template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editDevice from "./EditDevice.vue";
 
 export default {
+  components: {
+    editDevice
+  },
   data() {
     return {
       loader: true,
@@ -83,6 +94,8 @@ export default {
       errored: false,
       search: "",
       selected: [],
+      editDevice: {},
+      showEditDeviceDialog: false,
       headers: [
         {
           text: "Name",
@@ -90,17 +103,27 @@ export default {
           sortable: false,
           value: "name",
         },
-        { text: "Display Name", value: "" },
-        { text: "Description", value: "" },
+        { text: "Display Name", value: "displayName" },
+        { text: "Floor", value: "floorName" },
+        { text: "Site", value: "siteName" },
+        { text: "Block", value: "blockName" },
+        { text: "Company", value: "companyName" },
+        { text: "Action", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
   },
   mounted() {
     this.getData();
-    // this.getDetail(this.items);
   },
   methods: {
+    handleClickEditDevice(device) {
+      this.editDevice = { 
+        ...device,
+        displayName: device.displayName ? device.displayName : `${device.siteName ? device.siteName + ' - ' : ""} ${device.blockName ? device.blockName + ' - ' : ""} ${device.floorName ? device.floorName : ""}`
+      }
+      this.showEditDeviceDialog = true
+    },
     async getData() {
       const devices = await this.$axios.get(`/registered/device/list`);
       let strDevices = "";
@@ -136,6 +159,13 @@ export default {
         console.log('device: ' + dv);
       });
     },
+    closeEditDevicePopup() {
+      this.showEditDeviceDialog = false
+    },
+    editDeviceSuccess() {
+      this.closeEditDevicePopup()
+      this.getData()
+    }
   },
 };
 </script>
