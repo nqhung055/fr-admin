@@ -45,6 +45,8 @@
                     v-model="selectedDevices"
                     :rules="devicesRules"
                     :items="connectedDevices"
+                    item-text="displayName"
+                    item-value="name"
                     label="Upload To Devices"
                     multiple
                   ></v-select>
@@ -112,8 +114,9 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import XLSX from 'xlsx'
+import Vue from 'vue';
+// import moment from 'moment';
+import XLSX from 'xlsx';
 import AppConfig from '../../constants/AppConfig';
 
 export default {
@@ -150,12 +153,12 @@ export default {
       ],
       uploadExcelFile: {},
       tableHeaders: [
-        {
+        /*{
           text: 'ID',
           align: 'left',
           value: 'userId',
           width: '2%'
-        },
+        },*/
         {
           text: 'Username',
           align: 'left',
@@ -237,23 +240,39 @@ export default {
           )
 
           this.uploadUsers = rawUploadUsers.map(rawUser => {
+            // let s = "";
+            // Object.keys(rawUser).forEach((key) => {
+            //   if(key === 'Validity period') {
+            //     const str = new Date(rawUser['Validity period']); 
+            //     s = str.getFullYear() + '-' + ((str.getMonth() < 9) ? '0' : '') + (str.getMonth() + 1) + '-' + ((str.getDate() < 10) ? '0' : '') + str.getDate();
+            //     console.log('s: ' + s);
+            // console.log('key: ' + key + ' - val: ' + rawUser[key]);
+            //  }
+            // });
+
             return {
               devices: rawUser['devices'],
               confidenceLevel: '65', //rawUser['Personal confidence'],
               userType: '-1', //rawUser['User type'],
               name: rawUser['Name'],
-              userId: rawUser['Number'] + "",
-              ic: rawUser['ID card number'],
-              cardId: rawUser['Card ID'],
+              // userId: rawUser['Number'] + "",
+              // ic: rawUser['ID card number'],
+              userId: new Date().getTime() + 1,
+              ic: rawUser['NRIC/FIN'],
               company: rawUser['Company'],
               site: rawUser['Site'],
               block: rawUser['Block'],
               floor: rawUser['Floor'],
               facePhoto: '',
+              cardId: rawUser['Card ID'],
               phone: rawUser['Cellphone number'],
-              effectFrom: rawUser['Validity period']
+              effectFrom: rawUser['Validity period'],
+              // moment(rawUser['Validity period']).format("DD-MM-YYYY"),
+              // .toLocaleString(['en-US'], {month: 'numeric', day: '2-digit', year: 'numeric'}),
+              //moment(String(rawUser['Validity period'])).format('YYYY-MM-DD'),
+              // moment(rawUser['Validity period']).format("DD-MM-YYYY"),
             }
-          })
+          });
         },
         false
       )
@@ -264,13 +283,13 @@ export default {
     },
     async uploadImage() {
       this.uploadImages.map(image => {
-        const userId = image.name.split('.')[0]
+        const nricFIN = image.name.split('.')[0]
         const reader = new FileReader()
         reader.addEventListener(
           'load',
           () => {
             const users = this.uploadUsers.filter(
-              user => user.userId == userId
+              user => user.ic == nricFIN
             )
             users.forEach(user => {
               user.facePhoto = reader.result
@@ -291,20 +310,23 @@ export default {
     },
     async createUsers(isClearUserData = true) {
       try {
-        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
-        // console.log('isClearUserData: ' + isClearUserData);
+        
+        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let ic = ""; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
         if (isClearUserData) await this.deleteUserFromDevice()
         for (let index = 0; index < this.uploadUsers.length; index++) {
           if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
           const user = this.uploadUsers[index];
           const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
+          console.log('UserObj to GW: ' + JSON.stringify(userWithDevies));
           Object.keys(userWithDevies).forEach((key) => {
-            if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
-              devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
+            console.log('key: ' + key + ' - val: ' + userWithDevies[key]);
+            //
+            if (key === "devices" || key === "userId" || key === "ic" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
+              ic = userWithDevies["ic"]; devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
               blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
             }
           });
-          urlUpdateUsers += userId + "?devices=" + devices;
+          urlUpdateUsers += userId + "?devices=" + devices + "&ic=" + ic;
           console.log('urlUpdateUsers: ' + urlUpdateUsers);
           let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
           console.log('blockID: ' + blockId + '- companyId: ' + companyId  + '- floorId: ' + floorId  + '- siteId: ' + siteId);

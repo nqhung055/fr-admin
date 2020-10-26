@@ -150,14 +150,14 @@
                         </v-col>
                         <v-col cols="12" class="user-id">
                           <v-row>
-                            <v-col>
+                            <!-- <v-col>
                               <v-text-field
                                 :label="$t('message.userId')"
                                 v-model="newUser.userId"
                                 :rules="newUserRules.id"
                                 required
                               ></v-text-field>
-                            </v-col>
+                            </v-col> -->
                             <v-col>
                               <v-text-field
                                 :label="'Card ID'"
@@ -563,13 +563,13 @@ export default {
       errored: false,
       searchUserKey: "",
       headers: [
-        {
+        /*{
           text: "ID",
           align: "left",
           sortable: false,
           value: "userId",
           width: "10%",
-        },
+        },*/
         {
           text: "Username",
           align: "left",
@@ -756,6 +756,7 @@ export default {
       }
     },
     async getListUsers() {
+      console.log('this.selectedDevice: ' + this.selectedDevice);
       await this.$axios.get(
         `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}`
       ).then((response) => {
