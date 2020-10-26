@@ -230,7 +230,6 @@ export default {
     groupByType() {
       return groupByKey(this.objDLOffline.rows, "type");
     },
-    
   },
   methods: {
     reloadAllChart() {
@@ -250,7 +249,7 @@ export default {
       await this.$axios
         .get("/registered/device/list")
         .then((response) => {
-          devices = response.data
+          Object.values(response.data).forEach(val => { if (devices.indexOf(val) === -1) devices.push(val); });
           this.getVisitorSummary(devices);
           this.getTemperatureSummary(devices);
           this.selectedDevices = devices
