@@ -5,7 +5,7 @@
     <v-container fluid class="grid-list-xl py-0 mt-n3">
       <v-row>
         <app-card
-          :heading="'Blocks list'"
+          :heading="'Sites list'"
           :fullBlock="true"
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
@@ -54,33 +54,43 @@
                 <td>{{ props.item.shortName }}</td>
                 <td>{{ props.item.description }}</td>
               </template>
+              <template v-slot:[`item.action`]="{ item }">
+                <v-icon small @click="edit(item)">ti-pencil</v-icon> | <v-icon small @click="del(item)">ti-trash</v-icon>
+              </template>
             </v-data-table>
           </v-card>
         </app-card>
       </v-row>
     </v-container>
+    <edit-site
+      :isShowPopup="showEditDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      :editSite="editSite"
+      max-width="500px"
+    />
   </div>
 </template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editSite from "./EditSite.vue";
 
 export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       search: "",
       selected: [],
+      editSite: {},
+      showEditDialog: false,
       headers: [
-        {
-          text: "name",
-          align: "left",
-          sortable: true,
-          value: "name",
-        },
-        { text: "Short Name", value: "shortName" },
+        { text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
+        { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
         { text: "Description", value: "description", sortable: false },
-		{ text: "Action", align: "center", value: "action", width: "10%" },
+        { text: "Action", align: "left", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
@@ -89,10 +99,14 @@ export default {
     this.getData();
   },
   methods: {
+    edit(site) {
+      this.editSite = { 
+        ...site
+      }
+      this.showEditDialog = true
+    },
     async getData() {
-        const sites = await this.$axios.get(
-          `${AppConfig.ip}${AppConfig.api_port}/sites`
-        );
+      const sites = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/sites`);
       try {
         if (sites.status === 200) {
           this.loader = false;
@@ -102,6 +116,16 @@ export default {
         console.log(error);
       }
     },
+    closeEditPopup() {
+      this.showEditDialog = false
+    },
+    editSuccess() {
+      this.closeEditPopup()
+      this.getData()
+    }
   },
+  components: {
+    editSite,
+  }
 };
 </script>

@@ -143,6 +143,7 @@ export default {
   outline: 'Outline',
   round: 'Round',
   block: 'Block',
+  editBlock: 'Edit Block',
   search: 'Search',
   checkboxesBoolean: 'Checkboxes Boolean',
   checkboxesArray: 'Checkboxes Array',
@@ -669,8 +670,12 @@ export default {
   notAlarm: 'No unresolved failed access attempts!',
   editDevice: 'Edit Device',
   site: 'Site',
+  editSite: 'Edit Site',
   floor: 'Floor',
+  editFloor: 'Edit Floor',
   company: 'Company',
+  shortName: 'Short Name',
   displayName: 'Display Name',
+  editCompany: 'Edit Company',
   id: 'ID'
 }
