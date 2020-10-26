@@ -245,7 +245,7 @@ export default {
             //   if(key === 'Validity period') {
             //     const str = new Date(rawUser['Validity period']); 
             //     s = str.getFullYear() + '-' + ((str.getMonth() < 9) ? '0' : '') + (str.getMonth() + 1) + '-' + ((str.getDate() < 10) ? '0' : '') + str.getDate();
-            //     console.log('s: ' + s);
+                console.log('userId: ' + Math.round(Math.random() * rawUser['Name'].length));
             // console.log('key: ' + key + ' - val: ' + rawUser[key]);
             //  }
             // });
@@ -257,7 +257,8 @@ export default {
               name: rawUser['Name'],
               // userId: rawUser['Number'] + "",
               // ic: rawUser['ID card number'],
-              userId: new Date().getTime() + 1,
+              userId: Math.round(Math.random() * rawUser['Name'].length),
+              //new Date().getTime() + 1,
               ic: rawUser['NRIC/FIN'],
               company: rawUser['Company'],
               site: rawUser['Site'],
@@ -311,7 +312,7 @@ export default {
     async createUsers(isClearUserData = true) {
       try {
         
-        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let ic = ""; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
         if (isClearUserData) await this.deleteUserFromDevice()
         for (let index = 0; index < this.uploadUsers.length; index++) {
           if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
@@ -321,12 +322,12 @@ export default {
           Object.keys(userWithDevies).forEach((key) => {
             console.log('key: ' + key + ' - val: ' + userWithDevies[key]);
             //
-            if (key === "devices" || key === "userId" || key === "ic" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
-              ic = userWithDevies["ic"]; devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
+            if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
+              devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
               blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
             }
           });
-          urlUpdateUsers += userId + "?devices=" + devices + "&ic=" + ic;
+          urlUpdateUsers += userId + "?devices=" + devices;
           console.log('urlUpdateUsers: ' + urlUpdateUsers);
           let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
           console.log('blockID: ' + blockId + '- companyId: ' + companyId  + '- floorId: ' + floorId  + '- siteId: ' + siteId);
