@@ -100,6 +100,8 @@ export default {
   },
   methods: {
     edit(site) {
+      console.log('site: ' + JSON.stringify(site));
+
       this.editSite = { 
         ...site
       }
@@ -111,6 +113,7 @@ export default {
         if (sites.status === 200) {
           this.loader = false;
           this.items = sites.data;
+
         }
       } catch (error) {
         console.log(error);

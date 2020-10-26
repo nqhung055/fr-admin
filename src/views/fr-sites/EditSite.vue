@@ -66,12 +66,14 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    //   console.log('Edit Site: ' + JSON.stringify(this.editSite));
+  },
   computed: {},
   methods: {
-    async editedSite() {
+    async editedSite() {        
       const editResponse = await this.$axios.patch(
-        `${AppConfig.ip}${AppConfig.api_port}/sites/${this.editSite.id}?names=${this.editSite.name}`,
+        `${AppConfig.ip}${AppConfig.api_port}/sites/${this.editSite.id}?sn=${this.editSite.shortName}`,
         this.editSite
       );
       if (editResponse.status === 200) {
