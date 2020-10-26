@@ -107,6 +107,7 @@ export default {
           type: "success",
           text: "Delete Site sucess!",
         });
+        this.getData();
       } else {
         Vue.notify({
           group: "loggedIn",
