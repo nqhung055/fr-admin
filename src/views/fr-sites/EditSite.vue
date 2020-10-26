@@ -67,7 +67,6 @@ export default {
     return {};
   },
   mounted() {
-    //   console.log('Edit Site: ' + JSON.stringify(this.editSite));
   },
   computed: {},
   methods: {

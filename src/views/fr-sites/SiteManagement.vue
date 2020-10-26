@@ -75,7 +75,7 @@
 <script>
 import AppConfig from "../../constants/AppConfig";
 import editSite from "./EditSite.vue";
-
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -99,9 +99,23 @@ export default {
     this.getData();
   },
   methods: {
+    async del(site) {        
+      const editResponse = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/sites/${site.id}`);
+      if (editResponse.status === 200) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Delete Site sucess!",
+        });
+      } else {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Delete Site fails!",
+        });
+      }
+    },  
     edit(site) {
-      console.log('site: ' + JSON.stringify(site));
-
       this.editSite = { 
         ...site
       }
@@ -113,7 +127,6 @@ export default {
         if (sites.status === 200) {
           this.loader = false;
           this.items = sites.data;
-
         }
       } catch (error) {
         console.log(error);
