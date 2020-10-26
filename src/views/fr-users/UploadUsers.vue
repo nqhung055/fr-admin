@@ -240,16 +240,6 @@ export default {
           )
 
           this.uploadUsers = rawUploadUsers.map(rawUser => {
-            // let s = "";
-            // Object.keys(rawUser).forEach((key) => {
-            //   if(key === 'Validity period') {
-            //     const str = new Date(rawUser['Validity period']); 
-            //     s = str.getFullYear() + '-' + ((str.getMonth() < 9) ? '0' : '') + (str.getMonth() + 1) + '-' + ((str.getDate() < 10) ? '0' : '') + str.getDate();
-                console.log('userId: ' + Math.round(Math.random() * rawUser['Name'].length));
-            // console.log('key: ' + key + ' - val: ' + rawUser[key]);
-            //  }
-            // });
-
             return {
               devices: rawUser['devices'],
               confidenceLevel: '65', //rawUser['Personal confidence'],
@@ -257,7 +247,7 @@ export default {
               name: rawUser['Name'],
               // userId: rawUser['Number'] + "",
               // ic: rawUser['ID card number'],
-              userId: Math.round(Math.random() * rawUser['Name'].length),
+              userId: Math.floor(Math.random() * (new Date().getTime() - 1 + 1)) + 1,
               //new Date().getTime() + 1,
               ic: rawUser['NRIC/FIN'],
               company: rawUser['Company'],
@@ -268,10 +258,6 @@ export default {
               cardId: rawUser['Card ID'],
               phone: rawUser['Cellphone number'],
               effectFrom: rawUser['Validity period'],
-              // moment(rawUser['Validity period']).format("DD-MM-YYYY"),
-              // .toLocaleString(['en-US'], {month: 'numeric', day: '2-digit', year: 'numeric'}),
-              //moment(String(rawUser['Validity period'])).format('YYYY-MM-DD'),
-              // moment(rawUser['Validity period']).format("DD-MM-YYYY"),
             }
           });
         },
@@ -318,19 +304,14 @@ export default {
           if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
           const user = this.uploadUsers[index];
           const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
-          console.log('UserObj to GW: ' + JSON.stringify(userWithDevies));
           Object.keys(userWithDevies).forEach((key) => {
-            console.log('key: ' + key + ' - val: ' + userWithDevies[key]);
-            //
             if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
               devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
               blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
             }
           });
           urlUpdateUsers += userId + "?devices=" + devices;
-          console.log('urlUpdateUsers: ' + urlUpdateUsers);
           let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
-          console.log('blockID: ' + blockId + '- companyId: ' + companyId  + '- floorId: ' + floorId  + '- siteId: ' + siteId);
           const upGWAPI = await this.$axios.post('/upload/user', userWithDevies)
           if (upGWAPI.status === 200) {
             if ((blockId !== 'undefined' || blockId !== null) && (companyId !== 'undefined' || companyId !== null) && (floorId !== 'undefined' || floorId !== null) && (siteId !== 'undefined' || siteId !== null ) && (cardId !== 'undefined' || cardId !== null )) {

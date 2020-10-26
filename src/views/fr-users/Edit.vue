@@ -344,7 +344,7 @@
 import Vue from 'vue';
 import AppConfig from '../../constants/AppConfig';
 export default {
-    props: ['isShowPopup', 'devices', 'blocks', 'companies', 'floors', 'sites', 'editUser', 'userTypes', 'effectFromStringMinute', 'expiredAtStringMinute'],
+    props: ['isShowPopup', 'devices', 'blocks', 'companies', 'floors', 'sites', 'icMasked', 'editUser', 'userTypes', 'effectFromStringMinute', 'expiredAtStringMinute'],
     data() {
       return {
         loading: true,
@@ -393,6 +393,7 @@ export default {
     },
     mounted() {
       // console.log('Device: ' + this.editUser.devices);
+      console.log('icMasked: ' + this.editUser.icCardMasked);
     },
     computed: {},
     methods: {

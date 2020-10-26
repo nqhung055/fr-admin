@@ -498,6 +498,7 @@
       :companies="userCompanies"
       :floors="userFloors"
       :sites="userSites"
+      :icMasked="editedUser.icCardMasked"
       :editUser="editedUser"
       :userTypes="userTypes"
       :effectFromStringMinute="editUserEffectFromStringMinute"
@@ -756,17 +757,19 @@ export default {
       }
     },
     async getListUsers() {
-      console.log('this.selectedDevice: ' + this.selectedDevice);
-      await this.$axios.get(
-        `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}`
-      ).then((response) => {
-        this.users = response.data || [];
-      })
-      .catch((error) => {
-        this.errored = true;
-        console.log(error);
-      })
-      .finally(() => this.loading = false);
+      if(this.selectedDevice !== null || this.selectedDevice !== "")
+      {
+        await this.$axios.get(
+          `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}`
+        ).then((response) => {
+          this.users = response.data || [];
+        })
+        .catch((error) => {
+          this.errored = true;
+          console.log(error);
+        })
+        .finally(() => this.loading = false);
+      }
     },
     renewUser() {
       this.newUser = {
