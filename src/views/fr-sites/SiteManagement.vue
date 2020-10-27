@@ -11,7 +11,7 @@
         >
           <v-card>
             <v-card-title>
-              <v-btn color="success" @click="showNewDialogMethod()">
+              <v-btn color="success" @click="addSite()">
                 Create Site
               </v-btn>
               <v-spacer></v-spacer>
@@ -31,6 +31,7 @@
               v-model="selected"
               item-key="name"
               show-select
+              @dblclick:row="(e, { item }) => edit(item)"
             >
               <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
@@ -62,6 +63,12 @@
         </app-card>
       </v-row>
     </v-container>
+    <add-site
+      :isShowPopup="showAddDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      max-width="500px"
+    />
     <edit-site
       :isShowPopup="showEditDialog"
       @closePopup="closeEditPopup"
@@ -75,6 +82,8 @@
 <script>
 import AppConfig from "../../constants/AppConfig";
 import editSite from "./EditSite.vue";
+import addSite from "./AddSite.vue";
+
 import Vue from "vue";
 export default {
   data() {
@@ -86,6 +95,7 @@ export default {
       selected: [],
       editSite: {},
       showEditDialog: false,
+      showAddDialog: false,
       headers: [
         { text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
         { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
@@ -100,19 +110,19 @@ export default {
   },
   methods: {
     async del(site) {        
-      const editResponse = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/sites/${site.id}`);
-      if (editResponse.status === 200) {
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/sites/${site.id}`);
+      if (res.status === 200) {
         Vue.notify({
           group: "loggedIn",
           type: "success",
-          text: "Delete Site sucess!",
+          text: "Deleted Site sucessfully!",
         });
         this.getData();
       } else {
         Vue.notify({
           group: "loggedIn",
           type: "error",
-          text: "Delete Site fails!",
+          text: "Delete Site failed!",
         });
       }
     },  
@@ -134,15 +144,20 @@ export default {
       }
     },
     closeEditPopup() {
-      this.showEditDialog = false
+      this.showEditDialog = false;
+      this.showAddDialog = false;
     },
     editSuccess() {
       this.closeEditPopup()
       this.getData()
-    }
+    },
+    addSite() {
+      this.showAddDialog = true;
+    },
   },
   components: {
     editSite,
+    addSite,
   }
 };
 </script>

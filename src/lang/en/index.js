@@ -144,6 +144,7 @@ export default {
   round: 'Round',
   block: 'Block',
   editBlock: 'Edit Block',
+  addBlock: 'Add Block',
   search: 'Search',
   checkboxesBoolean: 'Checkboxes Boolean',
   checkboxesArray: 'Checkboxes Array',
@@ -671,11 +672,14 @@ export default {
   editDevice: 'Edit Device',
   site: 'Site',
   editSite: 'Edit Site',
+  addSite: 'Add Site',
   floor: 'Floor',
   editFloor: 'Edit Floor',
+  addFloor: 'Add Floor',
   company: 'Company',
+  editCompany: 'Edit Company',
+  addCompany: 'Add Company',
   shortName: 'Short Name',
   displayName: 'Display Name',
-  editCompany: 'Edit Company',
   id: 'ID'
 }
