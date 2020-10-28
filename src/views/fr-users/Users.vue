@@ -28,6 +28,56 @@
           <v-card>
             <v-card-text>
               <v-row>
+                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                  <v-select
+                    v-model="siteId"
+                    :items="userSites"
+                    item-text="name"
+                    item-value="shortName"
+                    single-line
+                    label="Select Site"
+                    :disabled="!selectedDevice"
+                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
+                  ></v-select>
+                </v-col>
+                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                  <v-select
+                    v-model="blockId"
+                    :items="userBlocks"
+                    item-text="name"
+                    item-value="shortName"
+                    single-line
+                    label="Select Block"
+                    :disabled="!selectedDevice"
+                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
+                  ></v-select>
+                </v-col>
+                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                  <v-select
+                    v-model="floorId"
+                    :items="userFloors"
+                    item-text="name"
+                    item-value="shortName"
+                    single-line
+                    label="Select Floor"
+                    :disabled="!selectedDevice"
+                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
+                  ></v-select>
+                </v-col>
+                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                  <v-select
+                    v-model="compId"
+                    :items="userCompanies"
+                    item-text="name"
+                    item-value="shortName"
+                    single-line
+                    label="Select Company"
+                    :disabled="!selectedDevice"
+                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
                 <v-col cols="6" class="header-table-select-devices">
                   <v-select
                     v-model="selectedDevice"
@@ -35,7 +85,7 @@
                     item-text="displayName"
                     item-value="name"
                     label="Select Device"
-                    @change="getListUsers()"
+                    @change="getListUsers(); siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';"
                   >
                   </v-select>
                 </v-col>
@@ -703,9 +753,13 @@ export default {
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userBlocks: [],
+      blockId: '-- Please select block --',
       userSites: [],
+      siteId: '-- Please select site --',
       userFloors: [],
+      floorId: '-- Please select floor --',
       userCompanies: [],
+      compId: '-- Please select company --',
     };
   },
   mounted() {
@@ -756,12 +810,15 @@ export default {
         });
       }
     },
-    async getListUsers() {
+    async getListUsers(sId='', bId='', fId='', cId='') {
       if(this.selectedDevice !== null || this.selectedDevice !== "")
       {
-        await this.$axios.get(
-          `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}`
-        ).then((response) => {
+        // &page=1&pageSize=5&${this.siteName}
+        let sSite = sId === '-- Please select site --' ? '' : sId; let sBlock = bId ==='-- Please select block --' ? '' : bId; let sFloor = fId ==='-- Please select floor --' ? '' : fId; let sComp = cId ==='-- Please select company --' ? '' : cId;
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}${!sSite ? '' : '&site=' + sSite}${!sBlock ? '' : '&block=' + sBlock}${!sFloor ? '' : '&floor=' + sFloor}${!sComp ? '' : '&comp=' + sComp}`;
+        await this.$axios
+        .get(sAPI)
+        .then((response) => {
           this.users = response.data || [];
         })
         .catch((error) => {
@@ -884,12 +941,28 @@ export default {
       const companies = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/companies`);
       const floors = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/floors`);
       const sites = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/sites`);
+      let arrSites = [{"shortname":"","name":"-- Please select site --"}];
+      let arrBlocks = [{"shortname":"","name":"-- Please select block --"}];
+      let arrFloors = [{"shortname":"","name":"-- Please select floor --"}];
+      let arrCompanies = [{"shortname":"","name":"-- Please select company --"}];
       try {
         if(blocks.status === 200 && companies.status === 200 && floors.status === 200 && sites.status === 200) {
-          this.userBlocks = blocks.data;
-          this.userCompanies = companies.data;
-          this.userFloors = floors.data;
-          this.userSites = sites.data;
+          Object.values(sites.data).forEach(val => {
+            arrSites.push({"shortName":val["shortName"],"name":val["name"]});
+          });
+          Object.values(blocks.data).forEach(val => {
+            arrBlocks.push({"shortName":val["shortName"],"name":val["name"]});
+          });
+          Object.values(floors.data).forEach(val => {
+            arrFloors.push({"shortName":val["shortName"],"name":val["name"]});
+          });
+          Object.values(companies.data).forEach(val => {
+            arrCompanies.push({"shortName":val["shortName"],"name":val["name"]});
+          });
+          this.userBlocks = arrBlocks;
+          this.userCompanies = arrCompanies;
+          this.userFloors = arrFloors;
+          this.userSites = arrSites;
         }
       } catch (error) {
         this.errored = true;
