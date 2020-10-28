@@ -26,115 +26,159 @@
             </v-col>
           </v-row>
           <v-card>
-            <v-card-text>
-              <v-row>
-                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                  <v-select
-                    v-model="siteId"
-                    :items="userSites"
-                    item-text="name"
-                    item-value="shortName"
-                    single-line
-                    label="Select Site"
-                    :disabled="!selectedDevice"
-                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
-                  ></v-select>
-                </v-col>
-                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                  <v-select
-                    v-model="blockId"
-                    :items="userBlocks"
-                    item-text="name"
-                    item-value="shortName"
-                    single-line
-                    label="Select Block"
-                    :disabled="!selectedDevice"
-                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
-                  ></v-select>
-                </v-col>
-                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                  <v-select
-                    v-model="floorId"
-                    :items="userFloors"
-                    item-text="name"
-                    item-value="shortName"
-                    single-line
-                    label="Select Floor"
-                    :disabled="!selectedDevice"
-                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
-                  ></v-select>
-                </v-col>
-                <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                  <v-select
-                    v-model="compId"
-                    :items="userCompanies"
-                    item-text="name"
-                    item-value="shortName"
-                    single-line
-                    label="Select Company"
-                    :disabled="!selectedDevice"
-                    @change="getListUsers(siteId, !blockId ? '': blockId, !floorId ? '': floorId, !compId ? '': compId)"
-                  ></v-select>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6" class="header-table-select-devices">
-                  <v-select
-                    v-model="selectedDevice"
-                    :items="devices"
-                    item-text="displayName"
-                    item-value="name"
-                    label="Select Device"
-                    @change="getListUsers(); siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';"
-                  >
-                  </v-select>
-                </v-col>
-                <v-col cols="6" class="header-table-search">
-                  <v-text-field
-                    v-model="searchUserKey"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                    hide-details
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  <v-btn color="error" @click="showDeleteUsersDialog()">
-                    Delete Users
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-card-text>
-            <v-data-table
-              :headers="headers"
-              :items="users"
-              show-select
-              v-model="selectedUsersToDelete"
-              :search="searchUserKey"
-              item-key="userId"
-              @dblclick:row="(e, { item }) => editUser(item)"
-            >
-              <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom>
-                  <span slot="activator">{{ props.header.text }}</span>
-                  <span>{{ props.header.text }}</span>
-                </v-tooltip>
-              </template>
-              <template slot="items" slot-scope="props">
-                <td>{{ props.item.name }}</td>
-              </template>
-              <template v-slot:[`item.action`]="{ item }">
-                <!---->
-                <v-btn color="success" @click="editUser(item)">
-                  <v-icon>ti-pencil</v-icon>
-                </v-btn>
-                <v-btn color="error" @click="removeUser(item)">
-                  <v-icon>ti-trash</v-icon>
-                </v-btn>
-              </template>
-            </v-data-table>
+            <div v-if="errored">
+              <p>{{ $t("message.getLogsError") }}</p>
+            </div>
+            <div v-else>
+              <div v-if="loading" class="pr-4">
+                {{ $t("message.loading") }}
+              </div>
+              <div v-else>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                      <v-select
+                        v-model="siteId"
+                        :items="userSites"
+                        item-text="name"
+                        item-value="shortName"
+                        single-line
+                        label="Select Site"
+                        :disabled="!selectedDevice"
+                        @change="
+                          getListUsers(
+                            siteId,
+                            !blockId ? '' : blockId,
+                            !floorId ? '' : floorId,
+                            !compId ? '' : compId
+                          )
+                        "
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                      <v-select
+                        v-model="blockId"
+                        :items="userBlocks"
+                        item-text="name"
+                        item-value="shortName"
+                        single-line
+                        label="Select Block"
+                        :disabled="!selectedDevice"
+                        @change="
+                          getListUsers(
+                            siteId,
+                            !blockId ? '' : blockId,
+                            !floorId ? '' : floorId,
+                            !compId ? '' : compId
+                          )
+                        "
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                      <v-select
+                        v-model="floorId"
+                        :items="userFloors"
+                        item-text="name"
+                        item-value="shortName"
+                        single-line
+                        label="Select Floor"
+                        :disabled="!selectedDevice"
+                        @change="
+                          getListUsers(
+                            siteId,
+                            !blockId ? '' : blockId,
+                            !floorId ? '' : floorId,
+                            !compId ? '' : compId
+                          )
+                        "
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                      <v-select
+                        v-model="compId"
+                        :items="userCompanies"
+                        item-text="name"
+                        item-value="shortName"
+                        single-line
+                        label="Select Company"
+                        :disabled="!selectedDevice"
+                        @change="
+                          getListUsers(
+                            siteId,
+                            !blockId ? '' : blockId,
+                            !floorId ? '' : floorId,
+                            !compId ? '' : compId
+                          )
+                        "
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6" class="header-table-select-devices">
+                      <v-select
+                        v-model="selectedDevice"
+                        :items="devices"
+                        item-text="displayName"
+                        item-value="name"
+                        label="Select Device"
+                        @change="
+                          getListUsers();
+                          siteId = '-- Please select site --';
+                          blockId = '-- Please select block --';
+                          floorId = '-- Please select floor --';
+                          compId = '-- Please select company --';
+                        "
+                      >
+                      </v-select>
+                    </v-col>
+                    <v-col cols="6" class="header-table-search">
+                      <v-text-field
+                        v-model="searchUserKey"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line
+                        hide-details
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-btn color="error" @click="showDeleteUsersDialog()">
+                        Delete Users
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+                <v-data-table
+                  :headers="headers"
+                  :items="users"
+                  show-select
+                  v-model="selectedUsersToDelete"
+                  :search="searchUserKey"
+                  item-key="userId"
+                  @dblclick:row="(e, { item }) => editUser(item)"
+                >
+                  <template slot="headerCell" slot-scope="props">
+                    <v-tooltip bottom>
+                      <span slot="activator">{{ props.header.text }}</span>
+                      <span>{{ props.header.text }}</span>
+                    </v-tooltip>
+                  </template>
+                  <template slot="items" slot-scope="props">
+                    <td>{{ props.item.name }}</td>
+                  </template>
+                  <template v-slot:[`item.action`]="{ item }">
+                    <!---->
+                    <v-btn color="success" @click="editUser(item)">
+                      <v-icon>ti-pencil</v-icon>
+                    </v-btn>
+                    <v-btn color="error" @click="removeUser(item)">
+                      <v-icon>ti-trash</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
+              </div>
+            </div>
           </v-card>
         </app-card>
       </v-row>
@@ -161,7 +205,11 @@
                     >
                       <v-row>
                         <v-col cols="12" align="center">
-                          <v-img :src="srcFacePhoto" width="100" height="96"></v-img>
+                          <v-img
+                            :src="srcFacePhoto"
+                            width="100"
+                            height="96"
+                          ></v-img>
                         </v-col>
                         <v-col cols="12">
                           <v-file-input
@@ -188,10 +236,19 @@
                             <template v-slot:prepend-item>
                               <v-list-item ripple @click="selectAllDevices">
                                 <v-list-item-action>
-                                  <v-icon :color="newUser.devices.length > 0 ? 'indigo darken-4' : ''">{{ icon }}</v-icon>
+                                  <v-icon
+                                    :color="
+                                      newUser.devices.length > 0
+                                        ? 'indigo darken-4'
+                                        : ''
+                                    "
+                                    >{{ icon }}</v-icon
+                                  >
                                 </v-list-item-action>
                                 <v-list-item-content>
-                                  <v-list-item-title>Select All</v-list-item-title>
+                                  <v-list-item-title
+                                    >Select All</v-list-item-title
+                                  >
                                 </v-list-item-content>
                               </v-list-item>
                               <v-divider class="mt-2"></v-divider>
@@ -344,7 +401,12 @@
                               v-if="isShowEffectFromMinutePanel"
                               v-model="effectFromStringMinute"
                               full-width
-                              @click:minute="$refs.effectFromMenu.save(effectFromStringMinute)">
+                              @click:minute="
+                                $refs.effectFromMenu.save(
+                                  effectFromStringMinute
+                                )
+                              "
+                            >
                             </v-time-picker>
                           </v-menu>
                         </v-col>
@@ -399,7 +461,10 @@
                               v-if="isShowExpiredAtMinutePanel"
                               v-model="expiredAtStringMinute"
                               full-width
-                              @click:minute="$refs.expiredAtMenu.save(expiredAtStringMinute)">
+                              @click:minute="
+                                $refs.expiredAtMenu.save(expiredAtStringMinute)
+                              "
+                            >
                             </v-time-picker>
                           </v-menu>
                         </v-col>
@@ -478,24 +543,27 @@
                             single-line
                             label="Select Company"
                           ></v-select>
-                        </v-col>                        
+                        </v-col>
                         <v-col cols="12" class="user-block">
-                          <v-select v-if="userBlocks"
+                          <v-select
+                            v-if="userBlocks"
                             v-model="newUser.blockId"
-                            :items="userBlocks"                            
+                            :items="userBlocks"
                             label="Select Block"
                             item-text="name"
                             item-value="shortName"
                             single-line
                           ></v-select>
-                          
                         </v-col>
                         <v-col cols="12" class="user-periods">
                           <v-select
                             v-model="newUser.allowPeriods"
                             :items="newUser.allowPeriods"
                             :label="$t('message.allowPeriods')"
-                            :item-text="(period) => period.startTime + '-' + period.endTime"
+                            :item-text="
+                              (period) =>
+                                period.startTime + '-' + period.endTime
+                            "
                             attach
                             chips
                             multiple
@@ -599,7 +667,7 @@ import Vue from "vue";
 import editUser from "./Edit";
 import uploadUsers from "./UploadUsers";
 import syncUsers from "./SyncUsers";
-import AppConfig from '../../constants/AppConfig';
+import AppConfig from "../../constants/AppConfig";
 
 export default {
   components: {
@@ -626,15 +694,14 @@ export default {
           align: "left",
           sortable: false,
           value: "name",
-        }
-        ,
+        },
         {
           text: "NRIC/FIN",
           align: "left",
           sortable: false,
           value: "icCardMasked",
         },
-		{
+        {
           text: "Exp. Date",
           align: "left",
           sortable: false,
@@ -696,10 +763,10 @@ export default {
       showEditUserDialog: false,
       newUser: {
         devices: [],
-        blockId: '',
-        companyId: '',
-        floorId: '',
-        siteId: '',
+        blockId: "",
+        companyId: "",
+        floorId: "",
+        siteId: "",
         cardId: "",
         confidenceLevel: 65,
         userType: 0,
@@ -753,13 +820,13 @@ export default {
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userBlocks: [],
-      blockId: '-- Please select block --',
+      blockId: "-- Please select block --",
       userSites: [],
-      siteId: '-- Please select site --',
+      siteId: "-- Please select site --",
       userFloors: [],
-      floorId: '-- Please select floor --',
+      floorId: "-- Please select floor --",
       userCompanies: [],
-      compId: '-- Please select company --',
+      compId: "-- Please select company --",
     };
   },
   mounted() {
@@ -810,22 +877,28 @@ export default {
         });
       }
     },
-    async getListUsers(sId='', bId='', fId='', cId='') {
-      if(this.selectedDevice !== null || this.selectedDevice !== "")
-      {
+    async getListUsers(sId = "", bId = "", fId = "", cId = "") {
+      if (this.selectedDevice !== null || this.selectedDevice !== "") {
         // &page=1&pageSize=5&${this.siteName}
-        let sSite = sId === '-- Please select site --' ? '' : sId; let sBlock = bId ==='-- Please select block --' ? '' : bId; let sFloor = fId ==='-- Please select floor --' ? '' : fId; let sComp = cId ==='-- Please select company --' ? '' : cId;
-        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${this.selectedDevice}${!sSite ? '' : '&site=' + sSite}${!sBlock ? '' : '&block=' + sBlock}${!sFloor ? '' : '&floor=' + sFloor}${!sComp ? '' : '&comp=' + sComp}`;
+        let sSite = sId === "-- Please select site --" ? "" : sId;
+        let sBlock = bId === "-- Please select block --" ? "" : bId;
+        let sFloor = fId === "-- Please select floor --" ? "" : fId;
+        let sComp = cId === "-- Please select company --" ? "" : cId;
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${
+          this.selectedDevice
+        }${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${
+          !sFloor ? "" : "&floor=" + sFloor
+        }${!sComp ? "" : "&comp=" + sComp}`;
         await this.$axios
-        .get(sAPI)
-        .then((response) => {
-          this.users = response.data || [];
-        })
-        .catch((error) => {
-          this.errored = true;
-          console.log(error);
-        })
-        .finally(() => this.loading = false);
+          .get(sAPI)
+          .then((response) => {
+            this.users = response.data || [];
+          })
+          .catch((error) => {
+            this.errored = true;
+            console.log(error);
+          })
+          .finally(() => (this.loading = false));
       }
     },
     renewUser() {
@@ -833,7 +906,7 @@ export default {
         devices: [],
         blockId: "",
         companyId: "",
-        floorId:  "",
+        floorId: "",
         siteId: "",
         cardId: "",
         confidenceLevel: 65,
@@ -917,47 +990,93 @@ export default {
         });
       }
     },
-    async getDevices() {
-      const deviceResponse = await this.$axios.get("/registered/device/list");
-      if (deviceResponse.status === 200) {
-        const devices = deviceResponse.data
-        const devicesResponse = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + devices.join(','));
-        this.devices = devicesResponse.data.map(device => {
-            return {
-              ...device,
-              displayName: device.displayName ? device.displayName : device.displayName ? device.displayName : `${device.siteId ? device.siteId + '-' : ""}${device.blockId ? device.blockId + '-' : ""}${device.floorId ? device.floorId + '-' : ""}${device.customName ? device.customName: ""}`
-            }
-          })
-      } else {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Can not get Devive list. Please reload page!",
+    async getDevices() {  
+      let devices = [];
+      await this.$axios
+        .get("/registered/device/list")
+        .then((gwRes) => {
+          devices = gwRes.data;
+        })
+        .catch((error) => {
+          this.errored = true;
+          Vue.notify({
+            group: "loggedIn",
+            type: "error",
+            text: "Can not get Devive list. Please reload page!",
+          });
+          console.log(error);
+        })
+        .finally(async () => {
+          await this.$axios
+            .get(
+              `${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` +
+                devices.join(",")
+            )
+            .then((beRes) => {
+              this.devices = beRes.data.map((device) => {
+                return {
+                  ...device,
+                  displayName: device.displayName
+                    ? device.displayName
+                    : device.displayName
+                    ? device.displayName
+                    : `${device.siteId ? device.siteId + "-" : ""}${
+                        device.blockId ? device.blockId + "-" : ""
+                      }${device.floorId ? device.floorId + "-" : ""}${
+                        device.customName ? device.customName : ""
+                      }`,
+                };
+              });
+            })
+            .catch((error) => {
+              this.errored = true;
+              console.log(error);
+            })
+            .finally(() => {
+              this.loading = false;
+            });
         });
-      }
     },
     async getUserRelatedData() {
-      const blocks = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/blocks`);
-      const companies = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/companies`);
-      const floors = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/floors`);
-      const sites = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/sites`);
-      let arrSites = [{"shortname":"","name":"-- Please select site --"}];
-      let arrBlocks = [{"shortname":"","name":"-- Please select block --"}];
-      let arrFloors = [{"shortname":"","name":"-- Please select floor --"}];
-      let arrCompanies = [{"shortname":"","name":"-- Please select company --"}];
+      const blocks = await this.$axios.get(
+        `${AppConfig.ip}${AppConfig.api_port}/blocks`
+      );
+      const companies = await this.$axios.get(
+        `${AppConfig.ip}${AppConfig.api_port}/companies`
+      );
+      const floors = await this.$axios.get(
+        `${AppConfig.ip}${AppConfig.api_port}/floors`
+      );
+      const sites = await this.$axios.get(
+        `${AppConfig.ip}${AppConfig.api_port}/sites`
+      );
+      let arrSites = [{ shortname: "", name: "-- Please select site --" }];
+      let arrBlocks = [{ shortname: "", name: "-- Please select block --" }];
+      let arrFloors = [{ shortname: "", name: "-- Please select floor --" }];
+      let arrCompanies = [
+        { shortname: "", name: "-- Please select company --" },
+      ];
       try {
-        if(blocks.status === 200 && companies.status === 200 && floors.status === 200 && sites.status === 200) {
-          Object.values(sites.data).forEach(val => {
-            arrSites.push({"shortName":val["shortName"],"name":val["name"]});
+        if (
+          blocks.status === 200 &&
+          companies.status === 200 &&
+          floors.status === 200 &&
+          sites.status === 200
+        ) {
+          Object.values(sites.data).forEach((val) => {
+            arrSites.push({ shortName: val["shortName"], name: val["name"] });
           });
-          Object.values(blocks.data).forEach(val => {
-            arrBlocks.push({"shortName":val["shortName"],"name":val["name"]});
+          Object.values(blocks.data).forEach((val) => {
+            arrBlocks.push({ shortName: val["shortName"], name: val["name"] });
           });
-          Object.values(floors.data).forEach(val => {
-            arrFloors.push({"shortName":val["shortName"],"name":val["name"]});
+          Object.values(floors.data).forEach((val) => {
+            arrFloors.push({ shortName: val["shortName"], name: val["name"] });
           });
-          Object.values(companies.data).forEach(val => {
-            arrCompanies.push({"shortName":val["shortName"],"name":val["name"]});
+          Object.values(companies.data).forEach((val) => {
+            arrCompanies.push({
+              shortName: val["shortName"],
+              name: val["name"],
+            });
           });
           this.userBlocks = arrBlocks;
           this.userCompanies = arrCompanies;
@@ -966,9 +1085,10 @@ export default {
         }
       } catch (error) {
         this.errored = true;
-          console.log(error);
+        console.log(error);
+      } finally {
+        () => (this.loading = false);
       }
-      finally {() => this.loading = false;}
     },
     selectAllDevices() {
       this.$nextTick(() => {
