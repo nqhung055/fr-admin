@@ -83,7 +83,7 @@
                         </v-col>
                         <v-col cols="12" class="user-ic">
                           <div>
-                            <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" required></v-text-field>
+                            <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" @input="isDirtyIc = true" required></v-text-field>
                           </div>
                         </v-col>
                         <v-col cols="12">
@@ -364,7 +364,12 @@ export default {
           ic: [ 
             ic => !!ic || 'IC Card is required',
             ic => (ic?.length === 9) || 'IC Card must be 9 characters',
-            ic => ((/^\w+$/.test(ic))) || 'IC Card must be alphanumberic',
+            ic => {
+              if (this.isDirtyIc) {
+                return (/^\w+$/.test(ic)) || 'IC Card must be alphanumberic'
+              }
+              return true
+            },
           ],
           confidenceLevel: [
             confidenceLevel => !isNaN(confidenceLevel) || 'ConfidenceLevel must be a number',
@@ -390,7 +395,8 @@ export default {
         userBlocks: [ { label: "Block 1", value: 1 }, { label: "Block 2", value: 2 } ,  { label: "Block 3", value:3 } ],
         userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
         userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
-        userCompanies: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ]
+        userCompanies: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ],
+        isDirtyIc: false
       }
     },
     mounted() {
@@ -419,14 +425,17 @@ export default {
           effectFrom: this.editUserModel.effectFrom ? this.editUserModel.effectFrom + ' ' + this.effectFromStringMinute : undefined,
         }
         Object.keys(editUser).forEach((key) => {
-          if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || key === "ic") {
+          if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || (this.isDirtyIc && key === "ic")) {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
             ic = editUser["ic"];
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
-        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, ic };
-        
+        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+        if (this.isDirtyIc) {
+          objUpdateUser = { ...objUpdateUser, iccard: ic}
+        }
+        delete editUser.ic
         const editResponse = await this.$axios.post('/upload/user', editUser)
         if (editResponse.status === 200) {
           const updateRelatedData = await this.$axios.patch(urlUpdateUsers, objUpdateUser);
