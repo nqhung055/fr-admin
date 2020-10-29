@@ -19,7 +19,7 @@ const Visitors_Statistics = () => import('Views/dashboard/Visitor-Statistics');
 
 const Users_List = () => import('Views/fr-users/Users');
 
-const Report = () => import('Views/fr-reports/Reports');
+const Report = () => import('Views/fr-reports/Reports-V1');
 const DeviceManagement = () => import('Views/fr-devices/Devices-List');
 const BlockManagement = () => import('Views/fr-blocks/BlockManagement');
 const CompanyManagement = () => import('Views/fr-companies/CompanyManagement');
