@@ -223,7 +223,7 @@ export default {
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userType: "all",
-      userTypes: [{"key":"all", "name":"All",}, {"key":"registered_users", "name":"Registered users"}, {"key":"stranger", "name":"Guests"}],
+      userTypes: [{"key":"all", "name":"All",}, {"key":"registered_user", "name":"Registered users"}, {"key":"stranger", "name":"Guests"}],
       userBlocks: [],
       blockId: "-- Please select block --",
       userSites: [],
@@ -250,7 +250,7 @@ export default {
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
-        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?${!sUserType ? "" : "&type=" + sUserType}&device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}`;
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?device=${sDN}${!sUserType ? "" : "&type=" + sUserType}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}`;
         console.log('Log api: ' + sAPI);
         await this.$axios
           .get(sAPI)
