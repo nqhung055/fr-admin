@@ -18,22 +18,11 @@
               <div v-else>
                 <v-card-text>
                   <v-row>
-                    <v-col cols="6" class="header-table-select-devices">
-                      <v-select
-                        v-model="selectedDevice"
-                        :items="devices"
-                        item-text="displayName"
-                        item-value="name"
-                        label="Select Device"
-                        @change="
-                          getListUsers();
-                          siteId = '-- Please select site --';
-                          blockId = '-- Please select block --';
-                          floorId = '-- Please select floor --';
-                          compId = '-- Please select company --';
-                        "
-                      >
-                      </v-select>
+                    <v-col cols="3">
+                      <v-select v-model="userType" :items="userTypes" single-line label="Select User Types" @change="getLogs(siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)" />
+                    </v-col>
+                    <v-col cols="3" class="header-table-select-devices">
+                      <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
                     </v-col>
                     <v-col cols="6" class="header-table-search">
                       <v-text-field
@@ -127,11 +116,8 @@
                 <v-data-table
                   :headers="headers"
                   :items="users"
-                  show-select
-                  v-model="selectedUsersToDelete"
                   :search="searchUserKey"
                   item-key="userId"
-                  @dblclick:row="(e, { item }) => editUser(item)"
                 >
                   <template slot="headerCell" slot-scope="props">
                     <v-tooltip bottom>
@@ -142,15 +128,14 @@
                   <template slot="items" slot-scope="props">
                     <td>{{ props.item.name }}</td>
                   </template>
-                  <template v-slot:[`item.action`]="{ item }">
-                    <!---->
+                  <!-- <template v-slot:[`item.action`]="{ item }">
                     <v-btn color="success" @click="editUser(item)">
                       <v-icon>ti-pencil</v-icon>
                     </v-btn>
                     <v-btn color="error" @click="removeUser(item)">
                       <v-icon>ti-trash</v-icon>
                     </v-btn>
-                  </template>
+                  </template> -->
                 </v-data-table>
               </div>
             </div>
@@ -173,78 +158,73 @@ export default {
       errored: false,
       searchUserKey: "",
       headers: [
-        /*{
-          text: "ID",
-          align: "left",
-          sortable: false,
-          value: "userId",
-          width: "10%",
-        },*/
         {
-          text: "Username",
+          text: "Time",
           align: "left",
           sortable: false,
-          value: "name",
+          value: "",
         },
         {
-          text: "NRIC/FIN",
+          text: "Photo",
           align: "left",
           sortable: false,
-          value: "icCardMasked",
+          value: "",
         },
         {
-          text: "Exp. Date",
+          text: "Pass/Fail",
           align: "left",
           sortable: false,
-          value: "validUntil",
+          value: "",
         },
         {
-          text: "Card ID",
+          text: "Entry/Exit",
           align: "left",
           sortable: false,
-          value: "cardId",
+          value: "",
         },
         {
-          text: "Site",
+          text: "Name",
           align: "left",
           sortable: false,
-          value: "siteName",
+          value: "",
         },
         {
-          text: "Floor",
+          text: "Device",
           align: "left",
           sortable: false,
-          value: "floorName",
+          value: "",
         },
         {
-          text: "Block",
+          text: "Temperature",
           align: "left",
           sortable: false,
-          value: "blockName",
+          value: "",
+        },
+        {
+          text: "ID Number",
+          align: "left",
+          sortable: false,
+          value: "",
         },
         {
           text: "Company",
           align: "left",
           sortable: false,
-          value: "companyName",
+          value: "",
         },
         {
-          text: "Status",
+          text: "Contact",
           align: "left",
           sortable: false,
-          value: "status",
-        },
-        { text: "Action", align: "center", value: "action", width: "10%" },
-      ],
-      userTypes: [
-        {
-          text: "Face only",
-          value: 0,
+          value: "",
         },
         {
-          text: "Face and Card",
-          value: 1,
+          text: "Type",
+          align: "left",
+          sortable: false,
+          value: "",
         },
+        // { text: "Action", align: "center", value: "action", width: "10%" },
       ],
       devices: [],
       users: [],
@@ -252,17 +232,6 @@ export default {
       selectedDevice: "",
       showNewUserDialog: false,
       showEditUserDialog: false,
-      newUser: {
-        devices: [],
-        blockId: "",
-        companyId: "",
-        floorId: "",
-        siteId: "",
-        cardId: "",
-        confidenceLevel: 65,
-        userType: 0,
-        allowPeriods: [],
-      },
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
@@ -277,32 +246,7 @@ export default {
 
       facePhoto: {},
       srcFacePhoto: "",
-      uploadRules: [
-        (file) =>
-          !file ||
-          file.size < 1000000 ||
-          "JPG file format (maximum 300Kb & recommended resolution 1280 x 720)",
-        // "FacePhoto size should be less than 1 MB!",
-      ],
       isNewUserValid: true,
-      newUserRules: {
-        devices: [(devices) => !!devices.length || "Devices should not empty"],
-        name: [
-          (name) => !!name || "Name is required",
-          (name) =>
-            (name && name.length <= 10) ||
-            "Name must be less than 10 characters",
-        ],
-        id: [(id) => !!id || "ID is required"],
-        ic: [(ic) => !!ic || "IC Card is required"],
-        confidenceLevel: [
-          (confidenceLevel) =>
-            !isNaN(confidenceLevel) || "ConfidenceLevel must be a number",
-          (confidenceLevel) =>
-            (confidenceLevel > 0 && confidenceLevel < 100) ||
-            "ConfidenceLevel must between 0 and 100",
-        ],
-      },
       editedUser: {},
       editUserEffectFromStringMinute: "",
       editUserExpiredAtStringMinute: "",
@@ -310,6 +254,8 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
+      userType: "",
+      userTypes: ["All", "Registered users", "Guests"],
       userBlocks: [],
       blockId: "-- Please select block --",
       userSites: [],
@@ -368,7 +314,7 @@ export default {
         });
       }
     },
-    async getListUsers(sId = "", bId = "", fId = "", cId = "") {
+    async getLogs(sId = "", bId = "", fId = "", cId = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
         // &page=1&pageSize=5&${this.siteName}
         let sSite = sId === "-- Please select site --" ? "" : sId;
@@ -390,95 +336,6 @@ export default {
             console.log(error);
           })
           .finally(() => (this.loading = false));
-      }
-    },
-    renewUser() {
-      this.newUser = {
-        devices: [],
-        blockId: "",
-        companyId: "",
-        floorId: "",
-        siteId: "",
-        cardId: "",
-        confidenceLevel: 65,
-        userType: -1,
-        name: "",
-        userId: "",
-        expiredAt: "",
-        effectFrom: "",
-        facePhoto: "",
-        allowPeriods: [],
-      };
-      this.effectFromStringMinute = "";
-      this.expiredAtStringMinute = "";
-      this.srcFacePhoto = "";
-      this.facePhoto = {};
-    },
-    async addNewUser() {
-      if (!this.$refs.newUser.validate()) return;
-      this.newUser = {
-        ...this.newUser,
-        expiredAt: this.newUser.expiredAt
-          ? this.newUser.expiredAt + " " + this.expiredAtStringMinute
-          : undefined,
-        effectFrom: this.newUser.effectFrom
-          ? this.newUser.effectFrom + " " + this.effectFromStringMinute
-          : undefined,
-        facePhoto: this.srcFacePhoto,
-      };
-
-      const addResponse = await this.$axios.post("/upload/user", this.newUser);
-      await this.$axios.patch(
-        `${AppConfig.ip}${AppConfig.api_port}/users/${this.newUser.userId}?devices=${this.selectedDevice}`,
-        {
-          blockId: this.newUser.blockId,
-          companyId: this.newUser.companyId,
-          floorId: this.newUser.floorId,
-          siteId: this.newUser.siteId,
-          cardId: this.newUser.cardId,
-          userId: this.newUser.userId,
-          deviceIds: this.newUser.devices,
-        }
-      );
-      if (addResponse.status === 200) {
-        this.renewUser();
-        this.showNewUserDialog = false;
-        if (this.selectedDevice) {
-          this.getListUsers();
-        }
-        Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "Create User successful!",
-        });
-      } else {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Create user fail. Please try again later!",
-        });
-      }
-    },
-    async removeUser(user) {
-      const deleteResponse = await this.$axios.delete(`/delete/user`, {
-        params: { userId: user.userId, deviceId: this.selectedDevice },
-      });
-      if (deleteResponse.status === 200) {
-        this.users = this.users.filter(
-          (holdUser) => holdUser.userId !== user.userId
-        );
-        this.showNewUserDialog = false;
-        Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "Remove user successful!",
-        });
-      } else {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Remove user fail. Please try again later!",
-        });
       }
     },
     async getDevices() {
@@ -589,101 +446,6 @@ export default {
           this.newUser.devices = this.devices.slice();
         }
       });
-    },
-    showNewUserDialogMethod() {
-      this.showNewUserDialog = true;
-      if (this.$refs.newUser) {
-        // When init ref this.$refs.newUser is undefined
-        this.$refs.newUser.resetValidation();
-      }
-    },
-    editUser(user) {
-      this.showEditUserDialog = true;
-
-      const editUser = {
-        devices: [user.sn],
-        block_id: user.blockId,
-        company_id: user.companyId,
-        floor_id: user.floorId,
-        site_id: user.siteId,
-        card_id: user.cardId,
-        userId: user.userId,
-        name: user.name,
-        phone: user.phone,
-        userType: parseInt(user.userType),
-        confidenceLevel: user.confidenceLevel,
-        ic: user.icCard,
-        facePhoto: user.photo,
-        allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
-        expiredAt:
-          user.validUntil && user.validUntil !== "forever"
-            ? user.validUntil.substring(0, 10)
-            : undefined,
-      };
-      this.editUserExpiredAtStringMinute =
-        user.validUntil && user.validUntil !== "forever"
-          ? user.validUntil.substring(11, 5)
-          : "";
-      this.editedUser = editUser;
-    },
-    addPeriod() {
-      this.newUser.allowPeriods = [
-        ...this.newUser.allowPeriods,
-        { startTime: this.startTime, endTime: this.endTime },
-      ];
-      this.startTime = "";
-      this.endTime = "";
-    },
-    closePopupEditUser() {
-      this.showEditUserDialog = false;
-    },
-    closePopupUploadExcel() {
-      this.isShowPopupUploadUsers = false;
-    },
-    closePopupSyncUsers() {
-      this.isShowPopupSyncUsers = false;
-    },
-    uploadUsersSuccess() {
-      this.isShowPopupUploadUsers = false;
-      this.getListUsers();
-    },
-    showDeleteUsersDialog() {
-      if (!this.selectedUsersToDelete.length) {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "There is no users to delete!",
-        });
-        return;
-      }
-      this.showConfirmDeleteUsersDialog = true;
-    },
-    async deleteUsers() {
-      const deleteUsersResponse = await this.$axios.delete(
-        `batch/delete/users`,
-        {
-          data: {
-            deviceId: this.selectedDevice,
-            userIds: this.selectedUsersToDelete.map(({ userId }) => userId),
-          },
-        }
-      );
-
-      if (deleteUsersResponse.status === 200) {
-        this.showConfirmDeleteUsersDialog = false;
-        this.getListUsers();
-        Vue.notify({
-          group: "loggedIn",
-          type: "success",
-          text: "User deleted!",
-        });
-      } else {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Delete User failed!",
-        });
-      }
     },
   },
 };

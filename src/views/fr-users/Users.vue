@@ -879,15 +879,12 @@ export default {
     },
     async getListUsers(sId = "", bId = "", fId = "", cId = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
-        // &page=1&pageSize=5&${this.siteName}
+        let sDN = !Object.isFrozen(this.selectedDevice) ? this.selectedDevice["name"] : this.selectedDevice;
         let sSite = sId === "-- Please select site --" ? "" : sId;
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
-        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${
-          this.selectedDevice
-        }${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${
-          !sFloor ? "" : "&floor=" + sFloor
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor
         }${!sComp ? "" : "&comp=" + sComp}`;
         await this.$axios
           .get(sAPI)
@@ -1027,6 +1024,8 @@ export default {
                       }`,
                 };
               });
+              this.selectedDevice = this.devices[0];
+              this.getListUsers();
             })
             .catch((error) => {
               this.errored = true;
