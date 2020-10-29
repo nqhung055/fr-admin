@@ -395,7 +395,7 @@ export default {
     },
     mounted() {
       // console.log('Device: ' + this.editUser.devices);
-      console.log('icMasked: ' + this.editUser.icCardMasked);
+      // console.log('icMasked: ' + this.editUser.icCardMasked);
     },
     watch: {
       isShowPopup() {
