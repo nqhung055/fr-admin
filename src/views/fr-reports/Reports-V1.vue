@@ -19,7 +19,7 @@
                 <v-card-text>
                   <v-row>
                     <v-col cols="3">
-                      <v-select v-model="userType" :items="userTypes" single-line label="Select User Types" @change="getLogs(siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)" />
+                      <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" single-line label="Select User Types" @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)" />
                     </v-col>
                     <v-col cols="3" class="header-table-select-devices">
                       <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
@@ -44,15 +44,7 @@
                         single-line
                         label="Select Site"
                         :disabled="!selectedDevice"
-                        @change="
-                          getListUsers(
-                            siteId,
-                            !blockId ? '' : blockId,
-                            !floorId ? '' : floorId,
-                            !compId ? '' : compId
-                          )
-                        "
-                      ></v-select>
+                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select
@@ -63,15 +55,7 @@
                         single-line
                         label="Select Block"
                         :disabled="!selectedDevice"
-                        @change="
-                          getListUsers(
-                            siteId,
-                            !blockId ? '' : blockId,
-                            !floorId ? '' : floorId,
-                            !compId ? '' : compId
-                          )
-                        "
-                      ></v-select>
+                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select
@@ -82,15 +66,7 @@
                         single-line
                         label="Select Floor"
                         :disabled="!selectedDevice"
-                        @change="
-                          getListUsers(
-                            siteId,
-                            !blockId ? '' : blockId,
-                            !floorId ? '' : floorId,
-                            !compId ? '' : compId
-                          )
-                        "
-                      ></v-select>
+                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select
@@ -101,21 +77,13 @@
                         single-line
                         label="Select Company"
                         :disabled="!selectedDevice"
-                        @change="
-                          getListUsers(
-                            siteId,
-                            !blockId ? '' : blockId,
-                            !floorId ? '' : floorId,
-                            !compId ? '' : compId
-                          )
-                        "
-                      ></v-select>
+                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
                     </v-col>
                   </v-row>
                 </v-card-text>
                 <v-data-table
                   :headers="headers"
-                  :items="users"
+                  :items="reports"
                   :search="searchUserKey"
                   item-key="userId"
                 >
@@ -162,7 +130,7 @@ export default {
           text: "Time",
           align: "left",
           sortable: false,
-          value: "",
+          value: "detectionTime",
         },
         {
           text: "Photo",
@@ -174,60 +142,60 @@ export default {
           text: "Pass/Fail",
           align: "left",
           sortable: false,
-          value: "",
+          value: "bodyTemperature",
         },
         {
           text: "Entry/Exit",
           align: "left",
           sortable: false,
-          value: "",
+          value: "devType",
         },
         {
           text: "Name",
           align: "left",
           sortable: false,
-          value: "",
+          value: "name",
         },
         {
           text: "Device",
           align: "left",
           sortable: false,
-          value: "",
+          value: "fromDevice",
         },
         {
           text: "Temperature",
           align: "left",
           sortable: false,
-          value: "",
+          value: "bodyTemperature",
         },
         {
           text: "ID Number",
           align: "left",
           sortable: false,
-          value: "",
+          value: "icCard",
         },
         {
           text: "Company",
           align: "left",
           sortable: false,
-          value: "",
+          value: "companyName",
         },
         {
           text: "Contact",
           align: "left",
           sortable: false,
-          value: "",
+          value: "phone",
         },
         {
           text: "Type",
           align: "left",
           sortable: false,
-          value: "",
+          value: "type",
         },
         // { text: "Action", align: "center", value: "action", width: "10%" },
       ],
       devices: [],
-      users: [],
+      reports: [],
       selectedUsersToDelete: [],
       selectedDevice: "",
       showNewUserDialog: false,
@@ -254,8 +222,8 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
-      userType: "",
-      userTypes: ["All", "Registered users", "Guests"],
+      userType: "all",
+      userTypes: [{"key":"all", "name":"All",}, {"key":"registered_users", "name":"Registered users"}, {"key":"stranger", "name":"Guests"}],
       userBlocks: [],
       blockId: "-- Please select block --",
       userSites: [],
@@ -271,65 +239,23 @@ export default {
     this.getUserRelatedData();
   },
   computed: {
-    cSelectAllDevices() {
-      return this.newUser.devices.length === this.devices.length;
-    },
-    cSelectSomeDevices() {
-      return this.newUser.devices.length > 0 && !this.cSelectAllDevices;
-    },
-    icon() {
-      if (this.cSelectAllDevices) return "mdi-close-box";
-      if (this.cSelectSomeDevices) return "mdi-minus-box";
-      return "mdi-checkbox-blank-outline";
-    },
   },
   methods: {
-    async uploadFile() {
-      if (this.facePhoto) {
-        const reader = new FileReader();
-        reader.addEventListener(
-          "load",
-          () => {
-            this.srcFacePhoto = reader.result;
-          },
-          false
-        );
-
-        reader.readAsDataURL(this.facePhoto);
-      } else {
-        this.srcFacePhoto = "";
-      }
-    },
-    async changeSelectedDevice() {
-      const usersResponse = await this.$axios.get(
-        `/get/user/list/of/${this.selectedDevice}`
-      );
-      if (usersResponse.status === 200) {
-        this.users = usersResponse.data || [];
-      } else {
-        Vue.notify({
-          group: "loggedIn",
-          type: "error",
-          text: "Can not get User list. Please try again later!",
-        });
-      }
-    },
-    async getLogs(sId = "", bId = "", fId = "", cId = "") {
+    async getLogs(userType = "", sId = "", bId = "", fId = "", cId = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
         // &page=1&pageSize=5&${this.siteName}
+        let sDN = !Object.isFrozen(this.selectedDevice) ? this.selectedDevice["name"] : this.selectedDevice;
+        let sUserType = userType === "all" ? "" : userType;
         let sSite = sId === "-- Please select site --" ? "" : sId;
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
-        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${
-          this.selectedDevice
-        }${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${
-          !sFloor ? "" : "&floor=" + sFloor
-        }${!sComp ? "" : "&comp=" + sComp}`;
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?${!sUserType ? "" : "&type=" + sUserType}&device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}`;
+        console.log('Log api: ' + sAPI);
         await this.$axios
           .get(sAPI)
           .then((response) => {
-            this.users = response.data || [];
+            this.reports = response.data || [];
           })
           .catch((error) => {
             this.errored = true;
@@ -342,9 +268,7 @@ export default {
       let devices = [];
       await this.$axios
         .get("/registered/device/list")
-        .then((gwRes) => {
-          devices = gwRes.data;
-        })
+        .then((gwRes) => { Object.values(gwRes.data).forEach(val => {if (devices.indexOf(val) === -1) devices.push(val)})})
         .catch((error) => {
           this.errored = true;
           Vue.notify({
@@ -356,25 +280,16 @@ export default {
         })
         .finally(async () => {
           await this.$axios
-            .get(
-              `${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` +
-                devices.join(",")
-            )
+            .get(`${AppConfig.ip}${AppConfig.api_port}/devices?deviceIds=` + devices.join(","))
             .then((beRes) => {
               this.devices = beRes.data.map((device) => {
                 return {
                   ...device,
-                  displayName: device.displayName
-                    ? device.displayName
-                    : device.displayName
-                    ? device.displayName
-                    : `${device.siteId ? device.siteId + "-" : ""}${
-                        device.blockId ? device.blockId + "-" : ""
-                      }${device.floorId ? device.floorId + "-" : ""}${
-                        device.customName ? device.customName : ""
-                      }`,
+                  displayName: device.displayName ? device.displayName : device.displayName ? device.displayName : `${device.siteId ? device.siteId + "-" : ""}${device.blockId ? device.blockId + "-" : "" }${device.floorId ? device.floorId + "-" : ""}${device.customName ? device.customName : ""}`,
                 };
               });
+              this.selectedDevice = this.devices[0];
+              this.getLogs();
             })
             .catch((error) => {
               this.errored = true;
@@ -437,15 +352,6 @@ export default {
       } finally {
         () => (this.loading = false);
       }
-    },
-    selectAllDevices() {
-      this.$nextTick(() => {
-        if (this.cSelectAllDevices) {
-          this.newUser.devices = [];
-        } else {
-          this.newUser.devices = this.devices.slice();
-        }
-      });
     },
   },
 };
