@@ -41,19 +41,19 @@
                         <v-col cols="12" class="user-id">
                           <v-row>
                             <v-col>
-                              <v-text-field :label="$t('message.userId')" v-model="editUser.userId" :rules="editUserRules.id" required :disabled="true"></v-text-field>
+                              <v-text-field :label="$t('message.userId')" v-model="editUserModel.userId" :rules="editUserRules.id" required :disabled="true"></v-text-field>
                             </v-col>
                             <v-col>
                               <v-text-field
                                 :label="'Card ID'"
-                                v-model="editUser.card_id"
+                                v-model="editUserModel.card_id"
                               ></v-text-field>
                             </v-col>
                           </v-row>
                         </v-col>
                         <v-col cols="12" class="user-name">
                           <div>
-                            <v-text-field :label="$t('message.name')" v-model="editUser.name" :rules="editUserRules.name" required></v-text-field>
+                            <v-text-field :label="$t('message.name')" v-model="editUserModel.name" :rules="editUserRules.name" required></v-text-field>
                           </div>
                         </v-col>
                       </v-row>
@@ -65,12 +65,12 @@
                     <v-col cols="6" class="continer-user-left">
                       <v-row>
                         <v-col cols="12" class="user-phone">
-                          <v-text-field :label="$t('message.phone')" v-model="editUser.phone"></v-text-field>
+                          <v-text-field :label="$t('message.phone')" v-model="editUserModel.phone"></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-type">
                           <div>
                             <v-select
-                              v-model="editUser.userType"
+                              v-model="editUserModel.userType"
                               :items="userTypes"
                               item-text="text"
                               item-value="value"
@@ -79,16 +79,16 @@
                           </div>
                         </v-col>
                         <v-col cols="12" class="user-confidence">
-                          <v-text-field type="number" :label="$t('message.confidenceLevel')" v-model="editUser.confidenceLevel" :rules="editUserRules.confidenceLevel"></v-text-field>
+                          <v-text-field type="number" :label="$t('message.confidenceLevel')" v-model="editUserModel.confidenceLevel" :rules="editUserRules.confidenceLevel"></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
                           <div>
-                            <v-text-field :label="$t('message.ic')" v-model="editUser.ic" :rules="editUserRules.ic" required></v-text-field>
+                            <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" required></v-text-field>
                           </div>
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.site_id"
+                            v-model="editUserModel.site_id"
                             :items="sites"
                             item-text="name"
                             item-value="shortName"
@@ -98,7 +98,7 @@
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editUser.floor_id"
+                            v-model="editUserModel.floor_id"
                             :items="floors"
                             item-text="name"
                             item-value="shortName"
@@ -121,7 +121,7 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field 
-                                v-model="editUser.effectFrom" 
+                                v-model="editUserModel.effectFrom" 
                                 :label="$t('message.effectFrom')" 
                                 prepend-icon="event" 
                                 readonly 
@@ -130,7 +130,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editUser.effectFrom"
+                              v-model="editUserModel.effectFrom"
                               @input="isShowEffectFromPanel=false"
                             ></v-date-picker>
                           </v-menu>
@@ -176,7 +176,7 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                v-model="editUser.expiredAt"
+                                v-model="editUserModel.expiredAt"
                                 :label="$t('message.expiredAt')"
                                 prepend-icon="event"
                                 readonly
@@ -185,7 +185,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editUser.expiredAt"
+                              v-model="editUserModel.expiredAt"
                               @input="isShowExpiredAtPanel=false"
                             ></v-date-picker>
                           </v-menu>
@@ -283,7 +283,7 @@
                         </v-col>
                         <v-col cols="12" class="user-company">
                           <v-select
-                            v-model="editUser.company_id"
+                            v-model="editUserModel.company_id"
                             :items="companies"
                             item-text="name"
                             item-value="shortName"
@@ -293,7 +293,7 @@
                         </v-col>
                         <v-col cols="12" class="user-block">
                           <v-select
-                            v-model="editUser.block_id"
+                            v-model="editUserModel.block_id"
                             :items="blocks"
                             item-text="name"
                             item-value="shortName"
@@ -303,7 +303,7 @@
                         </v-col>
                         <v-col cols="12" class="user-periods">
                           <v-select
-                            v-model="editUser.allowPeriods"
+                            v-model="editUserModel.allowPeriods"
                             :items="editUser.allowPeriods"
                             :label="$t('message.allowPeriods')"
                             :item-text="period => period.startTime + '-' + period.endTime"
@@ -363,6 +363,8 @@ export default {
           ],
           ic: [ 
             ic => !!ic || 'IC Card is required',
+            ic => (ic?.length === 9) || 'IC Card must be 9 characters',
+            ic => ((/^\w+$/.test(ic))) || 'IC Card must be alphanumberic',
           ],
           confidenceLevel: [
             confidenceLevel => !isNaN(confidenceLevel) || 'ConfidenceLevel must be a number',
@@ -395,23 +397,35 @@ export default {
       // console.log('Device: ' + this.editUser.devices);
       console.log('icMasked: ' + this.editUser.icCardMasked);
     },
-    computed: {},
+    watch: {
+      isShowPopup() {
+        this.$refs.editUser?.resetValidation();
+      }
+    },
+    computed: {
+      editUserModel: vm => {
+        return {
+          ...vm.editUser,
+          ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`}
+      }
+    },
     methods: {
       async editCurrentUser() {
         if(!this.$refs.editUser.validate()) return
-        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = ""; let ic = "";
         const editUser = {
-          ...this.editUser,
-          expiredAt: this.editUser.expiredAt ? this.editUser.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
-          effectFrom: this.editUser.effectFrom ? this.editUser.effectFrom + ' ' + this.effectFromStringMinute : undefined,
+          ...this.editUserModel,
+          expiredAt: this.editUserModel.expiredAt ? this.editUserModel.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
+          effectFrom: this.editUserModel.effectFrom ? this.editUserModel.effectFrom + ' ' + this.effectFromStringMinute : undefined,
         }
         Object.keys(editUser).forEach((key) => {
-          if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id") {
+          if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || key === "ic") {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
+            ic = editUser["ic"];
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
-        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, ic };
         
         const editResponse = await this.$axios.post('/upload/user', editUser)
         if (editResponse.status === 200) {
@@ -443,16 +457,16 @@ export default {
         if (this.facePhoto) {
           const reader = new FileReader();
           reader.addEventListener("load",  () => {
-            this.editUser.facePhoto = reader.result;
+            this.editUserModel.facePhoto = reader.result;
           }, false)
     
           reader.readAsDataURL(this.facePhoto)
         } else {
-          this.editUser.facePhoto = ""
+          this.editUserModel.facePhoto = ""
         }
       },
       addPeriod() {
-        this.editUser.allowPeriods = [...this.editUser.allowPeriods, { startTime: this.startTime, endTime: this.endTime }]
+        this.editUserModel.allowPeriods = [...this.editUserModel.allowPeriods, { startTime: this.startTime, endTime: this.endTime }]
         this.startTime = ""
         this.endTime = ""
       },
