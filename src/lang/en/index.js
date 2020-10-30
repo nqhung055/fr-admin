@@ -681,5 +681,6 @@ export default {
   addCompany: 'Add Company',
   shortName: 'Short Name',
   displayName: 'Display Name',
-  id: 'ID'
+  id: 'ID',
+  star: '******',
 }
