@@ -18,7 +18,7 @@
                   <v-text-field
                     :label="$t('message.shortName')"
                     v-model.trim="item.sn"
-                    :rules="newBlockRules.shortName"
+                    :rules="newCompanyRules.shortName"
                     required
                   />
                 </v-col>
@@ -72,7 +72,7 @@ export default {
         name: '',
         desc: ''
       },
-      newBlockRules: {
+      newCompanyRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
@@ -94,7 +94,7 @@ export default {
         name: this.item.name,
         desc: this.item.desc
       };
-      const res = await this.$axios.post(`${AppConfig.ip}${AppConfig.api_port}/company/`, this.item);
+      const res = await this.$axios.post(`${AppConfig.ip}${AppConfig.api_port}/companies/`, this.item);
       if (res.status === 200) {
         this.$emit("editSuccess", true);
         Vue.notify({
