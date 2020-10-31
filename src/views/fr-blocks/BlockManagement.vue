@@ -104,14 +104,10 @@ export default {
 	  showEditDialog: false,
       showAddDialog: false,
       headers: [
-        {
-          text: "name",
-          align: "left",
-          sortable: false,
-          value: "name",
-        },
-        { text: "Short Name", value: "shortName" },
-        { text: "Description", value: "description" },
+		{ text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
+        { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
+        { text: "Description", value: "description", sortable: false },
+        { text: "Action", align: "left", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
