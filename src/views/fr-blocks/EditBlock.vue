@@ -80,7 +80,7 @@ export default {
   },
   computed: {},
   methods: {
-    async editedBlock() {        
+    async editBlock() {        
       const editResponse = await this.$axios.patch(
         `${AppConfig.ip}${AppConfig.api_port}/blocks/${this.editBlock.id}?sn=${this.editBlock.shortName}`,
         this.editBlock

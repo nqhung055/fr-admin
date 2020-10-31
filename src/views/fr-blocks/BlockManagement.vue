@@ -69,6 +69,21 @@
         </app-card>
       </v-row>
     </v-container>
+	
+	<add-site
+      :isShowPopup="showAddDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      max-width="500px"
+    />
+    <edit-site
+      :isShowPopup="showEditDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      :editSite="editSite"
+      max-width="500px"
+    />
+	
   </div>
 </template>
 
@@ -126,6 +141,10 @@ export default {
         console.log(error);
       }
     },
+  },
+  components: {
+    editBlock,
+    addBlock,
   },
 };
 </script>
