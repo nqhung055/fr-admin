@@ -74,6 +74,8 @@
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editSite from "./EditBlock.vue";
+import addSite from "./AddBlock.vue";
 
 export default {
   data() {
