@@ -437,7 +437,6 @@ export default {
     },
     computed: {
       editUserModel: vm => {
-        console.log(vm.editUser);
         return {
           ...vm.editUser,
           ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`}
