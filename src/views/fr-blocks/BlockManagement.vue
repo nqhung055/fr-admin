@@ -128,6 +128,12 @@ export default {
           console.log(error);
         });
     },
+	edit(block) {
+      this.editBlock = { 
+        ...block
+      }
+      this.showEditDialog = true
+    },
     async getData() {
       const blocks = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/blocks`);
       try {
@@ -140,6 +146,17 @@ export default {
         this.errored = true;
         console.log(error);
       }
+    },
+	closeEditPopup() {
+      this.showEditDialog = false;
+      this.showAddDialog = false;
+    },
+    editSuccess() {
+      this.closeEditPopup()
+      this.getData()
+    },
+    addBlock() {
+      this.showAddDialog = true;
     },
   },
   components: {
