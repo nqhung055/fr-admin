@@ -8,17 +8,17 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t("message.addSite") }}</span>
+          <span class="headline">{{ $t("message.addBlock") }}</span>
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form ref="site" lazy-validation v-model="isAddNew">
+            <v-form ref="block" lazy-validation v-model="isAddNew">
               <v-row>
                 <v-col cols="5">
                   <v-text-field
                     :label="$t('message.shortName')"
                     v-model.trim="item.sn"
-                    :rules="newSiteRules.shortName"
+                    :rules="newBlockRules.shortName"
                     required
                   />
                 </v-col>
@@ -45,7 +45,7 @@
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-spacer></v-spacer>
-          <v-btn class="px-4" color="success" v-on:click="addSite">{{
+          <v-btn class="px-4" color="success" v-on:click="addBlock">{{
             $t("message.add")
           }}</v-btn>
           <v-btn class="px-4" color="error" @click.native="closePopup">{{
@@ -72,7 +72,7 @@ export default {
         name: '',
         desc: ''
       },
-      newSiteRules: {
+      newBlockRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
@@ -86,27 +86,27 @@ export default {
   },
   computed: {},
   methods: {
-    async addSite() {        
-      if (!this.$refs.site.validate()) return;
+    async addBlock() {        
+      if (!this.$refs.block.validate()) return;
       this.item = {
         ...this.item,
         sn: this.item.sn,
         name: this.item.name,
         desc: this.item.desc
       };
-      const res = await this.$axios.post(`${AppConfig.ip}${AppConfig.api_port}/sites/`, this.item);
+      const res = await this.$axios.post(`${AppConfig.ip}${AppConfig.api_port}/blocks/`, this.item);
       if (res.status === 200) {
         this.$emit("editSuccess", true);
         Vue.notify({
           group: "loggedIn",
           type: "success",
-          text: "Added Site sucessfully!",
+          text: "Added Block successfully!",
         });
       } else {
         Vue.notify({
           group: "loggedIn",
           type: "error",
-          text: "Add Site failed!",
+          text: "Add Block failed!",
         });
       }
     },    
