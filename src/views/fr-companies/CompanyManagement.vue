@@ -117,8 +117,8 @@ export default {
           console.log(error);
         });
     },
-	async del(block) {        
-      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${block.id}`);
+	async del(company) {        
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/companies/${company.id}`);
       if (res.status === 200) {
         Vue.notify({
           group: "loggedIn",
@@ -134,9 +134,9 @@ export default {
         });
       }
     },  
-	edit(block) {
+	edit(company) {
       this.editBlock = { 
-        ...block
+        ...company
       }
       this.showEditDialog = true
     },
