@@ -18,7 +18,7 @@
               <div v-else>
                 <v-card-text>
                   <v-row>
-                    <v-col cols="5" sm="3" md="2" lg="5" xl="1">
+                    <v-col cols="12" sm="3" md="2" lg="12" xl="1">
                       <label>Slect Date range: </label>
                       <date-range-picker
                         ref="picker"
