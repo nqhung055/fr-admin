@@ -11,7 +11,7 @@
         >
           <v-card>
             <v-card-title>
-              <v-btn color="success" @click="showNewDialogMethod()">
+			  <v-btn color="success" @click="addBlock()">
                 Create Block
               </v-btn>
               <v-spacer></v-spacer>
@@ -100,6 +100,9 @@ export default {
       errored: false,
       search: "",
       selected: [],
+      editBlock: {},
+	  showEditDialog: false,
+      showAddDialog: false,
       headers: [
         {
           text: "name",
