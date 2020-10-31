@@ -92,6 +92,7 @@ import AppConfig from "../../constants/AppConfig";
 import editBlock from "./EditBlock.vue";
 import addBlock from "./AddBlock.vue";
 
+import Vue from "vue";
 export default {
   data() {
     return {
