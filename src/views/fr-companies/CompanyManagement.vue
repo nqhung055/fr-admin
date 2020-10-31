@@ -54,16 +54,36 @@
                 <td>{{ props.item.shortName }}</td>
                 <td>{{ props.item.description }}</td>
               </template>
+			  <template v-slot:[`item.action`]="{ item }">
+                <v-icon small @click="edit(item)">ti-pencil</v-icon> | <v-icon small @click="del(item)">ti-trash</v-icon>
+              </template>
             </v-data-table>
           </v-card>
         </app-card>
       </v-row>
     </v-container>
+	
+	<add-block
+      :isShowPopup="showAddDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      max-width="500px"
+    />
+    <edit-block
+      :isShowPopup="showEditDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      :editBlock="editCompany"
+      max-width="500px"
+    />
+	
   </div>
 </template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editBlock from "./EditCompany.vue";
+import addBlock from "./AddCompany.vue";
 
 export default {
   data() {
@@ -72,14 +92,10 @@ export default {
       search: "",
       selected: [],
       headers: [
-        {
-          text: "name",
-          align: "left",
-          sortable: true,
-          value: "name",
-        },
-        { text: "Short Name", value: "shortName" },
+        { text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
+        { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
         { text: "Description", value: "description", sortable: false },
+        { text: "Action", align: "left", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
