@@ -5,7 +5,7 @@
     <v-container fluid class="grid-list-xl py-0 mt-n3">
       <v-row>
         <app-card
-          :heading="'Blocks list'"
+          :heading="'Company list'"
           :fullBlock="true"
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
@@ -63,17 +63,17 @@
       </v-row>
     </v-container>
 	
-	<add-block
+	<add-company
       :isShowPopup="showAddDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
       max-width="500px"
     />
-    <edit-block
+    <edit-company
       :isShowPopup="showEditDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
-      :editBlock="editCompany"
+      :editCompany="editCompany"
       max-width="500px"
     />
 	
@@ -82,8 +82,8 @@
 
 <script>
 import AppConfig from "../../constants/AppConfig";
-import editBlock from "./EditCompany.vue";
-import addBlock from "./AddCompany.vue";
+import editCompany from "./EditCompany.vue";
+import addCompany from "./AddCompany.vue";
 
 export default {
   data() {
@@ -118,5 +118,9 @@ export default {
       }
     },
   },
+  components: {
+    editCompany,
+    addCompany,
+  }
 };
 </script>
