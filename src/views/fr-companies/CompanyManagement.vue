@@ -91,8 +91,13 @@ export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       search: "",
       selected: [],
+      editBlock: {},
+      showEditDialog: false,
+      showAddDialog: false,
       headers: [
         { text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
         { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
