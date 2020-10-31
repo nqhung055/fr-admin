@@ -127,6 +127,23 @@ export default {
           console.log(error);
         });
     },
+	async del(block) {        
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${site.id}`);
+      if (res.status === 200) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Deleted Block sucessfully!",
+        });
+        this.getData();
+      } else {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Delete Block failed!",
+        });
+      }
+    },  
 	edit(block) {
       this.editBlock = { 
         ...block
