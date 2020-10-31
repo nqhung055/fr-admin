@@ -11,7 +11,7 @@
         >
           <v-card>
             <v-card-title>
-			  <v-btn color="success" @click="addBlock()">
+              <v-btn color="success" @click="addBlock()">
                 Create Block
               </v-btn>
               <v-spacer></v-spacer>
@@ -102,7 +102,7 @@ export default {
       search: "",
       selected: [],
       editBlock: {},
-	  showEditDialog: false,
+      showEditDialog: false,
       showAddDialog: false,
       headers: [
 		{ text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
