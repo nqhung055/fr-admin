@@ -82,9 +82,34 @@
                           <v-text-field type="number" :label="$t('message.confidenceLevel')" v-model="editUserModel.confidenceLevel" :rules="editUserRules.confidenceLevel"></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
-                          <div>
-                            <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" @input="isDirtyIc = true" required></v-text-field>
-                          </div>
+                          <v-row>
+                            <v-col>
+                              <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" @input="isDirtyIc = true" required></v-text-field>
+                            </v-col>
+                            <v-menu
+                            v-model="isShowIcCardExpiryPanel"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field 
+                                v-model="editUserModel.icCard_Expiry" 
+                                :label="$t('message.icCardExpiry')" 
+                                prepend-icon="event" 
+                                readonly 
+                                v-bind="attrs" 
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="editUserModel.icCard_Expiry"
+                              @input="isShowIcCardExpiryPanel=false"
+                            ></v-date-picker>
+                          </v-menu>
+                          </v-row>
                         </v-col>
                         <v-col cols="12">
                           <v-select
@@ -396,7 +421,8 @@ export default {
         userSites: [ { label: "Site 1", value: 1 }, { label: "Site 2", value: 2 } ,  { label: "Site 3", value:3 } ],
         userFloors: [ { label: "Floor 1", value: 1 }, { label: "Floor 2", value: 2 } ,  { label: "Floor 3", value:3 } ],
         userCompanies: [ { label: "Company 1", value: 1 }, { label: "Company 2", value: 2 } ,  { label: "Company 3", value:3 } ],
-        isDirtyIc: false
+        isDirtyIc: false,
+        isShowIcCardExpiryPanel: false
       }
     },
     mounted() {
@@ -411,6 +437,7 @@ export default {
     },
     computed: {
       editUserModel: vm => {
+        console.log(vm.editUser);
         return {
           ...vm.editUser,
           ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`}
@@ -420,6 +447,7 @@ export default {
       async editCurrentUser() {
         if(!this.$refs.editUser.validate()) return
         let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let deviceId = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = ""; let ic = "";
+        let icCardExpiry = ""
         const editUser = {
           ...this.editUserModel,
           expiredAt: this.editUserModel.expiredAt ? this.editUserModel.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
@@ -429,10 +457,11 @@ export default {
           if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || (this.isDirtyIc && key === "ic")) {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
             ic = editUser["ic"];
+            icCardExpiry = editUser["icCard_Expiry"]
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
-        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+        let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, icCardExpiry };
         if (this.isDirtyIc) {
           objUpdateUser = { ...objUpdateUser, icCard: ic}
         }

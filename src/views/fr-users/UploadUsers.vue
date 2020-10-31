@@ -258,6 +258,7 @@ export default {
               cardId: rawUser['Card ID'],
               phone: rawUser['Cellphone number'],
               effectFrom: rawUser['Validity period'],
+              icCardExpiry: rawUser['FIN Expiry']
             }
           });
         },
@@ -299,6 +300,7 @@ export default {
       try {
         
         let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
+        let icCardExpiry = ""
         if (isClearUserData) await this.deleteUserFromDevice()
         for (let index = 0; index < this.uploadUsers.length; index++) {
           if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
@@ -308,10 +310,11 @@ export default {
             if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
               devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
               blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
+              icCardExpiry = userWithDevies["icCardExpiry"]
             }
           });
           urlUpdateUsers += userId + "?devices=" + devices;
-          let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
+          let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, icCardExpiry };
           const upGWAPI = await this.$axios.post('/upload/user', userWithDevies)
           if (upGWAPI.status === 200) {
             if ((blockId !== 'undefined' || blockId !== null) && (companyId !== 'undefined' || companyId !== null) && (floorId !== 'undefined' || floorId !== null) && (siteId !== 'undefined' || siteId !== null ) && (cardId !== 'undefined' || cardId !== null )) {
