@@ -70,13 +70,13 @@
       </v-row>
     </v-container>
 	
-	<add-site
+	<add-block
       :isShowPopup="showAddDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
       max-width="500px"
     />
-    <edit-site
+    <edit-block
       :isShowPopup="showEditDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
@@ -161,6 +161,6 @@ export default {
   components: {
     editBlock,
     addBlock,
-  },
+  }
 };
 </script>
