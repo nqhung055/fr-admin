@@ -183,6 +183,17 @@ export default {
     this.nTotalResidents = "0"; this.nPresentPeoples = "0";  this.nPresentResidents = "0"; this.nPresentGuests = "0";
     this.getDevices();
     this.getUsersSummary();
+
+    setInterval(() => {
+      this.$axios
+        .get("/registered/device/list")
+        .then((response) => {
+          this.updateStatusDevices(response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }, 1000 * 60 * 5);
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
@@ -253,6 +264,7 @@ export default {
           this.getVisitorSummary(devices);
           this.getTemperatureSummary(devices);
           this.selectedDevices = devices
+          this.updateStatusDevices(response.data)
         })
         .catch((error) => {
           this.errored = true;
@@ -369,6 +381,14 @@ export default {
       const url = `${this.strGetTemperatureSummary}&endDate=${this.$refs.visitorLineChart.date}&dataPointType=${this.$refs.visitorLineChart.selectedBtn}&dataPointNumber=${this.$refs.visitorLineChart.numDataPoint}&traffic=${this.$refs.visitorLineChart.trafficValue}`
       this.$refs.temperature.reloadWithDefaultUrl(url)
     },
+    updateStatusDevices(activeDevices) {
+      this.$axios
+      .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
+      .then(() => {})
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   },
   beforeDestroy () {
   },

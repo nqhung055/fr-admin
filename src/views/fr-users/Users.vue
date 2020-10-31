@@ -668,6 +668,7 @@ import editUser from "./Edit";
 import uploadUsers from "./UploadUsers";
 import syncUsers from "./SyncUsers";
 import AppConfig from "../../constants/AppConfig";
+import moment from 'moment';
 
 export default {
   components: {
@@ -1127,6 +1128,7 @@ export default {
           user.validUntil && user.validUntil !== "forever"
             ? user.validUntil.substring(0, 10)
             : undefined,
+        icCard_Expiry: moment(user.icCardExpiry).format('YYYY-MM-DD')
       };
       this.editUserExpiredAtStringMinute =
         user.validUntil && user.validUntil !== "forever"

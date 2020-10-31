@@ -607,6 +607,7 @@ export default {
   uploadExcelFilePlaceHolder: 'Only xls and xlsx files',
   uploadImagesPlaceHolder: 'Only png and jpeg files',
   syncUser: 'Sync Users',
+  icCardExpiry: 'FIN Expiry',
 
   facialRecognition: 'Facial Recognition',
   detectionLogs: 'Detection Logs',
