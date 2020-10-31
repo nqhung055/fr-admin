@@ -83,7 +83,7 @@
       :isShowPopup="showEditDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
-      :editSite="editSite"
+      :editBlock="editBlock"
       max-width="500px"
     />
 	
