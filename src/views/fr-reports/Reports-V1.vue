@@ -362,7 +362,6 @@ export default {
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
         let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?device=${sDN}${!sd ? "" : "&sd="  + moment(sd).format('YYYY-MM-DD hh:mm')}${!ed ? "" : "&ed="  + moment(ed).format('YYYY-MM-DD hh:mm')}${!sUserType ? "" : "&type=" + sUserType}${!sGateType ? "" : "&gate=" + sGateType}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}`;
-        // console.log('Log api: ' + sAPI);
         await this.$axios
           .get(sAPI)
           .then((response) => {
