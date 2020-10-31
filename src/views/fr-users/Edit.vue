@@ -406,6 +406,7 @@ export default {
     watch: {
       isShowPopup() {
         this.$refs.editUser?.resetValidation();
+        this.isDirtyIc = false;
       }
     },
     computed: {
@@ -433,7 +434,7 @@ export default {
         urlUpdateUsers += userId + "?devices=" + deviceId;
         let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId };
         if (this.isDirtyIc) {
-          objUpdateUser = { ...objUpdateUser, iccard: ic}
+          objUpdateUser = { ...objUpdateUser, icCard: ic}
         }
         delete editUser.ic
         const editResponse = await this.$axios.post('/upload/user', editUser)
