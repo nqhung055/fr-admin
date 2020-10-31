@@ -145,6 +145,17 @@ export default {
         });
       }
     },  
+	async getData() {
+      const sites = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/sites`);
+      try {
+        if (sites.status === 200) {
+          this.loader = false;
+          this.items = sites.data;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
 	edit(block) {
       this.editBlock = { 
         ...block
