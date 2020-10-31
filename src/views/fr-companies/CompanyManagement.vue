@@ -95,7 +95,7 @@ export default {
       errored: false,
       search: "",
       selected: [],
-      editBlock: {},
+      editCompany: {},
       showEditDialog: false,
       showAddDialog: false,
       headers: [
@@ -128,19 +128,19 @@ export default {
         Vue.notify({
           group: "loggedIn",
           type: "success",
-          text: "Deleted Block sucessfully!",
+          text: "Deleted Company sucessfully!",
         });
         this.getData();
       } else {
         Vue.notify({
           group: "loggedIn",
           type: "error",
-          text: "Delete Block failed!",
+          text: "Delete Company failed!",
         });
       }
     },  
 	edit(company) {
-      this.editBlock = { 
+      this.editCompany = { 
         ...company
       }
       this.showEditDialog = true
