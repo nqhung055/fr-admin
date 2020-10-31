@@ -5,13 +5,13 @@
     <v-container fluid class="grid-list-xl py-0 mt-n3">
       <v-row>
         <app-card
-          :heading="'Blocks list'"
+          :heading="'Company list'"
           :fullBlock="true"
           colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
         >
           <v-card>
             <v-card-title>
-              <v-btn color="success" @click="showNewDialogMethod()">
+              <v-btn color="success" @click="addCompany()">
                 Create Company
               </v-btn>
               <v-spacer></v-spacer>
@@ -53,33 +53,56 @@
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.shortName }}</td>
                 <td>{{ props.item.description }}</td>
+                </template>
+                <template v-slot:[`item.action`]="{ item }">
+                <v-icon small @click="edit(item)">ti-pencil</v-icon> | <v-icon small @click="del(item)">ti-trash</v-icon>
               </template>
             </v-data-table>
           </v-card>
         </app-card>
       </v-row>
     </v-container>
+	
+   <add-company
+      :isShowPopup="showAddDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      max-width="500px"
+    />
+    <edit-company
+      :isShowPopup="showEditDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      :editCompany="editCompany"
+      max-width="500px"
+    />
+	
   </div>
 </template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editCompany from "./EditCompany.vue";
+import addCompany from "./AddCompany.vue";
+
+import Vue from "vue";
 
 export default {
   data() {
     return {
       loader: true,
+      loading: true,
+      errored: false,
       search: "",
       selected: [],
+      editCompany: {},
+      showEditDialog: false,
+      showAddDialog: false,
       headers: [
-        {
-          text: "name",
-          align: "left",
-          sortable: true,
-          value: "name",
-        },
-        { text: "Short Name", value: "shortName" },
+        { text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
+        { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
         { text: "Description", value: "description", sortable: false },
+        { text: "Action", align: "left", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
@@ -88,6 +111,40 @@ export default {
     this.getData();
   },
   methods: {
+    async getList() {
+      await this.$axios
+        .get(`${AppConfig.ip}${AppConfig.api_port}/`)
+        .then((response) => {
+          this.loader = false;
+          this.items = response.data || [];
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+	async del(company) {        
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/companies/${company.id}`);
+      if (res.status === 200) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Deleted Company sucessfully!",
+        });
+        this.getData();
+      } else {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Delete Company failed!",
+        });
+      }
+    },  
+	edit(company) {
+      this.editCompany = { 
+        ...company
+      }
+      this.showEditDialog = true
+    },
     async getData() {
         const companies = await this.$axios.get(
           `${AppConfig.ip}${AppConfig.api_port}/companies`
@@ -101,6 +158,21 @@ export default {
         console.log(error);
       }
     },
+	closeEditPopup() {
+      this.showEditDialog = false;
+      this.showAddDialog = false;
+    },
+    editSuccess() {
+      this.closeEditPopup()
+      this.getData()
+    },
+    addCompany() {
+      this.showAddDialog = true;
+    },
   },
+  components: {
+    editCompany,
+    addCompany,
+  }
 };
 </script>

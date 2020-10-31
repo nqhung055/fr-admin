@@ -11,7 +11,7 @@
         >
           <v-card>
             <v-card-title>
-              <v-btn color="success" @click="showNewDialogMethod()">
+              <v-btn color="success" @click="addBlock()">
                 Create Block
               </v-btn>
               <v-spacer></v-spacer>
@@ -62,6 +62,9 @@
                       <td>{{ props.item.shortName }}</td>
                       <td>{{ props.item.description }}</td>
                     </template>
+					<template v-slot:[`item.action`]="{ item }">
+						<v-icon small @click="edit(item)">ti-pencil</v-icon> | <v-icon small @click="del(item)">ti-trash</v-icon>
+					</template>
                   </v-data-table>
               </div>
             </div>
@@ -69,12 +72,30 @@
         </app-card>
       </v-row>
     </v-container>
+	
+	<add-block
+      :isShowPopup="showAddDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      max-width="500px"
+    />
+    <edit-block
+      :isShowPopup="showEditDialog"
+      @closePopup="closeEditPopup"
+      @editSuccess="editSuccess"
+      :editBlock="editBlock"
+      max-width="500px"
+    />
+	
   </div>
 </template>
 
 <script>
 import AppConfig from "../../constants/AppConfig";
+import editBlock from "./EditBlock.vue";
+import addBlock from "./AddBlock.vue";
 
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -83,15 +104,14 @@ export default {
       errored: false,
       search: "",
       selected: [],
+      editBlock: {},
+      showEditDialog: false,
+      showAddDialog: false,
       headers: [
-        {
-          text: "name",
-          align: "left",
-          sortable: false,
-          value: "name",
-        },
-        { text: "Short Name", value: "shortName" },
-        { text: "Description", value: "description" },
+		{ text: "Short Name", align: "left", value: "shortName", sortable: true, width: "15%" },
+        { text: "Name", align: "left", sortable: true, value: "name", width: "20%"},
+        { text: "Description", value: "description", sortable: false },
+        { text: "Action", align: "left", value: "action", width: "10%", sortable: false },
       ],
       items: [],
     };
@@ -111,6 +131,29 @@ export default {
           console.log(error);
         });
     },
+	async del(block) {        
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${block.id}`);
+      if (res.status === 200) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Deleted Block sucessfully!",
+        });
+        this.getData();
+      } else {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Delete Block failed!",
+        });
+      }
+    },  
+	edit(block) {
+      this.editBlock = { 
+        ...block
+      }
+      this.showEditDialog = true
+    },
     async getData() {
       const blocks = await this.$axios.get(`${AppConfig.ip}${AppConfig.api_port}/blocks`);
       try {
@@ -124,6 +167,21 @@ export default {
         console.log(error);
       }
     },
+	closeEditPopup() {
+      this.showEditDialog = false;
+      this.showAddDialog = false;
+    },
+    editSuccess() {
+      this.closeEditPopup()
+      this.getData()
+    },
+    addBlock() {
+      this.showAddDialog = true;
+    },
   },
+  components: {
+    editBlock,
+    addBlock,
+  }
 };
 </script>
