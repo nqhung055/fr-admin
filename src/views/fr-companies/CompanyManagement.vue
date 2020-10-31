@@ -53,8 +53,8 @@
                 <td>{{ props.item.name }}</td>
                 <td>{{ props.item.shortName }}</td>
                 <td>{{ props.item.description }}</td>
-              </template>
-			  <template v-slot:[`item.action`]="{ item }">
+                </template>
+                <template v-slot:[`item.action`]="{ item }">
                 <v-icon small @click="edit(item)">ti-pencil</v-icon> | <v-icon small @click="del(item)">ti-trash</v-icon>
               </template>
             </v-data-table>
@@ -63,7 +63,7 @@
       </v-row>
     </v-container>
 	
-	<add-company
+   <add-company
       :isShowPopup="showAddDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
