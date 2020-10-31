@@ -129,7 +129,7 @@ export default {
         });
     },
 	async del(block) {        
-      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${site.id}`);
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${block.id}`);
       if (res.status === 200) {
         Vue.notify({
           group: "loggedIn",
