@@ -85,6 +85,8 @@ import AppConfig from "../../constants/AppConfig";
 import editCompany from "./EditCompany.vue";
 import addCompany from "./AddCompany.vue";
 
+import Vue from "vue";
+
 export default {
   data() {
     return {
