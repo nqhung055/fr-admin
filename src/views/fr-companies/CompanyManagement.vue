@@ -104,6 +104,40 @@ export default {
     this.getData();
   },
   methods: {
+    async getList() {
+      await this.$axios
+        .get(`${AppConfig.ip}${AppConfig.api_port}/`)
+        .then((response) => {
+          this.loader = false;
+          this.items = response.data || [];
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+	async del(block) {        
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/blocks/${block.id}`);
+      if (res.status === 200) {
+        Vue.notify({
+          group: "loggedIn",
+          type: "success",
+          text: "Deleted Block sucessfully!",
+        });
+        this.getData();
+      } else {
+        Vue.notify({
+          group: "loggedIn",
+          type: "error",
+          text: "Delete Block failed!",
+        });
+      }
+    },  
+	edit(block) {
+      this.editBlock = { 
+        ...block
+      }
+      this.showEditDialog = true
+    },
     async getData() {
         const companies = await this.$axios.get(
           `${AppConfig.ip}${AppConfig.api_port}/companies`
@@ -116,6 +150,17 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+	closeEditPopup() {
+      this.showEditDialog = false;
+      this.showAddDialog = false;
+    },
+    editSuccess() {
+      this.closeEditPopup()
+      this.getData()
+    },
+    addCompany() {
+      this.showAddDialog = true;
     },
   },
   components: {
