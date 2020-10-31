@@ -11,7 +11,7 @@
         >
           <v-card>
             <v-card-title>
-              <v-btn color="success" @click="showNewDialogMethod()">
+              <v-btn color="success" @click="addCompany()">
                 Create Company
               </v-btn>
               <v-spacer></v-spacer>
