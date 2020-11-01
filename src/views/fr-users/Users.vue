@@ -230,6 +230,8 @@
                             v-model="newUser.devices"
                             :items="devices"
                             :rules="newUserRules.devices"
+                            item-text="displayName"
+                            item-value="name"
                             label="Add to Devices"
                             multiple
                           >
@@ -733,7 +735,7 @@ export default {
           text: "FIN Exp. Date",
           align: "left",
           sortable: false,
-          value: "ic_exp",
+          value: "icCardExpiry",
         },
         {
           text: "Exp. Date",
@@ -1163,10 +1165,7 @@ export default {
           user.validUntil && user.validUntil !== "forever"
             ? user.validUntil.substring(0, 10)
             : undefined,
-         icCard_Expiry: 
-            user.icCardExpiry !=="" 
-            ? moment(user.icCardExpiry).format('YYYY-MM-DD')
-            : "",
+         icCard_Expiry: moment(user.icCardExpiry).format('YYYY-MM-DD')
       };
       this.editUserExpiredAtStringMinute =
         user.validUntil && user.validUntil !== "forever"
