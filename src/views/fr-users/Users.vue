@@ -45,11 +45,11 @@
                         label="Select Device"
                         @change="
                           getListUsers();
-                          siteId = '-- Please select site --';
-                          blockId = '-- Please select block --';
-                          floorId = '-- Please select floor --';
-                          compId = '-- Please select company --';
-                          fin_month ='--Please select FIN Exp. Range --';
+                          siteId = '-- Site --';
+                          blockId = '-- Block --';
+                          floorId = '-- Floor --';
+                          compId = '-- Company --';
+                          fin_month ='--FIN Exp. Range --';
                         "
                       >
                       </v-select>
@@ -148,7 +148,7 @@
                      <v-col cols="2" sm="3" md="2" lg="2" xl="1">
                       <v-select
                         v-model="fin_month"
-                        :items="FIN_Exp_Range"
+                        :items="arrFIN_Exp_Month"
                         item-text="name"
                         item-value="value"
                         single-line
@@ -841,7 +841,6 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp_Range : [{"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}],
 
       isShowEndTime: false,
       isShowStartTime: false,
@@ -885,14 +884,14 @@ export default {
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userBlocks: [],
-      blockId: "-- Please select block --",
+      blockId: "-- Block --",
       userSites: [],
-      siteId: "-- Please select site --",
+      siteId: "-- Site --",
       userFloors: [],
-      floorId: "-- Please select floor --",
+      floorId: "-- Floor --",
       userCompanies: [],
-      compId: "-- Please select company --",
-      fin_month:""
+      compId: "-- Company --",
+      fin_month:"-- FIN Exp. Range --"
     };
   },
   mounted() {
@@ -946,11 +945,11 @@ export default {
     async getListUsers(sId = "", bId = "", fId = "", cId = "",sFin_Exp_Month = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
         let sDN = !Object.isFrozen(this.selectedDevice) ? this.selectedDevice["name"] : this.selectedDevice;
-        let sSite = sId === "-- Please select site --" ? "" : sId;
-        let sBlock = bId === "-- Please select block --" ? "" : bId;
-        let sFloor = fId === "-- Please select floor --" ? "" : fId;
-        let sComp = cId === "-- Please select company --" ? "" : cId;
-		let sMonth = sFin_Exp_Month === "--Please select FIN Exp. Range --" ? 0 : sFin_Exp_Month;
+        let sSite = sId === "-- Site --" ? "" : sId;
+        let sBlock = bId === "-- Block --" ? "" : bId;
+        let sFloor = fId === "-- Floor --" ? "" : fId;
+        let sComp = cId === "-- Company --" ? "" : cId;
+		let sMonth = sFin_Exp_Month === "-- FIN Exp. Range --" ? 0 : sFin_Exp_Month;
         let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor
         }${!sComp ? "" : "&comp=" + sComp}${!sMonth ? "" : "&fin_month=" + sMonth}`;
         await this.$axios
@@ -1116,11 +1115,14 @@ export default {
       const sites = await this.$axios.get(
         `${AppConfig.ip}${AppConfig.api_port}/sites`
       );
-      let arrSites = [{ shortname: "", name: "-- Please select site --" }];
-      let arrBlocks = [{ shortname: "", name: "-- Please select block --" }];
-      let arrFloors = [{ shortname: "", name: "-- Please select floor --" }];
+      let arrSites = [{ shortname: "", name: "-- Site --" }];
+      let arrBlocks = [{ shortname: "", name: "-- Block --" }];
+      let arrFloors = [{ shortname: "", name: "-- Floor --" }];
       let arrCompanies = [
-        { shortname: "", name: "-- Please select company --" },
+        { shortname: "", name: "-- Company --" },
+      ];
+	  let arrFIN_Exp_Month = [
+        {"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}
       ];
       try {
         if (
