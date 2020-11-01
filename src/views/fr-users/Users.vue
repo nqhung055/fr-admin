@@ -317,13 +317,15 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
-                          <div>
+						  <v-col>
                             <v-text-field
                               :label="$t('message.ic')"
                               v-model="newUser.ic"
                               :rules="newUserRules.ic"
                               required
                             ></v-text-field>
+                            </v-col>
+                            <v-col>
 							<template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="newUser.ic_exp"
@@ -337,7 +339,7 @@
                             <v-date-picker
                               v-model="newUser.ic_exp"
                             ></v-date-picker>
-                         </div>
+                         </v-col>
                         </v-col>
                         <v-col cols="12">
                           <v-select
