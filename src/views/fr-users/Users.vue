@@ -1164,9 +1164,9 @@ export default {
             ? user.validUntil.substring(0, 10)
             : undefined,
          icCard_Expiry: 
-            user.icCardExpiry !="" 
+            user.icCardExpiry !=="" 
             ? moment(user.icCardExpiry).format('YYYY-MM-DD')
-            : moment().format('YYYY-MM-DD'),
+            : "",
       };
       this.editUserExpiredAtStringMinute =
         user.validUntil && user.validUntil !== "forever"
