@@ -317,7 +317,7 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
-                          <div>aaaa
+                          <div>
                             <v-text-field
                               :label="$t('message.ic')"
                               v-model="newUser.ic"
@@ -325,6 +325,16 @@
                               required
                             ></v-text-field>
                           </div>
+						  
+						  <div>
+                            <v-text-field
+                              :label="$t('message.ic_exp')"
+                              v-model="newUser.ic_exp"
+                              :rules="newUserRules.ic_exp"
+                              required
+                            ></v-text-field>
+                          </div>
+						  
                         </v-col>
                         <v-col cols="12">
                           <v-select
@@ -805,6 +815,7 @@ export default {
         ],
         id: [(id) => !!id || "ID is required"],
         ic: [(ic) => !!ic || "IC Card is required"],
+		ic_exp: [(ic_exp) => !!ic_exp || "IC Card Expiry is required"],
         confidenceLevel: [
           (confidenceLevel) =>
             !isNaN(confidenceLevel) || "ConfidenceLevel must be a number",
@@ -1122,6 +1133,7 @@ export default {
         userType: parseInt(user.userType),
         confidenceLevel: user.confidenceLevel,
         ic: user.icCard,
+		ic_exp: user.icCard_Expiry,
         facePhoto: user.photo,
         allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
         expiredAt:
