@@ -194,6 +194,7 @@ export default {
           console.log(error);
         })
     }, 1000 * 60 * 5);
+	console.log("ok");
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
