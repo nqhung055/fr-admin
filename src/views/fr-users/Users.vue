@@ -148,7 +148,7 @@
                      <v-col cols="2" sm="3" md="2" lg="2" xl="1">
                       <v-select
                         v-model="fin_month"
-                        :items="arrFIN_Exp_Month"
+                        :items="fin_exp_month"
                         item-text="name"
                         item-value="value"
                         single-line
@@ -841,6 +841,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
+      fin_exp_month : [{"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}];
 
       isShowEndTime: false,
       isShowStartTime: false,
@@ -1120,9 +1121,6 @@ export default {
       let arrFloors = [{ shortname: "", name: "-- Floor --" }];
       let arrCompanies = [
         { shortname: "", name: "-- Company --" },
-      ];
-	  let arrFIN_Exp_Month = [
-        {"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}
       ];
       try {
         if (
