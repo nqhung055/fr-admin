@@ -118,7 +118,7 @@ export default {
         });
     },
 	async del(floor) {        
-      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/floors/${company.id}`);
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/floors/${floor.id}`);
       if (res.status === 200) {
         Vue.notify({
           group: "loggedIn",
