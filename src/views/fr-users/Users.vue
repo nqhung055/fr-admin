@@ -49,6 +49,7 @@
                           blockId = '-- Please select block --';
                           floorId = '-- Please select floor --';
                           compId = '-- Please select company --';
+                          fin_month ='--Please select FIN Exp. Range --';
                         "
                       >
                       </v-select>
@@ -79,6 +80,7 @@
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
                             !compId ? '' : compId
+                            !fin_month ? '' : fin_month
                           )
                         "
                       ></v-select>
@@ -98,7 +100,7 @@
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
                             !compId ? '' : compId,
-                            !month ? '' : month
+                            !fin_month ? '' : fin_month
                           )
                         "
                       ></v-select>
@@ -118,7 +120,7 @@
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
                             !compId ? '' : compId,
-                            !month ? '' : month
+                            !fin_month ? '' : fin_month
                           )
                         "
                       ></v-select>
@@ -138,14 +140,14 @@
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
                             !compId ? '' : compId,
-                            !month ? '' : month
+                            !fin_month ? '' : fin_month
                           )
                         "
                       ></v-select>
                     </v-col>
                      <v-col cols="2" sm="3" md="2" lg="2" xl="1">
                       <v-select
-                        v-model="month"
+                        v-model="fin_month"
                         :items="FIN_Exp_Range"
                         item-text="name"
                         item-value="value"
@@ -158,7 +160,7 @@
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
                             !compId ? '' : compId,
-                            !month ? '' : month
+                            !fin_month ? '' : fin_month
                           )
                         "
                       ></v-select>
@@ -890,6 +892,7 @@ export default {
       floorId: "-- Please select floor --",
       userCompanies: [],
       compId: "-- Please select company --",
+	  fin_month:""
     };
   },
   mounted() {
