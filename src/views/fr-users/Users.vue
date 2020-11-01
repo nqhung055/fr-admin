@@ -142,45 +142,20 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" sm="3" md="2" lg="12" xl="1">
-                      <label>Slect Date range: </label>
-                      <date-range-picker
-                        ref="picker"
-                        :opens="opens"
-                        :locale-data="locale"
-                        :ranges="ranges"
-                        :singleDatePicker="singleDatePicker"
-                        :timePicker="timePicker"
-                        :secondPicker="secondPicker"
-                        :timePicker24Hour="timePicker24Hour"
-                        :showWeekNumbers="showWeekNumbers"
-                        :showDropdowns="showDropdowns"
-                        :autoApply="autoApply"
-                        v-model="dateRange"
-                        @update="getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)"
-                        @toggle="checkOpen"
-                        :linkedCalendars="linkedCalendars"
-                        clearable
-                      >
-                        <template v-slot:input="picker" style="min-width: 200px;">
-                            {{ picker.startDate | date }} - {{ picker.endDate | date }}
-                        </template>
-                      </date-range-picker>
-                      <v-btn text @click="drClear(); getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);" >Clear</v-btn>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                  </v-row>
-                  <v-row>
                     <v-col cols="6">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
                         Delete Users
                       </v-btn>
-					</v-col>
-					<v-spacer></v-spacer>
-                    <v-col cols="6">
+                    </v-col>
+                    <v-col cols="12" sm="3" md="2" lg="2" xl="1">
                      <v-btn color="success" @click="isShowPopupUploadUsers = true">
                         Export
                      </v-btn>
+                    </v-col>
+                    <v-col cols="6" style="align:right">
+                      <v-btn color="success" @click="showDeleteUsersDialog()">
+                        Export
+                      </v-btn>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -728,18 +703,12 @@ import syncUsers from "./SyncUsers";
 import AppConfig from "../../constants/AppConfig";
 import moment from 'moment';
 
-//Vue2  date-range-picker
-import DateRangePicker from 'vue2-daterange-picker'
-//you need to import the CSS manually (in case you want to override it)
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-
 
 export default {
   components: {
     editUser,
     uploadUsers,
     syncUsers,
-	DateRangePicker
   },
   data() {
     return {
@@ -844,33 +813,6 @@ export default {
         userType: 0,
         allowPeriods: [],
       },
-      
-      //vue2-daterange-picker
-      opens: "center", //which way the picker opens, default "center", can be "left"/"right"
-      locale: {
-        direction: 'ltr',
-        format: 'dd/mm/yyyy hh:mm', // hh:mm:ss
-        separator: ' - ',
-        applyLabel: 'Apply',
-        cancelLabel: 'Cancel',
-        weekLabel: 'W',
-        customRangeLabel: 'Custom Range',
-        daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        firstDay: 0
-      },
-      ranges: { //default value for ranges object (if you set this to false ranges will no be rendered)
-        'Today': [moment(), moment()],
-        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-        'This month': [moment().startOf('month'), moment().endOf('month')],
-        'This year': [moment().startOf('year'), moment().endOf('year')],
-        'Last week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
-        'Last month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      },
-      secondPicker: true,
-      timePicker: true,
-      timePicker24Hour: true,	  
-
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
