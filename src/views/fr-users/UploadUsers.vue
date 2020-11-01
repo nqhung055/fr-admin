@@ -204,7 +204,7 @@ export default {
 		{
           text: 'Site',
           align: 'left',
-          value: 'siteId',
+          value: 'site',
           width: '10%'
         },
         // {
