@@ -146,9 +146,7 @@
                       <v-btn color="error" @click="showDeleteUsersDialog()">
                         Delete Users
                       </v-btn>
-                    </v-col>
-					<v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                        <label>Slect Date range for FIN Exp.: </label>
+                      <label>Slect Date range for FIN Exp.: </label>
                       <date-range-picker
                         ref="picker"
                         :opens="opens"
@@ -171,7 +169,6 @@
                             {{ picker.startDate | date }} - {{ picker.endDate | date }}
                         </template>
                       </date-range-picker>
-                      <v-btn text @click="drClear(); getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);" >Clear</v-btn>
                     </v-col>
 					<v-spacer></v-spacer>
                     <v-col cols="12" sm="3" md="2" lg="2" xl="1">
