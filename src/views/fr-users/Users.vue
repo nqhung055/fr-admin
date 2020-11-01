@@ -49,7 +49,7 @@
                           blockId = '-- Block --';
                           floorId = '-- Floor --';
                           compId = '-- Company --';
-                          fin_month ='--FIN Exp. Range --';
+                          fin_month ='-- FIN Exp. Range --';
                         "
                       >
                       </v-select>
@@ -841,7 +841,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      fin_exp_month : [{"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}],
+      fin_exp_month : [{"name":"-- FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}],
 
       isShowEndTime: false,
       isShowStartTime: false,
