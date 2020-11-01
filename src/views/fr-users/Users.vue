@@ -691,7 +691,7 @@ import editUser from "./Edit";
 import uploadUsers from "./UploadUsers";
 import syncUsers from "./SyncUsers";
 import AppConfig from "../../constants/AppConfig";
-import moment from 'moment';
+
 
 export default {
   components: {
