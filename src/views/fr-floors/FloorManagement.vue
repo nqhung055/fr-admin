@@ -72,7 +72,7 @@
       :isShowPopup="showEditDialog"
       @closePopup="closeEditPopup"
       @editSuccess="editSuccess"
-      :editCompany="editFloor"
+      :editFloor="editFloor"
       max-width="500px"
     />
   </div>
