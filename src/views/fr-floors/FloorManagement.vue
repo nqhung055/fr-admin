@@ -143,7 +143,6 @@ export default {
       }
       this.showEditDialog = true
     },
-  methods: {
     async getData() {
         const floors = await this.$axios.get(
           `${AppConfig.ip}${AppConfig.api_port}/floors`
@@ -157,8 +156,7 @@ export default {
         console.log(error);
       }
     },
-  },
-  closeEditPopup() {
+    closeEditPopup() {
       this.showEditDialog = false;
       this.showAddDialog = false;
     },
