@@ -327,7 +327,7 @@
                           </div>						  
                           <div>
                             <v-text-field
-                              :label="$t('message.ic_exp')"
+                              :label="$t('message.icCardExpiry')"
                               v-model="newUser.ic_exp"
                               :rules="newUserRules.ic_exp"
                               required
