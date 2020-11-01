@@ -189,7 +189,6 @@ export default {
         .get("/registered/device/list")
         .then((response) => {
           this.updateStatusDevices(response.data);
-          console.log("ok");
         })
         .catch((error) => {
           console.log(error);
@@ -385,7 +384,10 @@ export default {
     updateStatusDevices(activeDevices) {
       this.$axios
       .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
-      .then((disconnected_devices) => {return(disconnected_devices);})
+      .then((disconnected_devices) => {
+        console.log("ok");
+        return(disconnected_devices);
+      })
       .catch((error) => {
         console.log(error);
       })
