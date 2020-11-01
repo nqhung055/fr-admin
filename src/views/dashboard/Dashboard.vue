@@ -385,7 +385,7 @@ export default {
       this.$axios
       .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
       .then((disconnected_devices) => {
-        console.log("ok");
+        console.log(disconnected_devices);
       })
       .catch((error) => {
         console.log(error);
