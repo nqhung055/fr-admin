@@ -144,7 +144,7 @@
                   <v-row>
                     <v-col cols="12">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
-                        Delete Users
+                        Delete Users ---
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -165,7 +165,7 @@
                     </v-tooltip>
                   </template>
                   <template slot="items" slot-scope="props">
-                    <td>aaa{{ props.item.name }}</td>
+                    <td>{{ props.item.name }}</td>
                   </template>
                   <template v-slot:[`item.action`]="{ item }">
                     <!---->
