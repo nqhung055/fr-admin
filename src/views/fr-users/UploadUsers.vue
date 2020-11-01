@@ -164,7 +164,7 @@ export default {
           align: 'center',
           value: 'image',
           width: '10%'
-        }
+        },
         {
           text: 'Username',
           align: 'left',
@@ -194,13 +194,13 @@ export default {
           align: 'left',
           value: 'phone',
           width: '10%'
-        },
+        }
         // {
         //   text: 'Personal confidence',
         //   align: 'center',
         //   value: 'confidenceLevel',
         //   width: '10%'
-        // },
+        // }
       ],
       uploadUsers: [],
       uploadImages: [],
