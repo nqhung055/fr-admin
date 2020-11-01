@@ -97,7 +97,8 @@
                             siteId,
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
-                            !compId ? '' : compId
+                            !compId ? '' : compId,
+                            !month ? '' : month
                           )
                         "
                       ></v-select>
@@ -116,7 +117,8 @@
                             siteId,
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
-                            !compId ? '' : compId
+                            !compId ? '' : compId,
+                            !month ? '' : month
                           )
                         "
                       ></v-select>
@@ -135,14 +137,15 @@
                             siteId,
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
-                            !compId ? '' : compId
+                            !compId ? '' : compId,
+                            !month ? '' : month
                           )
                         "
                       ></v-select>
                     </v-col>
                      <v-col cols="2" sm="3" md="2" lg="2" xl="1">
                       <v-select
-                        v-model="fin_exp_month"
+                        v-model="month"
                         :items="FIN_Exp_Range"
                         item-text="name"
                         item-value="value"
@@ -154,7 +157,8 @@
                             siteId,
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
-                            !compId ? '' : compId
+                            !compId ? '' : compId,
+                            !month ? '' : month
                           )
                         "
                       ></v-select>
