@@ -729,7 +729,7 @@ export default {
           sortable: false,
           value: "icCardMasked",
         },
-		{
+        {
           text: "Expiry",
           align: "left",
           sortable: false,
