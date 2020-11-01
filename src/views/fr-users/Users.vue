@@ -317,7 +317,8 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
-                          <v-col>
+                          <v-row>
+						  <v-col>
                             <v-text-field
                               :label="$t('message.ic')"
                               v-model="newUser.ic"
@@ -340,6 +341,7 @@
                               v-model="newUser.ic_exp"
                             ></v-date-picker>
                          </v-col>
+                         </v-row>
                         </v-col>
                         <v-col cols="12">
                           <v-select
