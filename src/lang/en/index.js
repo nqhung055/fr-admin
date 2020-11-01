@@ -684,4 +684,5 @@ export default {
   displayName: 'Display Name',
   id: 'ID',
   star: '******',
+  inout:'IN/OUT',
 }
