@@ -762,12 +762,12 @@ export default {
           sortable: false,
           value: "icCardExpiry",
         },
-        /%{
+        /*{
           text: "Exp. Date",
           align: "left",
           sortable: false,
           value: "validUntil",
-        },%/
+        },*/
         {
           text: "Card ID",
           align: "left",
