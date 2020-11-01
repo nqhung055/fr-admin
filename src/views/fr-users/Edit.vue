@@ -441,7 +441,7 @@ export default {
       editUserModel: vm => {
         return {
           ...vm.editUser,
-          ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`
+          ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`,
 		  icCard_Expiry: ""
 		  }
       }
