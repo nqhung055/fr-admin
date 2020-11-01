@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       :value="isShowPopup"
-      max-width="1000px"
+      max-width="1500px"
       max-height="1000px"
       @click:outside="closePopup"
     >
@@ -181,6 +181,12 @@ export default {
           text: 'NRIC/FIN',
           align: 'left',
           value: 'ic',
+          width: '10%'
+        },
+		{
+          text: 'FIN Exp. Date',
+          align: 'left',
+          value: 'icCardExpiry',
           width: '10%'
         },
         {
