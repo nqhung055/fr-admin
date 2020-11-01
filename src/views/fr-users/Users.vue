@@ -148,7 +148,7 @@
                       </v-btn>
                     </v-col>
 					<v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                        <label>Slect Date range: </label>
+                        <label>Slect Date range for FIN Exp.: </label>
                       <date-range-picker
                         ref="picker"
                         :opens="opens"
@@ -724,6 +724,12 @@ import uploadUsers from "./UploadUsers";
 import syncUsers from "./SyncUsers";
 import AppConfig from "../../constants/AppConfig";
 import moment from 'moment';
+
+//Vue2  date-range-picker
+import DateRangePicker from 'vue2-daterange-picker'
+//you need to import the CSS manually (in case you want to override it)
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
 
 export default {
