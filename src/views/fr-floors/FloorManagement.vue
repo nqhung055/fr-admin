@@ -77,8 +77,10 @@
 
 <script>
 import AppConfig from "../../constants/AppConfig";
-import editCompany from "./EditFloor.vue";
-import addCompany from "./AddFloor.vue";
+import editFloor from "./EditFloor.vue";
+import addFloor from "./AddFloor.vue";
+
+import Vue from "vue";
 
 export default {
   data() {
@@ -116,7 +118,7 @@ export default {
         });
     },
 	async del(floor) {        
-      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/companies/${company.id}`);
+      const res = await this.$axios.delete(`${AppConfig.ip}${AppConfig.api_port}/floors/${company.id}`);
       if (res.status === 200) {
         Vue.notify({
           group: "loggedIn",
