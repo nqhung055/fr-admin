@@ -468,7 +468,7 @@ export default {
         if (this.isDirtyIc) {
           objUpdateUser = { ...objUpdateUser, icCard: ic}
         } else {
-          objUpdateUser = { ...objUpdateUser, icCard: this.editUserModel.icCard}
+          objUpdateUser = { ...objUpdateUser, icCard: this.editUserModel.ic}
         }
         delete editUser.ic
         const editResponse = await this.$axios.post('/upload/user', editUser)
