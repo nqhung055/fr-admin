@@ -173,16 +173,10 @@
                       </v-btn>
                     </v-col>
 					<v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                     <v-btn color="success" @click="isShowPopupSyncUsers = true">
+                     <v-btn color="success" @click="exportUsertoExcel">
                       Export to Excel
                      </v-btn>
                    </v-col>
-                   <v-spacer></v-spacer>
-                   <v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                     <v-btn color="success" @click="exportUsertoExcel()">
-                        Export
-                     </v-btn>
-                    </v-col>
                   </v-row>
                 </v-card-text>
                 <v-data-table
