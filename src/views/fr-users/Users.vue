@@ -160,12 +160,13 @@
                 >
                   <template slot="headerCell" slot-scope="props">
                     <v-tooltip bottom>
-                      <span slot="activator">---{{ props.header.text }}</span>
+                      <span slot="activator">{{ props.header.text }}</span>
                       <span>{{ props.header.text }}</span>
                     </v-tooltip>
                   </template>
                   <template slot="items" slot-scope="props">
                     <td>{{ props.item.name }}</td>
+					<td>{{ props.item.description }}</td>
                   </template>
                   <template v-slot:[`item.action`]="{ item }">
                     <!---->
