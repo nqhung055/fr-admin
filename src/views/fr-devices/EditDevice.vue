@@ -33,7 +33,7 @@
                                     :items="type"
                                     item-text="name"
                                     item-value="shortName"
-                                    :label="Type"
+                                    :label="$t('message.type')"
                                 ></v-select>
                             </v-col>
                             <v-col cols="6">
