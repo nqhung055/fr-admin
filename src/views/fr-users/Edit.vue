@@ -459,7 +459,6 @@ export default {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
             ic = editUser["ic"];
             icCardExpiry = editUser["icCard_Expiry"];
-            icCardExpiry = "";
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
