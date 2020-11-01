@@ -733,7 +733,7 @@ export default {
           text: "FIN Exp. Date",
           align: "left",
           sortable: false,
-          value: "icCardExpiry",
+          value: "icCard_Expiry",
         },
         {
           text: "Exp. Date",
@@ -1157,7 +1157,6 @@ export default {
         userType: parseInt(user.userType),
         confidenceLevel: user.confidenceLevel,
         ic: user.icCard,
-		ic_exp: user.icCard_Expiry,
         facePhoto: user.photo,
         allowPeriods: user.cycle ? JSON.parse(user.cycle) : undefined,
         expiredAt:
