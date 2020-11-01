@@ -142,8 +142,8 @@
                     </v-col>
                      <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select
-                        v-model="fin_exp_range"
-                        :items="FIN_Exp"
+                        v-model="fin_exp_month"
+                        :items="FIN_Exp_Range"
                         item-text="name"
                         item-value="value"
                         single-line
@@ -835,7 +835,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp : [{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
+      FIN_Exp_Range : [{"--Please select FIN Exp.Range --":0},{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
 
       isShowEndTime: false,
       isShowStartTime: false,
