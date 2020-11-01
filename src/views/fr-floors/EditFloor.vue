@@ -8,17 +8,17 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t("message.editBlock") }}</span>
+          <span class="headline">{{ $t("message.editFloor") }}</span>
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form ref="editBlock" lazy-validation>
+            <v-form ref="editCompany" lazy-validation>
               <v-row>
                 <v-col cols="5">
                   <v-text-field
                     :label="$t('message.shortName')"
-                    v-model.trim="editBlock.shortName"
-                    :rules="editBlockRules.shortName"
+                    v-model.trim="editCompany.shortName"
+                    :rules="editCompanyRules.shortName"
 					:disabled="true"
                     required
                   />
@@ -27,7 +27,7 @@
                   <v-text-field
                     :label="$t('message.name')"
                     hide-details
-                    v-model.trim="editBlock.name"
+                    v-model.trim="editFloor.name"
                   />
                 </v-col>
             </v-row>
@@ -36,7 +36,7 @@
                   <v-textarea
                     :label="$t('message.description')"
                     hide-details
-                    v-model.trim="editBlock.description"
+                    v-model.trim="editFloor.description"
                     height="auto"
                   />
                 </v-col>
@@ -46,7 +46,7 @@
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-spacer></v-spacer>
-          <v-btn class="px-4" color="success" v-on:click="editedBlock">{{
+          <v-btn class="px-4" color="success" v-on:click="editedFloor">{{
             $t("message.editBtn")
           }}</v-btn>
           <v-btn class="px-4" color="error" @click.native="closePopup">{{
@@ -64,10 +64,10 @@ import Vue from "vue";
 import AppConfig from "../../constants/AppConfig";
 
 export default {
-  props: ["isShowPopup", "editBlock"],
+  props: ["isShowPopup", "editFloor"],
   data() {
     return {
-      editBlockRules: {
+      editCompanyRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
@@ -81,23 +81,23 @@ export default {
   },
   computed: {},
   methods: {
-    async editedBlock() {        
+    async editedCompany() {        
       const editResponse = await this.$axios.patch(
-        `${AppConfig.ip}${AppConfig.api_port}/blocks/${this.editBlock.id}?sn=${this.editBlock.shortName}`,
-        this.editBlock
+        `${AppConfig.ip}${AppConfig.api_port}/floors/${this.editFloor.id}?sn=${this.editFloor.shortName}`,
+        this.editFloor
       );
       if (editResponse.status === 200) {
         this.$emit("editSuccess", true);
         Vue.notify({
           group: "loggedIn",
           type: "success",
-          text: "Edit Block success!",
+          text: "Edit Floor success!",
         });
       } else {
         Vue.notify({
           group: "loggedIn",
           type: "error",
-          text: "Edit Block fails!",
+          text: "Edit Floor fails!",
         });
       }
     },    

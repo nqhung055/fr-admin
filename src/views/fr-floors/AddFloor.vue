@@ -8,18 +8,17 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t("message.editBlock") }}</span>
+          <span class="headline">{{ $t("message.addFloor") }}</span>
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form ref="editBlock" lazy-validation>
+            <v-form ref="company" lazy-validation v-model="isAddNew">
               <v-row>
                 <v-col cols="5">
                   <v-text-field
                     :label="$t('message.shortName')"
-                    v-model.trim="editBlock.shortName"
-                    :rules="editBlockRules.shortName"
-					:disabled="true"
+                    v-model.trim="item.sn"
+                    :rules="newCompanyRules.shortName"
                     required
                   />
                 </v-col>
@@ -27,7 +26,7 @@
                   <v-text-field
                     :label="$t('message.name')"
                     hide-details
-                    v-model.trim="editBlock.name"
+                    v-model.trim="item.name"
                   />
                 </v-col>
             </v-row>
@@ -36,7 +35,7 @@
                   <v-textarea
                     :label="$t('message.description')"
                     hide-details
-                    v-model.trim="editBlock.description"
+                    v-model.trim="item.desc"
                     height="auto"
                   />
                 </v-col>
@@ -46,8 +45,8 @@
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-spacer></v-spacer>
-          <v-btn class="px-4" color="success" v-on:click="editedBlock">{{
-            $t("message.editBtn")
+          <v-btn class="px-4" color="success" v-on:click="addFloor">{{
+            $t("message.add")
           }}</v-btn>
           <v-btn class="px-4" color="error" @click.native="closePopup">{{
             $t("message.close")
@@ -64,15 +63,21 @@ import Vue from "vue";
 import AppConfig from "../../constants/AppConfig";
 
 export default {
-  props: ["isShowPopup", "editBlock"],
+  props: ["isShowPopup"],
   data() {
     return {
-      editBlockRules: {
+      isAddNew: true,
+      item: {
+        sn: '',
+        name: '',
+        desc: ''
+      },
+      newCompanyRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
             (shortName && shortName.length <= 15) ||
-            "Short name must be less than 15 characters!",
+            "Shor name must be less than 15 characters!",
         ],
       },
     };
@@ -81,23 +86,27 @@ export default {
   },
   computed: {},
   methods: {
-    async editedBlock() {        
-      const editResponse = await this.$axios.patch(
-        `${AppConfig.ip}${AppConfig.api_port}/blocks/${this.editBlock.id}?sn=${this.editBlock.shortName}`,
-        this.editBlock
-      );
-      if (editResponse.status === 200) {
+    async addFloor() {        
+      if (!this.$refs.floor.validate()) return;
+      this.item = {
+        ...this.item,
+        sn: this.item.sn,
+        name: this.item.name,
+        desc: this.item.desc
+      };
+      const res = await this.$axios.post(`${AppConfig.ip}${AppConfig.api_port}/floors/`, this.item);
+      if (res.status === 200) {
         this.$emit("editSuccess", true);
         Vue.notify({
           group: "loggedIn",
           type: "success",
-          text: "Edit Block success!",
+          text: "Added Floor successfully!",
         });
       } else {
         Vue.notify({
           group: "loggedIn",
           type: "error",
-          text: "Edit Block fails!",
+          text: "Add Floor failed!",
         });
       }
     },    

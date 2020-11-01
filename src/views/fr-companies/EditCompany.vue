@@ -19,6 +19,7 @@
                     :label="$t('message.shortName')"
                     v-model.trim="editCompany.shortName"
                     :rules="editCompanyRules.shortName"
+					:disabled="true"
                     required
                   />
                 </v-col>
