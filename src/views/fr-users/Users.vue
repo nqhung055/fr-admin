@@ -144,7 +144,7 @@
                   <v-row>
                     <v-col cols="12">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
-                        Delete Users ---
+                        Delete Users
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -160,7 +160,7 @@
                 >
                   <template slot="headerCell" slot-scope="props">
                     <v-tooltip bottom>
-                      <span slot="activator">{{ props.header.text }}</span>
+                      <span slot="activator">---{{ props.header.text }}</span>
                       <span>{{ props.header.text }}</span>
                     </v-tooltip>
                   </template>
