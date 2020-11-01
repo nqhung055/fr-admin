@@ -458,7 +458,8 @@ export default {
           if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || (this.isDirtyIc && key === "ic")) {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
             ic = editUser["ic"];
-            icCardExpiry = editUser["icCard_Expiry"]
+            icCardExpiry = editUser["icCard_Expiry"];
+            icCardExpiry = "";
           }
         });
         urlUpdateUsers += userId + "?devices=" + deviceId;
@@ -512,6 +513,9 @@ export default {
       },
       closePopup() {
         this.$emit('closePopup', true)
+      },
+      moment (date) {
+        return moment(date).format('DD-MM-YYYY hh:mm');
       }
     }
 }
