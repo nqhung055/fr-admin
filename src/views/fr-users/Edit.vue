@@ -513,9 +513,6 @@ export default {
       },
       closePopup() {
         this.$emit('closePopup', true)
-      },
-      moment (date) {
-        return moment(date).format('DD-MM-YYYY hh:mm');
       }
     }
 }
