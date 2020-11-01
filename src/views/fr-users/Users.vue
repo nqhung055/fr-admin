@@ -148,7 +148,30 @@
                       </v-btn>
                     </v-col>
 					<v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                        Date Range
+                        <label>Slect Date range: </label>
+                      <date-range-picker
+                        ref="picker"
+                        :opens="opens"
+                        :locale-data="locale"
+                        :ranges="ranges"
+                        :singleDatePicker="singleDatePicker"
+                        :timePicker="timePicker"
+                        :secondPicker="secondPicker"
+                        :timePicker24Hour="timePicker24Hour"
+                        :showWeekNumbers="showWeekNumbers"
+                        :showDropdowns="showDropdowns"
+                        :autoApply="autoApply"
+                        v-model="dateRange"
+                        @update="getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)"
+                        @toggle="checkOpen"
+                        :linkedCalendars="linkedCalendars"
+                        clearable
+                      >
+                        <template v-slot:input="picker" style="min-width: 200px;">
+                            {{ picker.startDate | date }} - {{ picker.endDate | date }}
+                        </template>
+                      </date-range-picker>
+                      <v-btn text @click="drClear(); getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);" >Clear</v-btn>
                     </v-col>
 					<v-spacer></v-spacer>
                     <v-col cols="12" sm="3" md="2" lg="2" xl="1">
