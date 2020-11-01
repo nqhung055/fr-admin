@@ -324,9 +324,18 @@
                               :rules="newUserRules.ic"
                               required
                             ></v-text-field>
+							<template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                v-model="newUser.ic_exp"
+                                :label="$t('message.icCardExpiry')"
+                                prepend-icon="event"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                              ></v-text-field>
+                            </template>
                             <v-date-picker
                               v-model="newUser.ic_exp"
-                              @input="isShowIcCardExpiryPanel=false"
                             ></v-date-picker>
                          </div>
                         </v-col>
