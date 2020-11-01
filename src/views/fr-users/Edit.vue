@@ -442,7 +442,7 @@ export default {
         return {
           ...vm.editUser,
           ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`,
-		  icCard_Expiry: ""
+          icCard_Expiry: ""
 		  }
       }
     },
