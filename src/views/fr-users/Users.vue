@@ -844,6 +844,33 @@ export default {
         userType: 0,
         allowPeriods: [],
       },
+      
+      //vue2-daterange-picker
+      opens: "center", //which way the picker opens, default "center", can be "left"/"right"
+      locale: {
+        direction: 'ltr',
+        format: 'dd/mm/yyyy hh:mm', // hh:mm:ss
+        separator: ' - ',
+        applyLabel: 'Apply',
+        cancelLabel: 'Cancel',
+        weekLabel: 'W',
+        customRangeLabel: 'Custom Range',
+        daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        firstDay: 0
+      },
+      ranges: { //default value for ranges object (if you set this to false ranges will no be rendered)
+        'Today': [moment(), moment()],
+        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+        'This month': [moment().startOf('month'), moment().endOf('month')],
+        'This year': [moment().startOf('year'), moment().endOf('year')],
+        'Last week': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
+        'Last month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      },
+      secondPicker: true,
+      timePicker: true,
+      timePicker24Hour: true,	  
+
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
