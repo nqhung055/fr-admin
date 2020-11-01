@@ -170,15 +170,6 @@
                   <template v-slot:[`item.action`]="{ item }">
                     <v-icon small @click="editUser(item)">ti-pencil</v-icon> | <v-icon small @click="removeUser(item)">ti-trash</v-icon>
                   </template>
-                  <!--<template v-slot:[`item.action`]="{ item }">
-                    <!---->
-                    <v-btn color="success" @click="editUser(item)">
-                      <v-icon>ti-pencil</v-icon>
-                    </v-btn>
-                    <v-btn color="error" @click="removeUser(item)">
-                      <v-icon>ti-trash</v-icon>
-                    </v-btn>
-                  </template>-->
                 </v-data-table>
               </div>
             </div>
