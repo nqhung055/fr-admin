@@ -141,14 +141,9 @@
                       ></v-select>
                     </v-col>
                   </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      <v-btn color="error" @click="showDeleteUsersDialog()">
-                        Delete Users
-                      </v-btn>
-					</v-col>
-                    <v-col cols="6">
-                      <label>Slect Date range for FIN Exp.: </label>
+				  <v-row>
+			        <v-col cols="12">
+					<label>Slect Date range for FIN Exp.: </label>
                       <date-range-picker
                         ref="picker"
                         :opens="opens"
@@ -171,7 +166,14 @@
                             {{ picker.startDate | date }} - {{ picker.endDate | date }}
                         </template>
                       </date-range-picker>
-                    </v-col>
+					</v-col>
+                  </v-row>
+				  <v-row>
+                    <v-col cols="6">
+                      <v-btn color="error" @click="showDeleteUsersDialog()">
+                        Delete Users
+                      </v-btn>
+					</v-col>
 					<v-spacer></v-spacer>
                     <v-col cols="6">
                      <v-btn color="success" @click="isShowPopupUploadUsers = true">
