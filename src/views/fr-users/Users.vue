@@ -733,7 +733,7 @@ export default {
           text: "FIN Exp. Date",
           align: "left",
           sortable: false,
-          value: "icCard_Expiry",
+          value: "icCardExpiry",
         },
         {
           text: "Exp. Date",
