@@ -200,7 +200,13 @@ export default {
           align: 'left',
           value: 'phone',
           width: '10%'
-        }
+        },
+		{
+          text: 'Site',
+          align: 'left',
+          value: 'siteId',
+          width: '10%'
+        },
         // {
         //   text: 'Personal confidence',
         //   align: 'center',
