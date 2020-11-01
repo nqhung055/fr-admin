@@ -324,8 +324,7 @@
                               :rules="newUserRules.ic"
                               required
                             ></v-text-field>
-                          </div>
-						  
+                          </div>						  
 						  <div>
                             <v-text-field
                               :label="$t('message.ic_exp')"
@@ -334,7 +333,6 @@
                               required
                             ></v-text-field>
                           </div>
-						  
                         </v-col>
                         <v-col cols="12">
                           <v-select
