@@ -325,7 +325,7 @@
                               required
                             ></v-text-field>
                           </div>						  
-						  <div>
+                          <div>
                             <v-text-field
                               :label="$t('message.ic_exp')"
                               v-model="newUser.ic_exp"
