@@ -188,13 +188,13 @@ export default {
       this.$axios
         .get("/registered/device/list")
         .then((response) => {
-          this.updateStatusDevices(response.data)
+          const disconnected_devices = this.updateStatusDevices(response.data);
+		  console.log("ok");
         })
         .catch((error) => {
           console.log(error);
         })
-    }, 1000 * 60 * 5);
-	console.log("ok");
+    }, 1000 * 60 * 1);
   },
   computed: {
     ...mapGetters(["fDLO", "fDetectionLogsOnline1", "fDetectionLogsOffline"]),
