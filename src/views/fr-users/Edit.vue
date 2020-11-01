@@ -86,14 +86,15 @@
                             <v-col>
                               <v-text-field :label="$t('message.ic')" v-model="editUserModel.ic" :rules="editUserRules.ic" @input="isDirtyIc = true" required></v-text-field>
                             </v-col>
-                            <v-menu
-                            v-model="isShowIcCardExpiryPanel"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                          >
+							<v-col>
+                             <v-menu
+                             v-model="isShowIcCardExpiryPanel"
+                             :close-on-content-click="false"
+                             :nudge-right="40"
+                             transition="scale-transition"
+                             offset-y
+                             min-width="290px"
+                            >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field 
                                 v-model="editUserModel.icCard_Expiry" 
@@ -109,6 +110,7 @@
                               @input="isShowIcCardExpiryPanel=false"
                             ></v-date-picker>
                           </v-menu>
+						  </v-col>
                           </v-row>
                         </v-col>
                         <v-col cols="12">
