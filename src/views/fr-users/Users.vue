@@ -943,7 +943,7 @@ export default {
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
-		let sMonth = nFin_Exp_Month === "--Please select FIN Exp. Range --" ? 0 : sFin_Exp_Month;
+		let sMonth = sFin_Exp_Month === "--Please select FIN Exp. Range --" ? 0 : sFin_Exp_Month;
         let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor
         }${!sComp ? "" : "&comp=" + sComp}${!sMonth ? "" : "&fin_month=" + sMonth}`;
         await this.$axios
