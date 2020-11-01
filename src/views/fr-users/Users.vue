@@ -142,8 +142,8 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                  <v-col cols="12">
-					<label>Slect Date range for FIN Exp.: </label>
+                    <v-col cols="12" sm="3" md="2" lg="12" xl="1">
+                      <label>Slect Date range: </label>
                       <date-range-picker
                         ref="picker"
                         :opens="opens"
@@ -166,7 +166,9 @@
                             {{ picker.startDate | date }} - {{ picker.endDate | date }}
                         </template>
                       </date-range-picker>
-					</v-col>
+                      <v-btn text @click="drClear(); getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);" >Clear</v-btn>
+                    </v-col>
+                    <v-spacer></v-spacer>
                   </v-row>
                   <v-row>
                     <v-col cols="6">
