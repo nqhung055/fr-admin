@@ -317,7 +317,7 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="user-ic">
-                          <div>
+                          <div>aaaa
                             <v-text-field
                               :label="$t('message.ic')"
                               v-model="newUser.ic"
