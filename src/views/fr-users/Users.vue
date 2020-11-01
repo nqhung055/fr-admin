@@ -144,7 +144,7 @@
                       <v-select
                         v-model="fin_exp_range"
                         :items="FIN_Exp"
-                        item-text=""name""
+                        item-text="name"
                         item-value="value"
                         single-line
                         label="Select FIN Exp. Range"
