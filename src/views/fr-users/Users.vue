@@ -79,7 +79,7 @@
                             siteId,
                             !blockId ? '' : blockId,
                             !floorId ? '' : floorId,
-                            !compId ? '' : compId
+                            !compId ? '' : compId,
                             !fin_month ? '' : fin_month
                           )
                         "
