@@ -30,7 +30,7 @@
 							<v-col cols="6">
                                 <v-select
                                     v-model="editDevice.type"
-                                    :items="[{item-text: IN, item-value:IN}, {item-text: OUT, item-value:OUT}]"
+                                    :items="inout_select"
                                     :label="$t('message.inout')"
                                 ></v-select>
                             </v-col>
@@ -94,7 +94,8 @@ export default {
         blocks: [],
         floors: [],
         sites: [],
-        companies: []
+        companies: [],
+		inout_select:[{item-text: IN, item-value:IN}, {item-text: OUT, item-value:OUT}]
     };
   },
   mounted() {
