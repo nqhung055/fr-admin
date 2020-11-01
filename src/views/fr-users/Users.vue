@@ -168,7 +168,7 @@
                       </date-range-picker>
 					</v-col>
                   </v-row>
-				  <v-row>
+                  <v-row>
                     <v-col cols="6">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
                         Delete Users
