@@ -147,6 +147,9 @@
                         Delete Users
                       </v-btn>
                     </v-col>
+					<v-col cols="12" sm="3" md="2" lg="2" xl="1">
+                        Date Range
+                    </v-col>
 					<v-spacer></v-spacer>
                     <v-col cols="12" sm="3" md="2" lg="2" xl="1">
                      <v-btn color="success" @click="isShowPopupUploadUsers = true">
