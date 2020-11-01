@@ -142,7 +142,7 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+                    <v-col cols="12">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
                         Delete Users
                       </v-btn>
