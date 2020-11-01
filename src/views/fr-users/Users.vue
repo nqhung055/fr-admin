@@ -339,6 +339,7 @@
                             </template>
                             <v-date-picker
                               v-model="newUser.ic_exp"
+                               @input="isShowIcCardExpiryPanel=false"
                             ></v-date-picker>
                          </v-col>
                          </v-row>
