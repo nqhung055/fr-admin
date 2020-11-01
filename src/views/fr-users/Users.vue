@@ -147,7 +147,7 @@
                         item-text="name"
                         item-value="value"
                         single-line
-                        label="Select FIN Exp."
+                        label="FIN Exp. Range"
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
@@ -835,7 +835,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp_Range : [{"name":"--Please select FIN Exp.Range --","value":0},{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
+      FIN_Exp_Range : [{"name":"--Please select FIN Exp. Range --","value":"0"},{"name":"1 month","value":"1"},{"name":"2 months","value":2},{"name":"3 months","value":"3"}],
 
       isShowEndTime: false,
       isShowStartTime: false,
@@ -936,15 +936,16 @@ export default {
         });
       }
     },
-    async getListUsers(sId = "", bId = "", fId = "", cId = "") {
+    async getListUsers(sId = "", bId = "", fId = "", cId = "",sFin_Exp_Month = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
         let sDN = !Object.isFrozen(this.selectedDevice) ? this.selectedDevice["name"] : this.selectedDevice;
         let sSite = sId === "-- Please select site --" ? "" : sId;
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
+		let sMonth = nFin_Exp_Month === "--Please select FIN Exp. Range --" ? 0 : sFin_Exp_Month;
         let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor
-        }${!sComp ? "" : "&comp=" + sComp}`;
+        }${!sComp ? "" : "&comp=" + sComp}${!sMonth ? "" : "&fin_month=" + sMonth}`;
         await this.$axios
           .get(sAPI)
           .then((response) => {
