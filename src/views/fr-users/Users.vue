@@ -82,7 +82,7 @@
                           )
                         "
                       ></v-select>
-                    </v-col>
+                    </v-col>  
                     <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="blockId"
