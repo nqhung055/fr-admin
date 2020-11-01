@@ -12,13 +12,13 @@
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form ref="editCompany" lazy-validation>
+            <v-form ref="editFloor" lazy-validation>
               <v-row>
                 <v-col cols="5">
                   <v-text-field
                     :label="$t('message.shortName')"
-                    v-model.trim="editCompany.shortName"
-                    :rules="editCompanyRules.shortName"
+                    v-model.trim="editFloor.shortName"
+                    :rules="editFloorRules.shortName"
 					:disabled="true"
                     required
                   />
@@ -67,7 +67,7 @@ export default {
   props: ["isShowPopup", "editFloor"],
   data() {
     return {
-      editCompanyRules: {
+      editFloorRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
@@ -81,7 +81,7 @@ export default {
   },
   computed: {},
   methods: {
-    async editedCompany() {        
+    async editedFloor() {        
       const editResponse = await this.$axios.patch(
         `${AppConfig.ip}${AppConfig.api_port}/floors/${this.editFloor.id}?sn=${this.editFloor.shortName}`,
         this.editFloor

@@ -12,13 +12,13 @@
         </v-card-title>
         <v-card-text>
           <v-container class="grid-list-md pa-0">
-            <v-form ref="company" lazy-validation v-model="isAddNew">
+            <v-form ref="floor" lazy-validation v-model="isAddNew">
               <v-row>
                 <v-col cols="5">
                   <v-text-field
                     :label="$t('message.shortName')"
                     v-model.trim="item.sn"
-                    :rules="newCompanyRules.shortName"
+                    :rules="newFloorRules.shortName"
                     required
                   />
                 </v-col>
@@ -72,7 +72,7 @@ export default {
         name: '',
         desc: ''
       },
-      newCompanyRules: {
+      newFloorRules: {
         shortName: [
           (shortName) => !!shortName || "Short name is required",
           (shortName) =>
