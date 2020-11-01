@@ -456,6 +456,7 @@ export default {
           expiredAt: this.editUserModel.expiredAt ? this.editUserModel.expiredAt + ' ' + this.expiredAtStringMinute : undefined,
           effectFrom: this.editUserModel.effectFrom ? this.editUserModel.effectFrom + ' ' + this.effectFromStringMinute : undefined,
         }
+        ic = this.editUserModel.icCardExpiry;
         Object.keys(editUser).forEach((key) => {
           if (key === "devices" || key === "userId" || key === "block_id" || key === "company_id" || key === "floor_id" || key === "site_id" || key === "card_id" || (this.isDirtyIc && key === "ic")) {
             deviceId = editUser["devices"]; userId = editUser["userId"]; blockId = editUser["block_id"]; companyId = editUser["company_id"]; floorId = editUser["floor_id"]; siteId = editUser["site_id"]; cardId = editUser["card_id"];
@@ -466,7 +467,7 @@ export default {
         urlUpdateUsers += userId + "?devices=" + deviceId;
         let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, icCardExpiry };
         if (this.isDirtyIc) {
-          objUpdateUser = { ...objUpdateUser, icCard: editUser.ic}
+          objUpdateUser = { ...objUpdateUser, icCard: ic}
         }
         delete editUser.ic
         const editResponse = await this.$axios.post('/upload/user', editUser)
