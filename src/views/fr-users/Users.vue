@@ -147,7 +147,7 @@
                         Delete Users
                       </v-btn>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col cols="6" style="align:right">
                       <v-btn color="success" @click="showDeleteUsersDialog()">
                         Export
                       </v-btn>
