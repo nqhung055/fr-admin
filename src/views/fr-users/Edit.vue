@@ -305,9 +305,9 @@
                             ></v-time-picker>
                           </v-menu>
                         </v-col>
-                        <!--<v-col cols="2" class="user-al-a">
-                          <v-icon size="25" style="color: green; cursor: pointer;" @click="addPeriod()">ti-plus</v-icon>
-                        </v-col>-->
+                        <!--<v-col cols="2" class="user-al-a">-->
+                          <!--<v-icon size="25" style="color: green; cursor: pointer;" @click="addPeriod()">ti-plus</v-icon>-->
+                        <!--</v-col>-->
                         <v-col cols="12" class="user-company">
                           <v-select
                             v-model="editUserModel.company_id"
