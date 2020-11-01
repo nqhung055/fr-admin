@@ -168,7 +168,7 @@
                     </v-col>
                    <v-spacer></v-spacer>
                    <v-col cols="12" sm="3" md="2" lg="2" xl="1">
-                     <v-btn color="success" @click="isShowPopupUploadUsers = true">
+                     <v-btn color="success" @click="exportUsertoExcel()">
                         Export
                      </v-btn>
                     </v-col>
@@ -1226,6 +1226,9 @@ export default {
         return;
       }
       this.showConfirmDeleteUsersDialog = true;
+    },
+    exportUsertoExcel() {
+      console.log("export");
     },
     async deleteUsers() {
       const deleteUsersResponse = await this.$axios.delete(
