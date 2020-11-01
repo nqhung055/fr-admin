@@ -553,14 +553,14 @@
                             ></v-time-picker>
                           </v-menu>
                         </v-col>
-                        <v-col cols="2" class="user-al-a">
+                        <!--<v-col cols="2" class="user-al-a">
                           <v-icon
                             size="25"
                             style="color: green; cursor: pointer"
                             @click="addPeriod()"
                             >ti-plus</v-icon
                           >
-                        </v-col>
+                        </v-col>-->
                         <v-col cols="12" class="user-company">
                           <v-select
                             v-model="newUser.companyId"
@@ -803,6 +803,7 @@ export default {
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
+	  isShowIcCardExpiryPanel: false,
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
