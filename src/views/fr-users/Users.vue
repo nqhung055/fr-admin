@@ -892,7 +892,7 @@ export default {
       floorId: "-- Please select floor --",
       userCompanies: [],
       compId: "-- Please select company --",
-	  fin_month:""
+      fin_month:""
     };
   },
   mounted() {
