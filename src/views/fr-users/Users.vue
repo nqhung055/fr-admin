@@ -803,7 +803,7 @@ export default {
       isShowEffectFromPanel: false,
       isShowEffectFromMinutePanel: false,
       isShowExpiredAtPanel: false,
-	  isShowIcCardExpiryPanel: false,
+      isShowIcCardExpiryPanel: false,
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
