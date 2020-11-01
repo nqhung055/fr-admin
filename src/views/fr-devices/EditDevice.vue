@@ -20,12 +20,21 @@
                                     v-model="editDevice.name"
                                 />
                             </v-col>
-                            <v-col cols="12">
+                            <v-col cols="6">
                                 <v-text-field
                                    :label="$t('message.displayName')"
                                     hide-details
                                     v-model="cDisplayName"
                                 />
+                            </v-col>
+							<v-col cols="6">
+                                <v-select
+                                    v-model="editDevice.type"
+                                    :items="type"
+                                    item-text="name"
+                                    item-value="shortName"
+                                    :label="Type"
+                                ></v-select>
                             </v-col>
                             <v-col cols="6">
                                 <v-select
