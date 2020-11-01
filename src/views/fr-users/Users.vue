@@ -729,7 +729,6 @@ import moment from 'moment';
 import DateRangePicker from 'vue2-daterange-picker'
 //you need to import the CSS manually (in case you want to override it)
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
 
 export default {
@@ -737,6 +736,7 @@ export default {
     editUser,
     uploadUsers,
     syncUsers,
+	DateRangePicker
   },
   data() {
     return {
