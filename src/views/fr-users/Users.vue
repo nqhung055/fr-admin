@@ -729,6 +729,12 @@ export default {
           sortable: false,
           value: "icCardMasked",
         },
+		{
+          text: "Expiry",
+          align: "left",
+          sortable: false,
+          value: "icCardExpiry",
+        },
         {
           text: "Exp. Date",
           align: "left",
