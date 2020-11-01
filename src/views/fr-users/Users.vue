@@ -141,8 +141,8 @@
                       ></v-select>
                     </v-col>
                   </v-row>
-				  <v-row>
-			        <v-col cols="12">
+                  <v-row>
+                  <v-col cols="12">
 					<label>Slect Date range for FIN Exp.: </label>
                       <date-range-picker
                         ref="picker"
