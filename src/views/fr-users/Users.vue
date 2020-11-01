@@ -147,6 +147,11 @@
                         Delete Users
                       </v-btn>
                     </v-col>
+                    <v-col cols="12">
+                      <v-btn color="success" @click="showDeleteUsersDialog()">
+                        Export
+                      </v-btn>
+                    </v-col>
                   </v-row>
                 </v-card-text>
                 <v-data-table
