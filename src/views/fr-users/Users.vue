@@ -730,7 +730,7 @@ export default {
           value: "icCardMasked",
         },
         {
-          text: "Expiry",
+          text: "FIN Exp. Date",
           align: "left",
           sortable: false,
           value: "icCardExpiry",
