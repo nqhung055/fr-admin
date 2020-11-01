@@ -64,7 +64,7 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                    <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="siteId"
                         :items="userSites"
@@ -83,7 +83,7 @@
                         "
                       ></v-select>
                     </v-col>
-                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                    <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="blockId"
                         :items="userBlocks"
@@ -102,7 +102,7 @@
                         "
                       ></v-select>
                     </v-col>
-                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                    <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="floorId"
                         :items="userFloors"
@@ -121,7 +121,7 @@
                         "
                       ></v-select>
                     </v-col>
-                    <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                    <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="compId"
                         :items="userCompanies"
@@ -140,7 +140,7 @@
                         "
                       ></v-select>
                     </v-col>
-                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                     <v-col cols="2" sm="3" md="2" lg="3" xl="1">
                       <v-select
                         v-model="fin_exp_month"
                         :items="FIN_Exp_Range"
