@@ -952,6 +952,7 @@ export default {
 		let sMonth = sFin_Exp_Month === "-- FIN Exp. Range --" ? 0 : sFin_Exp_Month;
         let sAPI = `${AppConfig.ip}${AppConfig.api_port}/users?device=${sDN}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor
         }${!sComp ? "" : "&comp=" + sComp}${!sMonth ? "" : "&fin_month=" + sMonth}`;
+        console.log(sAPI);
         await this.$axios
           .get(sAPI)
           .then((response) => {
