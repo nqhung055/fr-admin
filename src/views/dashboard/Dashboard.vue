@@ -189,7 +189,7 @@ export default {
         .get("/registered/device/list")
         .then((response) => {
           const disconnected_devices = this.updateStatusDevices(response.data);
-		  console.log("ok");
+          console.log(disconnected_devices);
         })
         .catch((error) => {
           console.log(error);
