@@ -835,8 +835,9 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp_item_text: ["1 month","3 months","6 months"],
-      FIN_Exp_item_value: [1,3,6],
+	  FIN_Exp : [{"item-text":"1 month","item_value":1},{"item-text":"2 months","item_value":2},{"item-text":"3 months","item_value":6}],
+      FIN_Exp_item_text: ["1 month","2 months","3 months"],
+      FIN_Exp_item_value: [1,2,3],
 
       isShowEndTime: false,
       isShowStartTime: false,
