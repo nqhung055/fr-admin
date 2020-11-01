@@ -207,6 +207,24 @@ export default {
           value: 'site',
           width: '10%'
         },
+		{
+          text: 'Block',
+          align: 'left',
+          value: 'block',
+          width: '10%'
+        },
+		{
+          text: 'Floor',
+          align: 'left',
+          value: 'floor',
+          width: '10%'
+        },
+		{
+          text: 'Company',
+          align: 'left',
+          value: 'company',
+          width: '10%'
+        },
         // {
         //   text: 'Personal confidence',
         //   align: 'center',
