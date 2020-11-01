@@ -147,7 +147,7 @@
                         item-text="name"
                         item-value="value"
                         single-line
-                        label="Select FIN Exp. Range"
+                        label="Select FIN Exp."
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
