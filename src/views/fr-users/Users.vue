@@ -144,8 +144,8 @@
                       <v-select
                         v-model="fin_exp_range"
                         :items="FIN_Exp"
-                        item-text="FIN_Exp_item_text"
-                        item-value="FIN_Exp_item_value"
+                        item-text=""name""
+                        item-value="value"
                         single-line
                         label="Select FIN Exp. Range"
                         :disabled="!selectedDevice"
@@ -835,9 +835,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp : [{"item-text":"1 month","item_value":1},{"item-text":"2 months","item_value":2},{"item-text":"3 months","item_value":6}],
-      FIN_Exp_item_text: ["1 month","2 months","3 months"],
-      FIN_Exp_item_value: [1,2,3],
+      FIN_Exp : [{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
 
       isShowEndTime: false,
       isShowStartTime: false,
