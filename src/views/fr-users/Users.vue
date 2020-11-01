@@ -835,7 +835,7 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
-      FIN_Exp_Range : [{"--Please select FIN Exp.Range --":0},{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
+      FIN_Exp_Range : [{"name":"--Please select FIN Exp.Range --","value":0},{"name":"1 month","value":1},{"name":"2 months","value":2},{"name":"3 months","value":3}],
 
       isShowEndTime: false,
       isShowStartTime: false,
