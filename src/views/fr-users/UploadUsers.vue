@@ -159,6 +159,12 @@ export default {
           value: 'userId',
           width: '2%'
         },*/
+		{
+          text: 'FacePhoto',
+          align: 'center',
+          value: 'image',
+          width: '10%'
+        }
         {
           text: 'Username',
           align: 'left',
@@ -195,12 +201,6 @@ export default {
         //   value: 'confidenceLevel',
         //   width: '10%'
         // },
-        {
-          text: 'FacePhoto',
-          align: 'center',
-          value: 'image',
-          width: '10%'
-        }
       ],
       uploadUsers: [],
       uploadImages: [],
