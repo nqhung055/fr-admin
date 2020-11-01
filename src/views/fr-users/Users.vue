@@ -160,12 +160,12 @@
                 >
                   <template slot="headerCell" slot-scope="props">
                     <v-tooltip bottom>
-                      <span slot="activator">---{{ props.header.text }}---</span>
+                      <span slot="activator">{{ props.header.text }}</span>
                       <span>{{ props.header.text }}</span>
                     </v-tooltip>
                   </template>
                   <template slot="items" slot-scope="props">
-                    <td>{{ props.item.name }}</td>
+                    <td>{{ props.item.name }}123</td>
                   </template>
                   <template v-slot:[`item.action`]="{ item }">
                     <v-icon small @click="editUser(item)">ti-pencil</v-icon> | <v-icon small @click="removeUser(item)">ti-trash</v-icon>
