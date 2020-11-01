@@ -327,6 +327,14 @@
                             ></v-text-field>
                             </v-col>
                             <v-col>
+                            <v-menu
+                             v-model="isShowIcCardExpiryPanel"
+                             :close-on-content-click="false"
+                             :nudge-right="40"
+                             transition="scale-transition"
+                             offset-y
+                             min-width="290px"
+                            >
 							<template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 v-model="newUser.ic_exp"
@@ -341,7 +349,8 @@
                               v-model="newUser.ic_exp"
                                @input="isShowIcCardExpiryPanel=false"
                             ></v-date-picker>
-                         </v-col>
+                           </v-menu>
+                           </v-col>
                          </v-row>
                         </v-col>
                         <v-col cols="12">
