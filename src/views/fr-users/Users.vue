@@ -72,7 +72,7 @@
                         item-text="name"
                         item-value="shortName"
                         single-line
-                        label="Select Site"
+                        label="Site"
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
@@ -92,7 +92,7 @@
                         item-text="name"
                         item-value="shortName"
                         single-line
-                        label="Select Block"
+                        label="Block"
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
@@ -112,7 +112,7 @@
                         item-text="name"
                         item-value="shortName"
                         single-line
-                        label="Select Floor"
+                        label="Floor"
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
@@ -132,7 +132,7 @@
                         item-text="name"
                         item-value="shortName"
                         single-line
-                        label="Select Company"
+                        label="Company"
                         :disabled="!selectedDevice"
                         @change="
                           getListUsers(
