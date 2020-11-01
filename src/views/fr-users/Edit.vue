@@ -441,6 +441,7 @@ export default {
       editUserModel: vm => {
         return {
           ...vm.editUser,
+          ic: `*****${vm.editUser.ic?.substring(vm.editUser.ic.length - 4, vm.editUser.ic.length)}`,
           icCard_Expiry: vm.editUser.icCard_Expiry == "Invalid date" ? "" : vm.editUser.icCard_Expiry
          }
       }
@@ -465,7 +466,7 @@ export default {
         urlUpdateUsers += userId + "?devices=" + deviceId;
         let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, icCardExpiry };
         if (this.isDirtyIc) {
-          objUpdateUser = { ...objUpdateUser, icCard: ic}
+          objUpdateUser = { ...objUpdateUser, icCard: editUser.ic}
         }
         delete editUser.ic
         const editResponse = await this.$axios.post('/upload/user', editUser)
