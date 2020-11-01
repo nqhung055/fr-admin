@@ -140,6 +140,25 @@
                         "
                       ></v-select>
                     </v-col>
+                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
+                      <v-select
+                        v-model="fin_exp_range"
+                        :items="FIN_Exp"
+                        item-text="FIN_Exp_item_text"
+                        item-value="FIN_Exp_item_value"
+                        single-line
+                        label="Select FIN Exp. Range"
+                        :disabled="!selectedDevice"
+                        @change="
+                          getListUsers(
+                            siteId,
+                            !blockId ? '' : blockId,
+                            !floorId ? '' : floorId,
+                            !compId ? '' : compId
+                          )
+                        "
+                      ></v-select>
+                    </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="6">
@@ -816,6 +835,8 @@ export default {
       isShowExpiredAtMinutePanel: false,
       effectFromStringMinute: "",
       expiredAtStringMinute: "",
+	  FIN_Exp_item_text: ["1 month","3 months","6 months"];
+	  FIN_Exp_item_value: [1,3,6];
 
       isShowEndTime: false,
       isShowStartTime: false,
