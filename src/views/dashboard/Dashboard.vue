@@ -386,7 +386,6 @@ export default {
       .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
       .then((disconnected_devices) => {
         console.log("ok");
-        return(disconnected_devices);
       })
       .catch((error) => {
         console.log(error);
