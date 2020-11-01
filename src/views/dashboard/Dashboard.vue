@@ -383,9 +383,9 @@ export default {
       this.$refs.temperature.reloadWithDefaultUrl(url)
     },
     updateStatusDevices(activeDevices) {
-      this.$axios
+      let disconnected_devices = this.$axios
       .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
-      .then(() => {})
+      .then(() => {return(disconnected_devices);})
       .catch((error) => {
         console.log(error);
       })
