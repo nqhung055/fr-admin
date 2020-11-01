@@ -188,8 +188,8 @@ export default {
       this.$axios
         .get("/registered/device/list")
         .then((response) => {
-          const disconnected_devices = this.updateStatusDevices(response.data);
-          console.log(disconnected_devices);
+          this.updateStatusDevices(response.data);
+          console.log("ok");
         })
         .catch((error) => {
           console.log(error);
@@ -383,9 +383,9 @@ export default {
       this.$refs.temperature.reloadWithDefaultUrl(url)
     },
     updateStatusDevices(activeDevices) {
-      let disconnected_devices = this.$axios
+      this.$axios
       .patch(`${AppConfig.ip}${AppConfig.api_port}/devices/status`, { activeDevices })
-      .then(() => {return(disconnected_devices);})
+      .then((disconnected_devices) => {return(disconnected_devices);})
       .catch((error) => {
         console.log(error);
       })
