@@ -142,12 +142,12 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12">
+                    <v-col cols="6">
                       <v-btn color="error" @click="showDeleteUsersDialog()">
                         Delete Users
                       </v-btn>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="6">
                       <v-btn color="success" @click="showDeleteUsersDialog()">
                         Export
                       </v-btn>
