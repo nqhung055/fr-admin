@@ -30,7 +30,9 @@
 							<v-col cols="6">
                                 <v-select
                                     v-model="editDevice.type"
-                                    :items=inout_item
+                                    :items="type"
+									item-text=inout_item
+                                    item-value=inout_item
                                     :label="$t('message.inout')"
                                 ></v-select>
                             </v-col>
