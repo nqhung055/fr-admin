@@ -152,11 +152,6 @@
                         Export
                      </v-btn>
                     </v-col>
-                    <v-col cols="6" style="align:right">
-                      <v-btn color="success" @click="showDeleteUsersDialog()">
-                        Export
-                      </v-btn>
-                    </v-col>
                   </v-row>
                 </v-card-text>
                 <v-data-table
