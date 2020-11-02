@@ -40,7 +40,7 @@
                   </v-row>
                   <v-row>
                     <v-col cols="9" class="header-table-select-devices">
-                      <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
+                      <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" multiple label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
                     </v-col>
                     
                     <v-col cols="3" class="header-table-search">
