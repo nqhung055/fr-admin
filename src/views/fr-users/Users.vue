@@ -13,15 +13,15 @@
                 Create User
               </v-btn>
             </v-col>
-            <v-col cols="12" sm="3" md="2" lg="3" xl="1">
-              <v-btn color="success" @click="isShowPopupSyncUsers = true">
-                Sync User From A Device
-              </v-btn>
-            </v-col>
             <v-col cols="12" sm="3" md="2" lg="2" xl="1">
-               <v-btn color="error" @click="showDeleteUsersDialog()">
+              <v-btn color="error" @click="showDeleteUsersDialog()">
                   Delete Users
                 </v-btn>
+            </v-col>
+            <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+               <v-btn color="success" @click="isShowPopupSyncUsers = true">
+                Sync User From A Device
+              </v-btn>
             </v-col>
             <v-spacer></v-spacer>
             <v-col cols="12" sm="3" md="2" lg="2" xl="1">
