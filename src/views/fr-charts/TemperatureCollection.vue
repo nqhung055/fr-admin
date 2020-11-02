@@ -111,6 +111,7 @@ export default {
             yAxes: [{
               stacked: true,
               ticks: {
+                  beginAtZero:true,
                   display: false
               },
               gridLines: {

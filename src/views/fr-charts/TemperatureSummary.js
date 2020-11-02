@@ -54,6 +54,7 @@ export default {
               },
               ticks: {
                 // reverse: false,
+                beginAtZero:true,
                 stepSize: 100,
                 display: true,
               },
@@ -92,6 +93,7 @@ export default {
                 labelString: this.yLabel,
               },
               ticks: {
+                 beginAtZero:true,
                  display: true
               },
               gridLines: {

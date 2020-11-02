@@ -45,6 +45,7 @@ export default {
                 drawBorder: false,
               },
               ticks: {
+                beginAtZero:true, 
                 // reverse: false,
                 stepSize: 100,
                 display: true,
