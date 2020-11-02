@@ -181,7 +181,7 @@ export default {
           value: "bodyTemperature",
         },
         {
-          text: "Entry/Exit",
+          text: "IN/OUT",
           align: "left",
           sortable: false,
           value: "devType",
