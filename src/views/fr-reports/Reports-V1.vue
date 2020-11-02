@@ -199,7 +199,7 @@ export default {
           value: "fromDevice",
         },
         {
-          text: "Body Temp",
+          text: "Temp.",
           align: "left",
           sortable: false,
           value: "bodyTemperature",
