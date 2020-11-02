@@ -18,35 +18,6 @@
               <div v-else>
                 <v-card-text>
                   <v-row>
-                    <v-col cols="12" sm="3" md="2" lg="12" xl="1">
-                      <label>Select Date range: </label>
-                      <date-range-picker
-                        ref="picker"
-                        :opens="opens"
-                        :locale-data="locale"
-                        :ranges="ranges"
-                        :singleDatePicker="singleDatePicker"
-                        :timePicker="timePicker"
-                        :secondPicker="secondPicker"
-                        :timePicker24Hour="timePicker24Hour"
-                        :showWeekNumbers="showWeekNumbers"
-                        :showDropdowns="showDropdowns"
-                        :autoApply="autoApply"
-                        v-model="dateRange"
-                        @update="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate)"
-                        @toggle="checkOpen"
-                        :linkedCalendars="linkedCalendars"
-                        clearable
-                      >
-                        <template v-slot:input="picker" style="min-width: 200px;">
-                            {{ picker.startDate | date }} - {{ picker.endDate | date }}
-                        </template>
-                      </date-range-picker>
-                      <v-btn text @click="drClear(); getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate);" >Clear</v-btn>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                  </v-row>
-                  <v-row>
                     <v-col cols="3">
                       <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
                     </v-col>
@@ -74,6 +45,35 @@
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select v-model="compId" :items="userCompanies" item-text="name" item-value="shortName" single-line label="Select Company" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
                     </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="3" md="2" lg="12" xl="1">
+                      <label>Select Date range: </label>
+                      <date-range-picker
+                        ref="picker"
+                        :opens="opens"
+                        :locale-data="locale"
+                        :ranges="ranges"
+                        :singleDatePicker="singleDatePicker"
+                        :timePicker="timePicker"
+                        :secondPicker="secondPicker"
+                        :timePicker24Hour="timePicker24Hour"
+                        :showWeekNumbers="showWeekNumbers"
+                        :showDropdowns="showDropdowns"
+                        :autoApply="autoApply"
+                        v-model="dateRange"
+                        @update="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate)"
+                        @toggle="checkOpen"
+                        :linkedCalendars="linkedCalendars"
+                        clearable
+                      >
+                        <template v-slot:input="picker" style="min-width: 200px;">
+                            {{ picker.startDate | date }} - {{ picker.endDate | date }}
+                        </template>
+                      </date-range-picker>
+                      <v-btn text @click="drClear(); getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate);" >Clear</v-btn>
+                    </v-col>
+                    <v-spacer></v-spacer>
                   </v-row>
                   
                 </v-card-text>
