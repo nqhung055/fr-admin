@@ -33,7 +33,7 @@
                         :showDropdowns="showDropdowns"
                         :autoApply="autoApply"
                         v-model="dateRange"
-                        @update="getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)"
+                        @update="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate)"
                         @toggle="checkOpen"
                         :linkedCalendars="linkedCalendars"
                         clearable
@@ -42,19 +42,19 @@
                             {{ picker.startDate | date }} - {{ picker.endDate | date }}
                         </template>
                       </date-range-picker>
-                      <v-btn text @click="drClear(); getLogs(dateRange.startDate, dateRange.endDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);" >Clear</v-btn>
+                      <v-btn text @click="drClear(); getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, dateRange.startDate, dateRange.endDate);" >Clear</v-btn>
                     </v-col>
                     <v-spacer></v-spacer>
                   </v-row>
                   <v-row>
                     <v-col cols="3">
-                      <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!dateRange.startDate ? new Date() : dateRange.startDate, !dateRange.endDate ? new Date() : dateRange.endtDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)" />
+                      <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
                     </v-col>
                     <v-col cols="3" class="header-table-select-devices">
                       <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
                     </v-col>
                     <v-col cols="3">
-                      <v-select v-model="gateType" :items="gateTypes" item-text="name" item-value="key" label="Select Entry/Exit" @change="getLogs(!dateRange.startDate ? new Date() : dateRange.startDate, !dateRange.endDate ? new Date() : dateRange.endtDate, !gateType ? '' : gateType, !userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId)" />
+                      <v-select v-model="gateType" :items="gateTypes" item-text="name" item-value="key" label="Select Entry/Exit" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
                     </v-col>
                     <v-col cols="3" class="header-table-search">
                       <v-text-field v-model="searchUserKey" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
@@ -62,48 +62,17 @@
                   </v-row>
                   <v-row>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                      <v-select
-                        v-model="siteId"
-                        :items="userSites"
-                        item-text="name"
-                        item-value="shortName"
-                        single-line
-                        label="Select Site"
-                        :disabled="!selectedDevice"
-                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
+                      <v-select v-model="siteId" :items="userSites" item-text="name" item-value="shortName" single-line label="Select Site" :disabled="!selectedDevice"
+                        @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                      <v-select
-                        v-model="blockId"
-                        :items="userBlocks"
-                        item-text="name"
-                        item-value="shortName"
-                        single-line
-                        label="Select Block"
-                        :disabled="!selectedDevice"
-                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
+                      <v-select v-model="blockId" :items="userBlocks" item-text="name" item-value="shortName" single-line label="Select Block" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                      <v-select
-                        v-model="floorId"
-                        :items="userFloors"
-                        item-text="name"
-                        item-value="shortName"
-                        single-line
-                        label="Select Floor"
-                        :disabled="!selectedDevice"
-                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
+                      <v-select v-model="floorId" :items="userFloors" item-text="name" item-value="shortName" single-line label="Select Floor" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
-                      <v-select
-                        v-model="compId"
-                        :items="userCompanies"
-                        item-text="name"
-                        item-value="shortName"
-                        single-line
-                        label="Select Company"
-                        :disabled="!selectedDevice"
-                        @change="getLogs(!userType ? '' : userType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId);"></v-select>
+                      <v-select v-model="compId" :items="userCompanies" item-text="name" item-value="shortName" single-line label="Select Company" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
                     </v-col>
                   </v-row>
                   
@@ -337,6 +306,7 @@ export default {
   mounted() {
     this.getDevices();
     this.getUserRelatedData();
+    // this.dateRange.startDate = ''; this.dateRange.endDate = '';
     // const dt = moment('2020-11-01 22:34:08').format('DD/MM/YYYY'); // hh:mm:ss
     // const dt = new Date('2020-11-1').toDateString(); // hh:mm:ss
 
@@ -350,8 +320,7 @@ export default {
   computed: {
   },
   methods: {
-    async getLogs(sd = "", ed = "", userType = "",  gateType = "", sId = "", bId = "", fId = "", cId = "") {
-      // console.log("getLogs: " + this.dateRange.startDate +  ' - ' + this.dateRange.endDate);
+    async getLogs(userType = "", gateType = "", sId = "", bId = "", fId = "", cId = "", sd = "", ed = "") {
       if (this.selectedDevice !== null || this.selectedDevice !== "") {
         // &page=1&pageSize=5&${this.siteName}
         let sDN = !Object.isFrozen(this.selectedDevice) ? this.selectedDevice["name"] : this.selectedDevice;
@@ -361,7 +330,7 @@ export default {
         let sBlock = bId === "-- Please select block --" ? "" : bId;
         let sFloor = fId === "-- Please select floor --" ? "" : fId;
         let sComp = cId === "-- Please select company --" ? "" : cId;
-        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?device=${sDN}${!sd ? "" : "&sd="  + moment(sd).format('YYYY-MM-DD hh:mm')}${!ed ? "" : "&ed="  + moment(ed).format('YYYY-MM-DD hh:mm')}${!sUserType ? "" : "&type=" + sUserType}${!sGateType ? "" : "&gate=" + sGateType}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}`;
+        let sAPI = `${AppConfig.ip}${AppConfig.api_port}/reports?device=${sDN}${!sUserType ? "" : "&type=" + sUserType}${!sGateType ? "" : "&gate=" + sGateType}${!sSite ? "" : "&site=" + sSite}${!sBlock ? "" : "&block=" + sBlock}${!sFloor ? "" : "&floor=" + sFloor}${!sComp ? "" : "&comp=" + sComp}${!sd ? "" : "&sd="  + moment(sd).format('YYYY-MM-DD HH:mm')}${!ed ? "" : "&ed="  + moment(ed).format('YYYY-MM-DD HH:mm')}`;
         await this.$axios
           .get(sAPI)
           .then((response) => {
