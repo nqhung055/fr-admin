@@ -887,7 +887,7 @@ export default {
       editUserExpiredAtStringMinute: "",
       exelFile: {},
       isShowPopupUploadUsers: false,
-	  isShowPopupDownloadUsers: false,
+      isShowPopupDownloadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userBlocks: [],
