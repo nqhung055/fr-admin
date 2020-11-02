@@ -719,6 +719,7 @@
 import Vue from "vue";
 import editUser from "./Edit";
 import uploadUsers from "./UploadUsers";
+import downloadUsers from "./DownloadUsers";
 import syncUsers from "./SyncUsers";
 import AppConfig from "../../constants/AppConfig";
 import moment from 'moment';
@@ -729,6 +730,7 @@ export default {
     editUser,
     uploadUsers,
     syncUsers,
+	downloadUsers,
   },
   data() {
     return {
