@@ -685,5 +685,5 @@ export default {
   id: 'ID',
   star: '******',
   inout:'IN/OUT',
-  downloadExcelFile:'Download'
+  downloadExcelFile:'Export User Data'
 }
