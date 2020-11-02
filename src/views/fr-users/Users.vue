@@ -887,7 +887,7 @@ export default {
       isShowPopupUploadUsers: false,
       isShowPopupDownloadUsers: false,
       isShowPopupSyncUsers: false,
-	  showConfirmDeleteUsersDialog: false,
+      showConfirmDeleteUsersDialog: false,
       userBlocks: [],
       blockId: "-- Block --",
       userSites: [],
