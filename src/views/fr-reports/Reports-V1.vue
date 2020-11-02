@@ -39,7 +39,7 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="12" class="header-table-select-devices">
+                    <v-col cols="9" class="header-table-select-devices">
                       <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
                     </v-col>
                     
