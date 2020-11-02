@@ -30,7 +30,7 @@
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="2" xl="1">
                       <v-select v-model="compId" :items="userCompanies" item-text="name" item-value="shortName" single-line label="Select Company" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
-                    </v-col>
+                     </v-col>
                      <v-col cols="3" sm="3" md="2" lg="2" xl="1">
 					  <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
                      </v-col>
