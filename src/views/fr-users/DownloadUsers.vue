@@ -62,10 +62,10 @@
 </template>
 
 <script>
-import Vue from 'vue';
+//import Vue from 'vue';
 // import moment from 'moment';
-import XLSX from 'xlsx';
-import AppConfig from '../../constants/AppConfig';
+//import XLSX from 'xlsx';
+//import AppConfig from '../../constants/AppConfig';
 
 export default {
   props: ['isShowPopup', 'connectedDevices'],
@@ -73,302 +73,24 @@ export default {
     return {
       loading: true,
       errored: false,
-      uploadImageRules: [
-        files => !!files.length || 'Images file should not be empty',
-        files =>
-          files.every(
-            file =>
-              file.name.includes('.png') ||
-              file.name.includes('.jpg') ||
-              file.name.includes('.jpeg')
-          ) || 'Images should be a Png or Jpeg file!'
-      ],
-      uploadRules: [
-        files => !files || !!files.size || 'Excel file should not be empty',
-        file =>
-          !file ||
-          file.size < 1000000 ||
-          'File Excel size should be less than 1 MB!',
-        file =>
-          !file ||
-          !file.name ||
-          file.name.includes('.xls') ||
-          file.name.includes('.xlsx') ||
-          'Should be a Excel File!'
-      ],
-      devicesRules: [
-        devices => !devices || !!devices.length || "Atlease one device is required!"
-      ],
-      uploadExcelFile: {},
-      tableHeaders: [
-        /*{
-          text: 'ID',
-          align: 'left',
-          value: 'userId',
-          width: '2%'
-        },*/
-		{
-          text: 'FacePhoto',
-          align: 'center',
-          value: 'image',
-          width: '10%'
-        },
-        {
-          text: 'Username',
-          align: 'left',
-          value: 'name',
-          width: '10%'
-        },
-        {
-          text: 'Period',
-          align: 'left',
-          value: 'effectFrom',
-          width: '10%'
-        },
-        {
-          text: 'NRIC/FIN',
-          align: 'left',
-          value: 'ic',
-          width: '10%'
-        },
-		{
-          text: 'FIN Exp. Date',
-          align: 'left',
-          value: 'icCardExpiry',
-          width: '10%'
-        },
-        {
-          text: 'Card ID',
-          align: 'left',
-          value: 'cardId',
-          width: '10%'
-        },
-        {
-          text: 'Phone',
-          align: 'left',
-          value: 'phone',
-          width: '10%'
-        },
-		{
-          text: 'Site',
-          align: 'left',
-          value: 'site',
-          width: '10%'
-        },
-		{
-          text: 'Block',
-          align: 'left',
-          value: 'block',
-          width: '10%'
-        },
-		{
-          text: 'Floor',
-          align: 'left',
-          value: 'floor',
-          width: '10%'
-        },
-		{
-          text: 'Company',
-          align: 'left',
-          value: 'company',
-          width: '10%'
-        },
-        // {
-        //   text: 'Personal confidence',
-        //   align: 'center',
-        //   value: 'confidenceLevel',
-        //   width: '10%'
-        // }
-      ],
-      uploadUsers: [],
-      uploadImages: [],
       isUploadDataValid: true,
       selectedDevices: [],
       showConfirmDialog: false,
-      defaultUser: {
-        devices: [],
-        userId: "",
-        name: "",
-        facePhoto: "",
-        phone: "",
-        allowPeriods: [],
-        userType: "-1",
-        confidenceLevel: 65,
-        ic: "",
-        effectFrom: "",
-        expiredAt: "" 
-      }
     }
   },
   mounted() {},
   computed: {},
   methods: {
-    uploadExcelFiles() {
-      if (!this.uploadExcelFile) return
-      const reader = new FileReader()
-      const rABS = !!reader.readAsBinaryString
-      reader.addEventListener(
-        'load',
-        () => {
-          let data = reader.result
-          if (!rABS) data = new Uint8Array(data)
-          const workbook = XLSX.read(data, { type: rABS ? 'binary' : 'array' })
-          const rawUploadUsers = XLSX.utils.sheet_to_json(
-            workbook.Sheets[workbook.SheetNames[0]]
-          )
-
-          this.uploadUsers = rawUploadUsers.map(rawUser => {
-            return {
-              devices: rawUser['devices'],
-              confidenceLevel: '65', //rawUser['Personal confidence'],
-              userType: '-1', //rawUser['User type'],
-              name: rawUser['Name'],
-              // userId: rawUser['Number'] + "",
-              // ic: rawUser['ID card number'],
-              userId: Math.floor(Math.random() * (new Date().getTime() - 1 + 1)) + 1,
-              //new Date().getTime() + 1,
-              ic: rawUser['NRIC/FIN'],
-              company: rawUser['Company'],
-              site: rawUser['Site'],
-              block: rawUser['Block'],
-              floor: rawUser['Floor'],
-              facePhoto: '',
-              cardId: rawUser['Card ID'],
-              phone: rawUser['Cellphone number'],
-              effectFrom: rawUser['Validity period'],
-              icCardExpiry: rawUser['FIN Expiry']
-            }
-          });
-        },
-        false
-      )
-
-      if (rABS) {
-        reader.readAsBinaryString(this.uploadExcelFile)
-      } else reader.readAsArrayBuffer(this.uploadExcelFile)
-    },
-    async uploadImage() {
-      this.uploadImages.map(image => {
-        const nricFIN = image.name.split('.')[0]
-        const reader = new FileReader()
-        reader.addEventListener(
-          'load',
-          () => {
-            const users = this.uploadUsers.filter(
-              user => user.ic == nricFIN
-            )
-            users.forEach(user => {
-              user.facePhoto = reader.result
-            })
-          },
-          false
-        )
-        reader.readAsDataURL(image)
-      })
+    downloadExcelFiles() {
+      
     },
     closePopup() {
-      this.clearUploadedData()
       this.$emit('closePopup', true)
     },
     openConfirmDialog() {
       if (!this.$refs.uploadData.validate()) return
       this.showConfirmDialog = true
     },
-    async createUsers(isClearUserData = true) {
-      try {
-        
-        let urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`; let devices = ""; let userId = ""; let blockId = ""; let companyId = ""; let floorId = ""; let siteId = ""; let cardId = "";
-        let icCardExpiry = ""
-        if (isClearUserData) await this.deleteUserFromDevice()
-        for (let index = 0; index < this.uploadUsers.length; index++) {
-          if (index !== 0) urlUpdateUsers = `${AppConfig.ip}${AppConfig.api_port}/users/`;
-          const user = this.uploadUsers[index];
-          const userWithDevies = { ...this.defaultUser, ...user, devices: this.selectedDevices }
-          Object.keys(userWithDevies).forEach((key) => {
-            if (key === "devices" || key === "userId" || key === "block" || key === "company" || key === "floor" || key === "site" || key === "cardId") {
-              devices = userWithDevies["devices"]; userId = userWithDevies["userId"];
-              blockId = !userWithDevies["block"] ? '' : userWithDevies["block"]; companyId = !userWithDevies["company"]? '' : userWithDevies["company"]; floorId = !userWithDevies["floor"]? '' : userWithDevies["floor"]; siteId = !userWithDevies["site"]? '' : userWithDevies["site"]; cardId = !userWithDevies["cardId"]? '' : userWithDevies["cardId"];
-              icCardExpiry = userWithDevies["icCardExpiry"]
-            }
-          });
-          urlUpdateUsers += userId + "?devices=" + devices;
-          let objUpdateUser = { blockId: blockId, companyId: companyId, floorId: floorId, siteId: siteId, cardId: cardId, icCardExpiry };
-          const upGWAPI = await this.$axios.post('/upload/user', userWithDevies)
-          if (upGWAPI.status === 200) {
-            if ((blockId !== 'undefined' || blockId !== null) && (companyId !== 'undefined' || companyId !== null) && (floorId !== 'undefined' || floorId !== null) && (siteId !== 'undefined' || siteId !== null ) && (cardId !== 'undefined' || cardId !== null )) {
-              const upBEAPI = await this.$axios.patch(urlUpdateUsers, objUpdateUser);
-              try {
-                if (upBEAPI.status === 200) {
-                  this.errored = false;
-                }
-              } catch (error) {
-                this.errored = true;
-                  console.log(error);
-              }
-              finally {() => this.loading = false;}
-            }
-          }
-        }
-        
-        // await Promise.all(
-        //   this.uploadUsers.map(user => {
-        //     const userWithDevies = { ...user, devices: this.selectedDevices }
-        //     return this.$axios.post('/upload/user', userWithDevies)
-        //   })
-        // )
-
-        this.clearUploadedData()
-        this.showConfirmDialog = false
-        this.$emit('uploadSuccess', true)
-        if (this.errored === false) {
-          Vue.notify({
-            group: 'loggedIn',
-            type: 'success',
-            text: 'User uploaded!'
-          });
-        }
-      } catch (error) {
-        Vue.notify({
-          group: 'loggedIn',
-          type: 'error',
-          text: `Upload failed! Reason: ${error.message}`
-        })
-      }
-    },
-    clearUploadedData() {
-      this.uploadUsers = []
-      this.uploadExcelFile = {}
-      this.uploadImages = []
-    },
-    async deleteUserFromDevice() {
-      try {
-        return Promise.all(
-          this.selectedDevices.map(device => {
-            return this.$axios.delete(`batch/delete/users`, {
-              data: {
-                deviceId: device,
-                userIds: this.uploadUsers.map(user => user.userId + "")
-              }
-            })
-          })
-        )
-      } catch (error) {
-        Vue.notify({
-          group: 'loggedIn',
-          type: 'error',
-          text: 'Error when delete users from devices!'
-        })
-      }
-    },
-    clearUploadExcelFile() {
-      this.uploadImages = []
-      this.uploadUsers = []
-    },
-    clearUploadImages() {
-      this.uploadUsers.forEach(user => {
-        user.facePhoto = ''
-      })
-    }
   }
 }
 </script>

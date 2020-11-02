@@ -19,7 +19,7 @@
                 <v-card-text>
                   <v-row>
                     <v-col cols="12" sm="3" md="2" lg="12" xl="1">
-                      <label>Slect Date range: </label>
+                      <label>Select Date range: </label>
                       <date-range-picker
                         ref="picker"
                         :opens="opens"
