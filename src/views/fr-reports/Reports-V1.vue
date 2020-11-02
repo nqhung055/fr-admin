@@ -41,6 +41,26 @@
                   <v-row>
                     <v-col cols="9" class="header-table-select-devices">
                       <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" multiple label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
+                <template v-slot:prepend-item>
+                <v-list-item ripple @click="selectAllDevices">
+                  <v-list-item-action>
+                    <v-icon
+                      :color="
+                        dashboard.devices.length > 0
+                          ? 'indigo darken-4'
+                          : ''
+                      "
+                      >{{ icon }}</v-icon
+                    >
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      >Select All</v-list-item-title
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider class="mt-2"></v-divider>
+              </template>
                     </v-col>
                     
                     <v-col cols="3" class="header-table-search">
