@@ -19,6 +19,14 @@ export const menus = {
 				active: false
 			},
 			{
+				action: "zmdi zmdi-camera-front",
+				title: "message.deviceManagement",
+				path: '/default/device-management.html',
+				label: "Old",
+				exact: true,
+				active: false,
+			},
+			{
 				action: "zmdi zmdi-broken-image",
 				title: "message.report",
 				path: "/default/reports.html",
@@ -27,9 +35,9 @@ export const menus = {
 				active: false,
 			},
 			{
-				action: "zmdi zmdi-camera-front",
-				title: "message.deviceManagement",
-				path: '/default/device-management.html',
+				action: "zmdi zmdi-blur",
+				title: "message.siteManagement",
+				path: '/default/site-management.html',
 				label: "Old",
 				exact: true,
 				active: false,
@@ -43,14 +51,6 @@ export const menus = {
 				active: false,
 			},
 			{
-				action: "zmdi zmdi-city",
-				title: "message.companyManagement",
-				path: '/default/company-management.html',
-				label: "Old",
-				exact: true,
-				active: false,
-			},
-			{
 				action: "zmdi zmdi-blur-linear",
 				title: "message.floorManagement",
 				path: '/default/floor-management.html',
@@ -59,9 +59,9 @@ export const menus = {
 				active: false,
 			},
 			{
-				action: "zmdi zmdi-blur",
-				title: "message.siteManagement",
-				path: '/default/site-management.html',
+				action: "zmdi zmdi-city",
+				title: "message.companyManagement",
+				path: '/default/company-management.html',
 				label: "Old",
 				exact: true,
 				active: false,
