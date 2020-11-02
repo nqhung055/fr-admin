@@ -14,7 +14,7 @@
           <v-container class="grid-list-md pa-0">
             <v-form ref="uploadData" v-model="isUploadDataValid">
               <v-row>
-                <center><span>Download User Data</span></center>
+                <span>Click Download to download excel sheet</span>
               </v-row>
               <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
