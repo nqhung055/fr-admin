@@ -14,16 +14,16 @@
           <v-container class="grid-list-md pa-0">
             <v-form ref="uploadData" v-model="isUploadDataValid">
               <v-row>
-                <span>Download User Data</span>
+                <span align="center">Download User Data</span>
               </v-row>
               <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
                 <v-btn
                   class="px-4"
                   color="success"
-                  @click="openConfirmDialog()"
+                  @click="closePopup()"
                 >
-                  Create Users
+                  Download
                 </v-btn>
                 <v-btn class="px-4" color="error" @click="closePopup()">
                   Close

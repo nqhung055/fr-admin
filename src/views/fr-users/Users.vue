@@ -13,7 +13,7 @@
                 Create User
               </v-btn>
             </v-col>
-            <v-col cols="12" sm="3" md="2" lg="2" xl="1">
+            <v-col cols="12" sm="3" md="2" lg="3" xl="1">
               <v-btn color="success" @click="isShowPopupSyncUsers = true">
                 Sync User From A Device
               </v-btn>
@@ -23,12 +23,12 @@
                   Delete Users
                 </v-btn>
             </v-col>
+            <v-spacer></v-spacer>
             <v-col cols="12" sm="3" md="2" lg="2" xl="1">
                 <v-btn color="success" @click="isShowPopupDownloadUsers = true">
                     Export to Excel
                 </v-btn>
             </v-col>
-            <v-spacer></v-spacer>
             <v-col cols="12" sm="3" md="2" lg="2" xl="1">
               <v-btn color="success" @click="isShowPopupUploadUsers = true">
                 Upload Users
