@@ -18,20 +18,6 @@
               <div v-else>
                 <v-card-text>
                   <v-row>
-                    <v-col cols="3">
-                      <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
-                    </v-col>
-                    <v-col cols="3" class="header-table-select-devices">
-                      <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
-                    </v-col>
-                    <v-col cols="3">
-                      <v-select v-model="gateType" :items="gateTypes" item-text="name" item-value="key" label="Select Entry/Exit" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
-                    </v-col>
-                    <v-col cols="3" class="header-table-search">
-                      <v-text-field v-model="searchUserKey" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select v-model="siteId" :items="userSites" item-text="name" item-value="shortName" single-line label="Select Site" :disabled="!selectedDevice"
                         @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
@@ -44,6 +30,20 @@
                     </v-col>
                     <v-col cols="3" sm="3" md="2" lg="3" xl="1">
                       <v-select v-model="compId" :items="userCompanies" item-text="name" item-value="shortName" single-line label="Select Company" :disabled="!selectedDevice" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate);"></v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="3">
+                      <v-select v-model="userType" :items="userTypes" item-text="name" item-value="key" label="Select User Types" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
+                    </v-col>
+                    <v-col cols="3" class="header-table-select-devices">
+                      <v-select v-model="selectedDevice" :items="devices" item-text="displayName" item-value="name" label="Select Device" @change=" getLogs(); gateType = 'all'; siteId = '-- Please select site --'; blockId = '-- Please select block --'; floorId = '-- Please select floor --'; compId = '-- Please select company --';" />
+                    </v-col>
+                    <v-col cols="3">
+                      <v-select v-model="gateType" :items="gateTypes" item-text="name" item-value="key" label="Select Entry/Exit" @change="getLogs(!userType ? '' : userType, !gateType ? '' : gateType, !siteId ? '' : siteId, !blockId ? '' : blockId, !floorId ? '' : floorId, !compId ? '' : compId, !dateRange.startDate ? '' : dateRange.startDate, !dateRange.endDate ? '' : dateRange.endDate)" />
+                    </v-col>
+                    <v-col cols="3" class="header-table-search">
+                      <v-text-field v-model="searchUserKey" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row>
