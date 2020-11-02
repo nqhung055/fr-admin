@@ -13,8 +13,8 @@
         <v-card-text>
           <v-container class="grid-list-md pa-0">
             <v-form ref="uploadData" v-model="isUploadDataValid">
-              <v-row>
-                <span align="center">Download User Data</span>
+              <v-row style="text-align:center">
+                <span>Download User Data</span>
               </v-row>
               <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
