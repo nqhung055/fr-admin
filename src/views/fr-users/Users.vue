@@ -683,6 +683,10 @@
       @closePopup="closePopupUploadExcel()"
       @uploadSuccess="uploadUsersSuccess()"
     ></upload-users>
+	<download-users
+      :isShowPopup="isShowPopupDownloadUsers"
+      @closePopup="closePopupDownloadExcel()"
+    ></download-users>
     <sync-users
       :connectedDevices="devices"
       :isShowPopup="isShowPopupSyncUsers"
@@ -883,6 +887,7 @@ export default {
       editUserExpiredAtStringMinute: "",
       exelFile: {},
       isShowPopupUploadUsers: false,
+	  isShowPopupDownloadUsers: false,
       isShowPopupSyncUsers: false,
       showConfirmDeleteUsersDialog: false,
       userBlocks: [],
@@ -1218,6 +1223,9 @@ export default {
     },
     closePopupUploadExcel() {
       this.isShowPopupUploadUsers = false;
+    },
+    closePopupDownloadExcel() {
+      this.isShowPopupDownloadUsers = false;
     },
     closePopupSyncUsers() {
       this.isShowPopupSyncUsers = false;
