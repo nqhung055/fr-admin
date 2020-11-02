@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
+//import Vue from 'vue';
 // import moment from 'moment';
 //import XLSX from 'xlsx';
 //import AppConfig from '../../constants/AppConfig';
